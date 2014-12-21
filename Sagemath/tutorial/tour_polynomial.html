@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>多项式 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="up" title="导览" href="tour.html" />
+    <link rel="next" title="有限群，阿贝尔群" href="tour_groups.html" />
+    <link rel="prev" title="线性代数" href="tour_linalg.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tour_groups.html" title="有限群，阿贝尔群"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tour_linalg.html" title="线性代数"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" accesskey="U">导览</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="section-poly">
+<span id="id1"></span><h1>多项式<a class="headerlink" href="#section-poly" title="Permalink to this headline">¶</a></h1>
+<p>这一节我们展示在Sage中如何创建和使用多项式。</p>
+<div class="section" id="section-univariate">
+<span id="id2"></span><h2>一元多项式<a class="headerlink" href="#section-univariate" title="Permalink to this headline">¶</a></h2>
+<p>有三种方法创建多项式环。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="s">&#39;t&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">R</span>
+<span class="go">Univariate Polynomial Ring in t over Rational Field</span>
+</pre></div>
+</div>
+<p>建立一个多项式环并告诉Sage在输出到屏幕时，
+使用字符 &#8216;t&#8217; 作为不确定的量。但是这种方法没有定义符号 <tt class="docutils literal"><span class="pre">t</span></tt>
+在Sage中如何使用，你不能用它输入一个属于 <tt class="docutils literal"><span class="pre">R</span></tt> 的多项式(如 <img class="math" src="_images/math/8a00b57e20a3a538f38897e96329a9e4674c797c.png" alt="t^2+1"/>)。</p>
+<p>另一种方法是</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">S</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s">&#39;t&#39;</span><span class="p">]</span>
+<span class="gp">sage: </span><span class="n">S</span> <span class="o">==</span> <span class="n">R</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>这里的 <tt class="docutils literal"><span class="pre">t</span></tt> 有同样的问题。</p>
+<p>第三种非常方便的方法是</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">t</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>或</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">t</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s">&#39;t&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>或者，甚至是</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">t</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[]</span>
+</pre></div>
+</div>
+<p>这样变量 <tt class="docutils literal"><span class="pre">t</span></tt> 定义为多项式环的不定量，你可以很容易构造
+<tt class="docutils literal"><span class="pre">R</span></tt> 中的元素，象下面一样。（注意，第三种方式与Magma中的构造方法类似，
+但是在Magma中，可以用这种方法定义的对象有很多。）</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">poly</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mf">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mf">2</span><span class="p">);</span> <span class="n">poly</span>
+<span class="go">t^2 + 3*t + 2</span>
+<span class="gp">sage: </span><span class="n">poly</span> <span class="ow">in</span> <span class="n">R</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>不管你用哪种方法定义一个多项式环，
+你都可以将不定量恢复为0阶生成器(<img class="math" src="_images/math/3e2e1ce17391902fc85100ef31da75fdb5be701f.png" alt="0^{th}"/> generator)。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="s">&#39;t&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">t</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="mf">0</span>
+<span class="gp">sage: </span><span class="n">t</span> <span class="ow">in</span> <span class="n">R</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>复系数多项式的构造是类似的。复数可以视为由实数通过符号 <tt class="docutils literal"><span class="pre">i</span></tt> 生成的。
+所以可以如下构造：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">CC</span>
+<span class="go">Complex Field with 53 bits of precision</span>
+<span class="gp">sage: </span><span class="n">CC</span><span class="o">.</span><span class="mf">0</span>  <span class="c"># 0th generator of CC</span>
+<span class="go">1.00000000000000*I</span>
+</pre></div>
+</div>
+<p>在创建多项式环时，可以得到环及其生成元，或者只是生成元：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">objgen</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">t</span>    <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gen</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">objgen</span><span class="p">(</span><span class="n">QQ</span><span class="p">[</span><span class="s">&#39;t&#39;</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">t</span>    <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">QQ</span><span class="p">[</span><span class="s">&#39;t&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>最后，可以在 <img class="math" src="_images/math/b98c8bc06f91190aef10380e94d98b85005c29d9.png" alt="\QQ[t]"/> 上进行一些运算。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">objgen</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="mf">2</span><span class="o">*</span><span class="n">t</span><span class="o">^</span><span class="mf">7</span> <span class="o">+</span> <span class="mf">3</span><span class="o">*</span><span class="n">t</span><span class="o">^</span><span class="mf">2</span> <span class="o">-</span> <span class="mf">15</span><span class="o">/</span><span class="mf">19</span>
+<span class="gp">sage: </span><span class="n">f</span><span class="o">^</span><span class="mf">2</span>
+<span class="go">4*t^14 + 12*t^9 - 60/19*t^7 + 9*t^4 - 90/19*t^2 + 225/361</span>
+<span class="gp">sage: </span><span class="n">cyclo</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">cyclotomic_polynomial</span><span class="p">(</span><span class="mf">7</span><span class="p">);</span> <span class="n">cyclo</span>
+<span class="go">t^6 + t^5 + t^4 + t^3 + t^2 + t + 1</span>
+<span class="gp">sage: </span><span class="n">g</span> <span class="o">=</span> <span class="mf">7</span> <span class="o">*</span> <span class="n">cyclo</span> <span class="o">*</span> <span class="n">t</span><span class="o">^</span><span class="mf">5</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span><span class="o">^</span><span class="mf">5</span> <span class="o">+</span> <span class="mf">10</span><span class="o">*</span><span class="n">t</span> <span class="o">+</span> <span class="mf">2</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">g</span>
+<span class="go">7*t^16 + 7*t^15 + 7*t^14 + 7*t^13 + 77*t^12 + 91*t^11 + 91*t^10 + 84*t^9</span>
+<span class="go">       + 84*t^8 + 84*t^7 + 84*t^6 + 14*t^5</span>
+<span class="gp">sage: </span><span class="n">F</span> <span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="n">g</span><span class="p">);</span> <span class="n">F</span>
+<span class="go">(7) * t^5 * (t^5 + 10*t + 2) * (t^6 + t^5 + t^4 + t^3 + t^2 + t + 1)</span>
+<span class="gp">sage: </span><span class="n">F</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span>
+<span class="go">7</span>
+<span class="gp">sage: </span><span class="nb">list</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="go">[(t, 5), (t^5 + 10*t + 2, 1), (t^6 + t^5 + t^4 + t^3 + t^2 + t + 1, 1)]</span>
+</pre></div>
+</div>
+<p>注意到因式分解时正确的考虑并记录了单位(unit)。</p>
+<p>如果你要用某些函数，比如 <tt class="docutils literal"><span class="pre">R.cyclotomic_polynomial</span></tt>
+做更多的研究，除了引用Sage，还应该尝试找出具体是什么组件计算分圆多项式，
+并引用它们。这里，如果你输入 <tt class="docutils literal"><span class="pre">R.cyclotomic_polynomial??</span></tt>
+来查看源代码的话，你会很快看到一行 <tt class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">pari.polcyclo(n)</span></tt>,
+这说明PARI被用于求分圆多项式。应该在你的工作中引用PARI。</p>
+<p>两个多项式相除将产生一个分式域中的元素（由Sage自动创建）。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">x</span> <span class="o">=</span> <span class="n">QQ</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="mf">0</span>
+<span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mf">3</span> <span class="o">+</span> <span class="mf">1</span><span class="p">;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mf">2</span> <span class="o">-</span> <span class="mf">17</span>
+<span class="gp">sage: </span><span class="n">h</span> <span class="o">=</span> <span class="n">f</span><span class="o">/</span><span class="n">g</span><span class="p">;</span>  <span class="n">h</span>
+<span class="go">(x^3 + 1)/(x^2 - 17)</span>
+<span class="gp">sage: </span><span class="n">h</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+<span class="go">Fraction Field of Univariate Polynomial Ring in x over Rational Field</span>
+</pre></div>
+</div>
+<p>使用Laurent级数，可以在分式域 <tt class="docutils literal"><span class="pre">QQ[x]</span></tt> 上计算级数的展开：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">LaurentSeriesRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">);</span> <span class="n">R</span>
+<span class="go">Laurent Series Ring in x over Rational Field</span>
+<span class="gp">sage: </span><span class="mf">1</span><span class="o">/</span><span class="p">(</span><span class="mf">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mf">10</span><span class="p">)</span>
+<span class="go">1 + x + x^2 + x^3 + x^4 + x^5 + x^6 + x^7 + x^8 + x^9 + O(x^10)</span>
+</pre></div>
+</div>
+<p>如果我们命名的变量不同，得到不同的一元多项式环。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">S</span><span class="o">.&lt;</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="n">R</span> <span class="o">==</span> <span class="n">S</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="n">R</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">x</span>
+<span class="gp">sage: </span><span class="n">R</span><span class="p">(</span><span class="n">y</span><span class="o">^</span><span class="mf">2</span> <span class="o">-</span> <span class="mf">17</span><span class="p">)</span>
+<span class="go">x^2 - 17</span>
+</pre></div>
+</div>
+<p>环由变量确定。注意，用 <tt class="docutils literal"><span class="pre">x</span></tt> 再建一个环，并不能得到一个新的不同的环。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">T</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">R</span> <span class="o">==</span> <span class="n">T</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">R</span> <span class="ow">is</span> <span class="n">T</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">R</span><span class="o">.</span><span class="mf">0</span> <span class="o">==</span> <span class="n">T</span><span class="o">.</span><span class="mf">0</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Sage还支持任何基本环上的幂级数和Laurent级数环。下面的例子中，
+我们新建 <img class="math" src="_images/math/0ee7081460f43e2e0344452bcc4083bfaa971da5.png" alt="\GF{7}[[T]]`"/> 的一个元素，
+并使用除法新建 <img class="math" src="_images/math/494316fc12a628e1a24484454c504b0b0a59845e.png" alt="\GF{7}((T))"/> 的一个元素。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PowerSeriesRing</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mf">7</span><span class="p">));</span> <span class="n">R</span>
+<span class="go">Power Series Ring in T over Finite Field of size 7</span>
+<span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="n">T</span>  <span class="o">+</span> <span class="mf">3</span><span class="o">*</span><span class="n">T</span><span class="o">^</span><span class="mf">2</span> <span class="o">+</span> <span class="n">T</span><span class="o">^</span><span class="mf">3</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">T</span><span class="o">^</span><span class="mf">4</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">f</span><span class="o">^</span><span class="mf">3</span>
+<span class="go">T^3 + 2*T^4 + 2*T^5 + O(T^6)</span>
+<span class="gp">sage: </span><span class="mf">1</span><span class="o">/</span><span class="n">f</span>
+<span class="go">T^-1 + 4 + T + O(T^2)</span>
+<span class="gp">sage: </span><span class="n">parent</span><span class="p">(</span><span class="mf">1</span><span class="o">/</span><span class="n">f</span><span class="p">)</span>
+<span class="go">Laurent Series Ring in T over Finite Field of size 7</span>
+</pre></div>
+</div>
+<p>可以用双中括号的简单形式新建幂级数环：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">GF</span><span class="p">(</span><span class="mf">7</span><span class="p">)[[</span><span class="s">&#39;T&#39;</span><span class="p">]]</span>
+<span class="go">Power Series Ring in T over Finite Field of size 7</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>多元多项式<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>要使用多元多项式，先要声明多项式环和变量。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">),</span><span class="mf">3</span><span class="p">,</span><span class="s">&quot;z&quot;</span><span class="p">)</span> <span class="c"># here, 3 = number of variables</span>
+<span class="gp">sage: </span><span class="n">R</span>
+<span class="go">Multivariate Polynomial Ring in z0, z1, z2 over Finite Field of size 5</span>
+</pre></div>
+</div>
+<p>跟定义一元多项式一样，有多种方法：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)[</span><span class="s">&#39;z0, z1, z2&#39;</span><span class="p">]</span>
+<span class="go">Multivariate Polynomial Ring in z0, z1, z2 over Finite Field of size 5</span>
+<span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">z0</span><span class="p">,</span><span class="n">z1</span><span class="p">,</span><span class="n">z2</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)[];</span> <span class="n">R</span>
+<span class="go">Multivariate Polynomial Ring in z0, z1, z2 over Finite Field of size 5</span>
+</pre></div>
+</div>
+<p>如果你希望变量的名字是单个字母，可以用下面的简短形式：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">PolynomialRing</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">),</span> <span class="mf">3</span><span class="p">,</span> <span class="s">&#39;xyz&#39;</span><span class="p">)</span>
+<span class="go">Multivariate Polynomial Ring in x, y, z over Finite Field of size 5</span>
+</pre></div>
+</div>
+<p>下面我们做一些运算。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">z</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)[</span><span class="s">&#39;z0, z1, z2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">z</span>
+<span class="go">(z0, z1, z2)</span>
+<span class="gp">sage: </span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">+</span><span class="n">z</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="o">+</span><span class="n">z</span><span class="p">[</span><span class="mf">2</span><span class="p">])</span><span class="o">^</span><span class="mf">2</span>
+<span class="go">z0^2 + 2*z0*z1 + z1^2 + 2*z0*z2 + 2*z1*z2 + z2^2</span>
+</pre></div>
+</div>
+<p>你也可以用更多的数学记号来构造多项式环。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)[</span><span class="s">&#39;x,y,z&#39;</span><span class="p">]</span>
+<span class="gp">sage: </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">QQ</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span>
+<span class="go">Univariate Polynomial Ring in x over Rational Field</span>
+<span class="gp">sage: </span><span class="n">QQ</span><span class="p">[</span><span class="s">&#39;x,y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gens</span><span class="p">()</span>
+<span class="go">(x, y)</span>
+<span class="gp">sage: </span><span class="n">QQ</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">objgens</span><span class="p">()</span>
+<span class="go">(Univariate Polynomial Ring in x over Rational Field, (x,))</span>
+</pre></div>
+</div>
+<p>Sage中，多元多项式是用Python的字典(dictionaries)
+以及多项式的“分配形式”(distributive representation)实现的。
+Sage用了很多Singular <a class="reference internal" href="#si">[Si]</a>, 如计算最大公因式和理想的Gröbner基。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">RationalField</span><span class="p">(),</span> <span class="mf">2</span><span class="p">,</span> <span class="s">&#39;xy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">objgens</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mf">3</span> <span class="o">+</span> <span class="mf">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mf">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="mf">2</span>
+<span class="gp">sage: </span><span class="n">g</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mf">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mf">2</span>
+<span class="gp">sage: </span><span class="n">f</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="go">x^2</span>
+</pre></div>
+</div>
+<p>下面我们新建一个由 <img class="math" src="_images/math/bb2c93730dbb48558bb3c4738c956c4e8f816437.png" alt="f"/> 和 <img class="math" src="_images/math/311cabda3a9b09f0dde217303ca9d1cd9201dcf6.png" alt="g"/> 生成的理想 <img class="math" src="_images/math/db7b42a61095556ced1af91db9457c2a5c442b96.png" alt="(f,g)"/>,
+简单把 <tt class="docutils literal"><span class="pre">(f,g)</span></tt> 和 <tt class="docutils literal"><span class="pre">R</span></tt> 乘在一起就行（也可以用
+<tt class="docutils literal"><span class="pre">ideal([f,g])</span></tt> 或 <tt class="docutils literal"><span class="pre">ideal(f,g)</span></tt> )。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">I</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span><span class="o">*</span><span class="n">R</span><span class="p">;</span> <span class="n">I</span>
+<span class="go">Ideal (x^6 + 4*x^4*y^2 + 4*x^2*y^4, x^2*y^2) of Multivariate Polynomial</span>
+<span class="go">Ring in x, y over Rational Field</span>
+<span class="gp">sage: </span><span class="n">B</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">groebner_basis</span><span class="p">();</span> <span class="n">B</span>
+<span class="go">[x^6, x^2*y^2]</span>
+<span class="gp">sage: </span><span class="n">x</span><span class="o">^</span><span class="mf">2</span> <span class="ow">in</span> <span class="n">I</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>顺便说一下，上面的Gröbner基不是一个列表，而是一个固定序列。
+这意味着它有范围(universe)，有根源(parent)，并且不能修改
+（不能修改是好事，因为如果改动基的话，与Gröbner基相关的程序都可能出问题）。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">B</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+<span class="go">Category of sequences in Multivariate Polynomial Ring in x, y over Rational</span>
+<span class="go">Field</span>
+<span class="gp">sage: </span><span class="n">B</span><span class="o">.</span><span class="n">universe</span><span class="p">()</span>
+<span class="go">Multivariate Polynomial Ring in x, y over Rational Field</span>
+<span class="gp">sage: </span><span class="n">B</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">...</span>
+<span class="go">ValueError: object is immutable; please change a copy instead.</span>
+</pre></div>
+</div>
+<p>一些（并不多）交换代数的函数在Sage中也是可用的，是由Singular实现的。
+比如，我们可以计算 <img class="math" src="_images/math/027f4a11d6090f9eac0ce2488df6384dad1263ea.png" alt="I"/> 的基本分解和相伴素理想(associated primes):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">I</span><span class="o">.</span><span class="n">primary_decomposition</span><span class="p">()</span>
+<span class="go">[Ideal (x^2) of Multivariate Polynomial Ring in x, y over Rational Field,</span>
+<span class="go"> Ideal (y^2, x^6) of Multivariate Polynomial Ring in x, y over Rational Field]</span>
+<span class="gp">sage: </span><span class="n">I</span><span class="o">.</span><span class="n">associated_primes</span><span class="p">()</span>
+<span class="go">[Ideal (x) of Multivariate Polynomial Ring in x, y over Rational Field,</span>
+<span class="go"> Ideal (y, x) of Multivariate Polynomial Ring in x, y over Rational Field]</span>
+</pre></div>
+</div>
+<table class="docutils citation" frame="void" id="si" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[Si]</a></td><td>G.-M. Greuel, G. Pfister, and H. Schönemann.
+<tt class="docutils literal"><span class="pre">Singular</span></tt> 3.0. A Computer Algebra System for Polynomial
+Computations. Center for Computer Algebra, University of
+Kaiserslautern (2005). <a class="reference external" href="http://www.singular.uni-kl.de">http://www.singular.uni-kl.de</a> .</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">多项式</a><ul>
+<li><a class="reference external" href="#section-univariate">一元多项式</a></li>
+<li><a class="reference external" href="#id3">多元多项式</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tour_linalg.html"
+                                  title="previous chapter">线性代数</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tour_groups.html"
+                                  title="next chapter">有限群，阿贝尔群</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/tour_polynomial.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tour_groups.html" title="有限群，阿贝尔群"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tour_linalg.html" title="线性代数"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" >导览</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

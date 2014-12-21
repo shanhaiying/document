@@ -1,0 +1,72 @@
+\documentclass[a4paper,10.5pt]{article}
+\usepackage[english]{babel}
+\usepackage{graphicx,subfigure}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{fontspec} %使用非latex字体要使用此包
+\setmainfont{Times New Roman} 
+%更改大列表环境，小列表环境可以在label中改变
+\renewcommand{\theenumi}{\Roman{enumi}.}
+\renewcommand{\labelenumi}{\theenumi}
+\renewcommand{\theenumii}{\Alph{enumii}.}
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumiii}{\arabic{enumiii}.}
+\renewcommand{\labelenumiii}{\theenumiii}
+\renewcommand{\theenumiv}{\alph{enumiv}.}
+\renewcommand{\labelenumiv}{\theenumiv}
+
+%文档
+\begin{document}
+\title{HJD Type Crane PLC transformation in control circuit \\
+{\fontspec{SimSun} HJD型克令吊控制电路的PLC改造}}
+\author{\fontspec{SimSun} 船海 闫鹏 201430110059}
+\date{}
+\maketitle 
+\noindent
+HJD type crane is commonly used in domestic ships.The chief aim of the present work is providing an available way shifting to PLC control and reducing the use of coils and contactors. In this paper, The PLC reconstruction, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, has been accomplished. PLC used in this paper is Siemens S7-200.
+\begin{enumerate}
+\item Reconstruction of basic protection control process	
+	\begin{enumerate}
+\item Overload protection of fan motor and crane motor
+		\begin{enumerate}
+\item Fan motor overload protection is achieved  by fan thermal relay FR2.
+\item Crane motor overload protection is achieved  by crane motor thermal relay FR1.
+		\end{enumerate}
+\item Motor windings overheating protection is achieved by  motor temperature controller ST.
+\item Power supply missing phase and circuit break protection are achieved by  zero-voltage relay KA1.
+\item Emergency forced running is achieved by the contactor SB.
+	\end{enumerate}
+\item Reconstruction of rose and fall process
+	\begin{enumerate}
+\item Rose process  is achieved by steering control contactor Q0.2.
+\item Fall process is  achieved by steering control contactor Q0.3.
+\item DC delay time relay is required in reversing at high speed.
+	\end{enumerate}
+\item Reconstruction of brake process
+	\begin{enumerate} 
+\item In normal rise or fall state, parking brake   coil pulls in,mechanical parking brake operates.
+\item In medium/high gear, DC master switch disconnect, low speed winding connects realizing automatic grade braking.
+	\end{enumerate} 
+\item Reconstruction of low/medium/high-speed process
+	\begin{enumerate}
+\item Low-speed process
+		\begin{enumerate}
+\item The crane will run in operational status by releasing rise or fall  contactor and the braking contactor.
+\item The shift from low-speed to medium-speed is achieved by energize medium-speed winding power.
+		\end{enumerate}
+\item Medium-speed process
+	\begin{enumerate}
+\item Medium speed contactor is self-locking and  interlocking with  low/high speed contactor.
+\item Braking contactor and fan contactor make sure the Motor does not run at medium speed.
+	\end{enumerate}
+\item High-speed process
+	\begin{enumerate}
+\item Motor should not run in high speed when heavy loaded.
+	\begin{enumerate}
+\item The detection of load is achieved  by load relay.
+\item The protection of overload is achieved by load contactors.
+	\end{enumerate}
+\item The diagram of wiring and control logic has been uploaded to PLC 
+	\end{enumerate} 
+	\end{enumerate}
+	\end{enumerate}
+\end{document}

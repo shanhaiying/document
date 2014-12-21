@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>基本的环 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="up" title="导览" href="tour.html" />
+    <link rel="next" title="线性代数" href="tour_linalg.html" />
+    <link rel="prev" title="函数的一些常见问题" href="tour_functions.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tour_linalg.html" title="线性代数"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tour_functions.html" title="函数的一些常见问题"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" accesskey="U">导览</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="section-rings">
+<span id="id1"></span><h1>基本的环<a class="headerlink" href="#section-rings" title="Permalink to this headline">¶</a></h1>
+<p>当定义矩阵、向量或者多项式时，有时候需要，
+有时候是必须要指定其所在的“环”。 <em>环</em> 是一个数学结构，
+在其上定义的加法和乘法有很好的性质。如果你从来没有听说过这些概念，
+至少要了解以下这四个常用的环：</p>
+<ul class="simple">
+<li>整数环 <img class="math" src="_images/math/2601ef5b13758c65b09749d015033f5e34022c0e.png" alt="\{..., -1, 0, 1, 2, ...\}"/>, Sage中叫 <tt class="docutils literal"><span class="pre">ZZ</span></tt>;</li>
+<li>有理数环 &#8211; 即，整数构成的分数，Sage中叫 <tt class="docutils literal"><span class="pre">QQ</span></tt>;</li>
+<li>实数环，Sage中叫 <tt class="docutils literal"><span class="pre">RR</span></tt>;</li>
+<li>复数环，Sage中叫 <tt class="docutils literal"><span class="pre">CC</span></tt>.</li>
+</ul>
+<p>你需要了解它们之间的区别，因为对于同一个多项式，
+处理方式完全取决于它定义在哪个环上。比如说，多项式 <img class="math" src="_images/math/a201fddef752223c4dadd1238207df8ca4ef4d8b.png" alt="x^2-2"/>
+有两个根, <img class="math" src="_images/math/5d67061323ee2f02dabd7a4728075808f7d2e6dd.png" alt="\pm \sqrt{2}"/>. 这些根不是有理数，
+所以如果你是讨论有理系数多项式，那么该多项式不能进行因式分解，
+如果是实系数，就可以。所以你可能要指定环以保证得到的结果是你所期望的。
+下面两个命令定义有理系数多项式和实系数多项式集合。
+集合的名字分别是“ratpoly”和“realpoly”， 这两个名字并不重要，
+但是要注意变量的名字“.&lt;t&gt;”和“.&lt;z&gt;”的使用。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">ratpoly</span><span class="o">.&lt;</span><span class="n">t</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">realpoly</span><span class="o">.&lt;</span><span class="n">z</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">RR</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>现在我们展示 <img class="math" src="_images/math/a201fddef752223c4dadd1238207df8ca4ef4d8b.png" alt="x^2-2"/> 的因式分解。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">factor</span><span class="p">(</span><span class="n">t</span><span class="o">^</span><span class="mf">2</span><span class="o">-</span><span class="mf">2</span><span class="p">)</span>
+<span class="go">t^2 - 2</span>
+<span class="gp">sage: </span><span class="n">factor</span><span class="p">(</span><span class="n">z</span><span class="o">^</span><span class="mf">2</span><span class="o">-</span><span class="mf">2</span><span class="p">)</span>
+<span class="go">(z - 1.41421356237310) * (z + 1.41421356237310)</span>
+</pre></div>
+</div>
+<p>对于矩阵存在同样的问题：矩阵的行消去形式取决于其所定义的环，
+还有它的特征值和特征向量的计算。更多关于多项式构造的内容请参见:
+<a class="reference external" href="tour_polynomial.html#section-poly"><em>多项式</em></a>, 更多关于矩阵的内容请参见 <a class="reference external" href="tour_linalg.html#section-linalg"><em>线性代数</em></a>.</p>
+<p>符号 <tt class="docutils literal"><span class="pre">I</span></tt> 代表 <img class="math" src="_images/math/bae5aba07d37ff6ff813107e76260fb31ad5794e.png" alt="-1"/> 的平方根; <tt class="docutils literal"><span class="pre">i</span></tt> 等同于 <tt class="docutils literal"><span class="pre">I</span></tt>.
+当然这不是一个有理数</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">i</span>  <span class="c"># square root of -1</span>
+<span class="go">I</span>
+<span class="gp">sage: </span><span class="n">i</span> <span class="ow">in</span> <span class="n">QQ</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>注意：如果 <tt class="docutils literal"><span class="pre">i</span></tt> 已经被赋了其他的值，比如循环变量，
+那么上面的代码不会给出预期的结果。出现这种情况，请输入</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">reset</span><span class="p">(</span><span class="s">&#39;i&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>来得到 <tt class="docutils literal"><span class="pre">i</span></tt> 的原始复数值。</p>
+<p>定义复数的时候还有一个细节：如上所述 <tt class="docutils literal"><span class="pre">i</span></tt> 代表 <img class="math" src="_images/math/bae5aba07d37ff6ff813107e76260fb31ad5794e.png" alt="-1"/> 的平方根，
+但是它是 <img class="math" src="_images/math/bae5aba07d37ff6ff813107e76260fb31ad5794e.png" alt="-1"/> 的 <em>形式上的</em> 或 <em>符号的</em> 平方根。
+调用 <tt class="docutils literal"><span class="pre">CC(i)</span></tt> 或 <tt class="docutils literal"><span class="pre">CC.0</span></tt> 返回 <img class="math" src="_images/math/bae5aba07d37ff6ff813107e76260fb31ad5794e.png" alt="-1"/> 的 <em>复的</em> 平方根。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">i</span> <span class="o">=</span> <span class="n">CC</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>       <span class="c"># floating point complex number</span>
+<span class="gp">sage: </span><span class="n">i</span> <span class="o">==</span> <span class="n">CC</span><span class="o">.</span><span class="mf">0</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mf">4</span><span class="o">/</span><span class="mf">3</span><span class="p">,</span> <span class="mf">2</span><span class="o">/</span><span class="mf">3</span>
+<span class="gp">sage: </span><span class="n">z</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">i</span>
+<span class="gp">sage: </span><span class="n">z</span>
+<span class="go">1.33333333333333 + 0.666666666666667*I</span>
+<span class="gp">sage: </span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">()</span>        <span class="c"># imaginary part</span>
+<span class="go">0.666666666666667</span>
+<span class="gp">sage: </span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">()</span> <span class="o">==</span> <span class="n">a</span>   <span class="c"># automatic coercion before comparison</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="go">2</span>
+<span class="gp">sage: </span><span class="mf">2</span><span class="o">*</span><span class="n">b</span> <span class="o">==</span> <span class="n">a</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">parent</span><span class="p">(</span><span class="mf">2</span><span class="o">/</span><span class="mf">3</span><span class="p">)</span>
+<span class="go">Rational Field</span>
+<span class="gp">sage: </span><span class="n">parent</span><span class="p">(</span><span class="mf">4</span><span class="o">/</span><span class="mf">2</span><span class="p">)</span>
+<span class="go">Rational Field</span>
+<span class="gp">sage: </span><span class="mf">2</span><span class="o">/</span><span class="mf">3</span> <span class="o">+</span> <span class="mf">0.1</span>       <span class="c"># automatic coercion before addition</span>
+<span class="go">0.766666666666667</span>
+<span class="gp">sage: </span><span class="mf">0.1</span> <span class="o">+</span> <span class="mf">2</span><span class="o">/</span><span class="mf">3</span>       <span class="c"># coercion rules are symmetric in SAGE</span>
+<span class="go">0.766666666666667</span>
+</pre></div>
+</div>
+<p>下面是关于Sage中基本环的几个例子。上面已经提到有理数环可以用 <tt class="docutils literal"><span class="pre">QQ</span></tt>,
+也可以用 <tt class="docutils literal"><span class="pre">RationalField()</span></tt>
+(<em>域</em> 是环的一种，乘法是可交换的，且所有非零元素均有乘法逆元。
+所有有理数可以构成一个域，但是整数不行）</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">RationalField</span><span class="p">()</span>
+<span class="go">Rational Field</span>
+<span class="gp">sage: </span><span class="n">QQ</span>
+<span class="go">Rational Field</span>
+<span class="gp">sage: </span><span class="mf">1</span><span class="o">/</span><span class="mf">2</span> <span class="ow">in</span> <span class="n">QQ</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>十进制数 <tt class="docutils literal"><span class="pre">1.2</span></tt> 属于 <tt class="docutils literal"><span class="pre">QQ</span></tt>:
+正好是有理数的十进制数可以被强制转换为有理数。
+<img class="math" src="_images/math/f2ca003a7da0de4994b4733e203b74ff52d42553.png" alt="\pi"/> 和 <img class="math" src="_images/math/2c4dc1409208ff6a3039f4871d85c16763334983.png" alt="\sqrt{2}"/> 都不是有理数:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="mf">1.2</span> <span class="ow">in</span> <span class="n">QQ</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">pi</span> <span class="ow">in</span> <span class="n">QQ</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="n">pi</span> <span class="ow">in</span> <span class="n">RR</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">QQ</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">CC</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>为用于高等数学，Sage还知道其他的环，比如有限域, <img class="math" src="_images/math/36f73fc1312ee0349b3f3a0f3bd9eb5504339011.png" alt="p"/>-adic整数，
+代数数环，多项式环和矩阵环。下面是其中一些环的构造:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">GF</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span>
+<span class="go">Finite Field of size 3</span>
+<span class="gp">sage: </span><span class="n">GF</span><span class="p">(</span><span class="mf">27</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span>  <span class="c"># need to name the generator if not a prime field</span>
+<span class="go">Finite Field in a of size 3^3</span>
+<span class="gp">sage: </span><span class="n">Zp</span><span class="p">(</span><span class="mf">5</span><span class="p">)</span>
+<span class="go">5-adic Ring with capped relative precision 20</span>
+<span class="gp">sage: </span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span> <span class="ow">in</span> <span class="n">QQbar</span> <span class="c"># algebraic closure of QQ</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tour_functions.html"
+                                  title="previous chapter">函数的一些常见问题</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tour_linalg.html"
+                                  title="next chapter">线性代数</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/tour_rings.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tour_linalg.html" title="线性代数"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tour_functions.html" title="函数的一些常见问题"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" >导览</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

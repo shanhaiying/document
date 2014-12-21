@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>函数的一些常见问题 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="up" title="导览" href="tour.html" />
+    <link rel="next" title="基本的环" href="tour_rings.html" />
+    <link rel="prev" title="绘图" href="tour_plotting.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tour_rings.html" title="基本的环"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tour_plotting.html" title="绘图"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" accesskey="U">导览</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="section-plot">
+<span id="id1"></span><h1>函数的一些常见问题<a class="headerlink" href="#section-plot" title="Permalink to this headline">¶</a></h1>
+<p>自定义函数的某些问题可能令人迷惑（如微分或绘图）。
+这一节我们讨论一下相关的话题。</p>
+<p>有多种方法定义可以被称为“函数”的东西：</p>
+<p>1. 定义Python函数，正如 <a class="reference external" href="tour_help.html#section-functions"><em>函数，缩进和计数</em></a> 中所提到的那样。
+这些函数可用于绘图，但是不能用于微分和积分。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">z</span><span class="p">):</span> <span class="k">return</span> <span class="n">z</span><span class="o">^</span><span class="mf">2</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">&lt;type &#39;function&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">f</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">sage: </span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>注意最后一行的语法。如果使用 <tt class="docutils literal"><span class="pre">plot(f(z),0,2)</span></tt> 的话，会报错。
+因为在 <tt class="docutils literal"><span class="pre">f</span></tt> 的定义中 <tt class="docutils literal"><span class="pre">z</span></tt> 是一个形式变量，在 <tt class="docutils literal"><span class="pre">f</span></tt> 之外，
+<tt class="docutils literal"><span class="pre">z</span></tt> 没有定义。实际上只是 <tt class="docutils literal"><span class="pre">f(z)</span></tt> 有问题。下面的代码就可以正确工作，
+但是一般来说这也是有问题的，要尽量避免（参见下面第4条）。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">var</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)</span>   <span class="c"># 定义z为一个变量</span>
+<span class="go">z</span>
+<span class="gp">sage: </span><span class="n">f</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="go">z^2</span>
+<span class="gp">sage: </span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这里, <tt class="docutils literal"><span class="pre">f(x)</span></tt> 是一个符号表达式，这是我们下一条要讨论的。</p>
+<ol class="arabic simple" start="2">
+<li>定义“可调用的符号表达式”。可用于绘图、微分和积分。</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mf">2</span>
+<span class="gp">sage: </span><span class="n">g</span>        <span class="c"># g sends x to x^2</span>
+<span class="go">x |--&gt; x^2</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">sage: </span><span class="n">Dg</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">derivative</span><span class="p">();</span> <span class="n">Dg</span>
+<span class="go">x |--&gt; 2*x</span>
+<span class="gp">sage: </span><span class="n">Dg</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span>
+<span class="go">6</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">plot</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>注意 <tt class="docutils literal"><span class="pre">g</span></tt> 是可调用的符号表达式, <tt class="docutils literal"><span class="pre">g(x)</span></tt> 是一个与之相关，
+但是不同类型的对象，虽然 <tt class="docutils literal"><span class="pre">g(x)</span></tt> 也可用于绘图、微分等。
+参见下面第5条的展示。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">x^2</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="go">2*x</span>
+<span class="gp">sage: </span><span class="n">plot</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>预定义的Sage“微积分函数”，可用于绘图。要进行微积分的话，还要加工一下。</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">sin</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.functions.trig.Function_sin&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">plot</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">2</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">plot</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">sin</span></tt> 本身不能进行微分，至少不会得到 <tt class="docutils literal"><span class="pre">cos</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="n">sin</span>
+<span class="gp">sage: </span><span class="n">f</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="go">AttributeError: ...</span>
+</pre></div>
+</div>
+<p>使用 <tt class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">sin(x)</span></tt> 而不是 <tt class="docutils literal"><span class="pre">sin</span></tt>, 就可以进行微分了，
+而且比用 <tt class="docutils literal"><span class="pre">f(x)</span> <span class="pre">=</span> <span class="pre">sin(x)</span></tt> 建立一个可调用的符号表达式要好。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">S</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">S</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="go">x |--&gt; cos(x)</span>
+</pre></div>
+</div>
+<p>下面解释一些常见的问题：</p>
+<p>4. 意外的运算结果（Accidental evaluation）</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>      <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="mf">2</span><span class="p">:</span>
+<span class="gp">... </span>          <span class="k">return</span> <span class="mf">0</span>
+<span class="gp">... </span>      <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>          <span class="k">return</span> <span class="n">x</span><span class="o">-</span><span class="mf">2</span>
+</pre></div>
+</div>
+<p>问题: <tt class="docutils literal"><span class="pre">plot(h(x),</span> <span class="pre">0,</span> <span class="pre">4)</span></tt> 画出来的是直线 <img class="math" src="_images/math/90aac71d17be5511c92cd663335a077bef652f4b.png" alt="y=x-2"/>, 而不是 <tt class="docutils literal"><span class="pre">h</span></tt>
+定义的折线。为什么？在命令 <tt class="docutils literal"><span class="pre">plot(h(x),</span> <span class="pre">0,</span> <span class="pre">4)</span></tt> 中，
+<tt class="docutils literal"><span class="pre">h(x)</span></tt> 首先被计算，也就是将 <tt class="docutils literal"><span class="pre">x</span></tt> 代入 <tt class="docutils literal"><span class="pre">h</span></tt>, 从而 <tt class="docutils literal"><span class="pre">x&lt;2</span></tt> 被计算。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mf">2</span><span class="p">)</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+</pre></div>
+</div>
+<p>当一个符号表达式被计算时，象在 <tt class="docutils literal"><span class="pre">h</span></tt> 的定义中的那样，
+如果不是明确的真，就会返回假。于是 <tt class="docutils literal"><span class="pre">h(x)</span></tt> 计算的结果是
+<tt class="docutils literal"><span class="pre">x-2</span></tt>, 这也是刚才所绘制的函数。</p>
+<p>解决方案：不要用 <tt class="docutils literal"><span class="pre">plot(h(x),</span> <span class="pre">0,</span> <span class="pre">4)</span></tt>, 而是用</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">plot</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>5. 意外得到一个常数而不是一个函数</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">sage: </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">g</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>问题: <tt class="docutils literal"><span class="pre">g(3)</span></tt> 返回错误：
+&#8220;ValueError: the number of arguments must be less than or equal to 0.&#8221;</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">g</span></tt> 不是一个函数，而是一个常量，所以它没有相关的自变量，
+你也就不能再做其他运算。</p>
+<p>解决方案：有好几种选择。</p>
+<ul class="simple">
+<li>定义 <tt class="docutils literal"><span class="pre">f</span></tt> 为符号表达式。</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>        <span class="c"># 而不是 &#39;f = x&#39;</span>
+<span class="gp">sage: </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">g</span>
+<span class="go">x |--&gt; 1</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>或者 <tt class="docutils literal"><span class="pre">f</span></tt> 还是原来那样定义，而把 <tt class="docutils literal"><span class="pre">g</span></tt> 定义为符号表达式。</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>  <span class="c"># 而不是 &#39;g = f.derivative()&#39;</span>
+<span class="gp">sage: </span><span class="n">g</span>
+<span class="go">x |--&gt; 1</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="go">&lt;type &#39;sage.symbolic.expression.Expression&#39;&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>或者 <tt class="docutils literal"><span class="pre">f</span></tt> 和 <tt class="docutils literal"><span class="pre">g</span></tt> 都还是原来那样定义，但是指定你所替代的变量。</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">sage: </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">g</span>
+<span class="go">1</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">3</span><span class="p">)</span>    <span class="c"># 而不是 &#39;g(3)&#39;</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>最后，还有一种方法来说明 <tt class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">x</span></tt> 与 <tt class="docutils literal"><span class="pre">f(x)</span> <span class="pre">=</span> <span class="pre">x</span></tt> 导数间的区别：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">sage: </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span>  <span class="c"># g 的变量</span>
+<span class="go">()</span>
+<span class="gp">sage: </span><span class="n">g</span><span class="o">.</span><span class="n">arguments</span><span class="p">()</span>  <span class="c"># g 的参数</span>
+<span class="go">(x,)</span>
+<span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">sage: </span><span class="n">h</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">derivative</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">h</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span>
+<span class="go">()</span>
+<span class="gp">sage: </span><span class="n">h</span><span class="o">.</span><span class="n">arguments</span><span class="p">()</span>
+<span class="go">()</span>
+</pre></div>
+</div>
+<p>正象这个例子所展示的那样, <tt class="docutils literal"><span class="pre">h</span></tt> 不接受任何参数，这正是
+<tt class="docutils literal"><span class="pre">h(3)</span></tt> 报错的原因。</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tour_plotting.html"
+                                  title="previous chapter">绘图</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tour_rings.html"
+                                  title="next chapter">基本的环</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/tour_functions.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tour_rings.html" title="基本的环"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tour_plotting.html" title="绘图"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" >导览</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

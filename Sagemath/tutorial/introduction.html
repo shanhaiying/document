@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>简介 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="next" title="导览" href="tour.html" />
+    <link rel="prev" title="Sage入门教程" href="index.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tour.html" title="导览"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Sage入门教程"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>简介<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>阅读本教程的全部内容最多只需要3、4个小时。
+你可以阅读HTML或PDF版本，或者在Sage notebook中点击 <tt class="docutils literal"><span class="pre">Help</span></tt>
+，再点击 <tt class="docutils literal"><span class="pre">Tutorial</span></tt> ，边阅读边使用 Sage。</p>
+<p>虽然Sage主要是用Python实现的，但是不懂Python也可以阅读本教程。
+如果你想要学习一下Python（一种非常有趣的语言），
+网上有很多关于Python的优秀资源，比如 <a class="reference external" href="programming.html#pyt">[PyT]</a> 和 <a class="reference internal" href="#dive">[Dive]</a> 。
+如果你只是想快速的尝试一下Sage，阅读本教程就对了。比如：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="mf">2</span> <span class="o">+</span> <span class="mf">2</span>
+<span class="go">4</span>
+<span class="gp">sage: </span><span class="n">factor</span><span class="p">(</span><span class="o">-</span><span class="mf">2007</span><span class="p">)</span>
+<span class="go">-1 * 3^2 * 223</span>
+
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mf">4</span><span class="p">,</span><span class="mf">4</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mf">16</span><span class="p">));</span> <span class="n">A</span>
+<span class="go">[ 0  1  2  3]</span>
+<span class="go">[ 4  5  6  7]</span>
+<span class="go">[ 8  9 10 11]</span>
+<span class="go">[12 13 14 15]</span>
+
+<span class="gp">sage: </span><span class="n">factor</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">charpoly</span><span class="p">())</span>
+<span class="go">x^2 * (x^2 - 30*x - 80)</span>
+
+<span class="gp">sage: </span><span class="n">m</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mf">4</span><span class="p">))</span>
+<span class="gp">sage: </span><span class="n">m</span><span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="mf">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">3</span>
+<span class="gp">sage: </span><span class="n">m</span>
+<span class="go">[-3  1]</span>
+<span class="go">[ 2  3]</span>
+
+<span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="p">,</span><span class="mf">5</span><span class="p">]);</span>
+<span class="gp">sage: </span><span class="n">E</span>
+<span class="go">Elliptic Curve defined by y^2 + x*y + 3*y = x^3 + 2*x^2 + 4*x + 5</span>
+<span class="go">over Rational Field</span>
+<span class="gp">sage: </span><span class="n">E</span><span class="o">.</span><span class="n">anlist</span><span class="p">(</span><span class="mf">10</span><span class="p">)</span>
+<span class="go">[0, 1, 1, 0, -1, -3, 0, -1, -3, -3, -3]</span>
+<span class="gp">sage: </span><span class="n">E</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+<span class="go">1</span>
+
+<span class="gp">sage: </span><span class="n">k</span> <span class="o">=</span> <span class="mf">1</span><span class="o">/</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span><span class="o">*</span><span class="n">I</span> <span class="o">+</span> <span class="mf">3</span><span class="o">/</span><span class="mf">4</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">73</span><span class="p">)</span><span class="o">*</span><span class="mf">5</span><span class="o">/</span><span class="mf">9</span><span class="p">);</span> <span class="n">k</span>
+<span class="go">1/(I*sqrt(3) + 5/9*sqrt(73) + 3/4)</span>
+<span class="gp">sage: </span><span class="n">N</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="go">0.165495678130644 - 0.0521492082074256*I</span>
+<span class="gp">sage: </span><span class="n">N</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mf">30</span><span class="p">)</span>      <span class="c"># 30 &quot;bits&quot;</span>
+<span class="go">0.16549568 - 0.052149208*I</span>
+<span class="gp">sage: </span><span class="n">latex</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="go">\frac{1}{I \, \sqrt{3} + \frac{5}{9} \, \sqrt{73} + \frac{3}{4}}</span>
+</pre></div>
+</div>
+<div class="section" id="id4">
+<h2>安装<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>如果你没有安装Sage，只是想试几个命令，可以使用在线的Sage notebook：
+<a class="reference external" href="http://www.sagenb.org">http://www.sagenb.org</a> 。</p>
+<p>要在自己的电脑上安装Sage，请参考Sage主页 <a class="reference internal" href="#id7">[Sage]</a> 上的Sage安装指南。
+这里我们只强调两点：</p>
+<ol class="arabic simple">
+<li>Sage的安装包是“内置电池”的。也就是说，虽然Sage用到了Python，
+IPython，PARI，GAP，Singular，Maxima，NTL，GMP等等一些软件，
+但是你不需要单独安装这些软件，因为它们已经包含在Sage的发行版里了。
+然而，要使用Sage的一些特定的功能，比如Macaulay或者KASH，
+你必须安装相关的Sage可选包或者已经单独安装了这些软件。Macaulay和KASH
+都是Sage的扩展包（输入 <tt class="docutils literal"><span class="pre">sage</span> <span class="pre">-optional</span></tt> 可以得到可选扩展包列表，
+或者在Sage网站上浏览“下载”页）。</li>
+<li>安装编译好的二进制版本（可在Sage网站找到）可能比安装源码版更容易、
+更快。只需要解压缩之后运行 <tt class="docutils literal"><span class="pre">sage</span></tt> 即可。</li>
+</ol>
+</div>
+<div class="section" id="sage">
+<h2>使用Sage的方法<a class="headerlink" href="#sage" title="Permalink to this headline">¶</a></h2>
+<p>使用Sage的方法有好几种。</p>
+<ul class="simple">
+<li><strong>Notebook图形界面：</strong> 参见参考手册中关于Notebook的章节，
+以及下面的 <a class="reference external" href="interactive_shell.html#section-notebook"><em>Notebook界面</em></a> ；</li>
+<li><strong>交互命令行：</strong> 参见 <a class="reference external" href="interactive_shell.html#chapter-interactive-shell"><em>交互命令行</em></a> ；</li>
+<li><strong>程序：</strong> 在Sage中编写解释型或者编译型的程序（参见
+<a class="reference external" href="programming.html#section-loadattach"><em>读取和附加Sage文件</em></a> 和 <a class="reference external" href="programming.html#section-compile"><em>创建编译代码</em></a> ）；</li>
+<li><strong>脚本：</strong> 在独立的Python脚本中调用Sage库文件（参见
+<a class="reference external" href="programming.html#section-standalone"><em>独立的Python/Sage脚本</em></a> ）。</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>Sage的长期目标<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>实用：</strong> Sage的预期用户是学数学的学生（从高中生到研究生）、
+教师以及研究人员。我们的目标是在代数、几何、数论、微积分、
+数值计算等领域提供可用于探索和尝试的软件。
+Sage使得进行与数学对象有关的交互实验变得容易。</li>
+<li><strong>高效：</strong> 越快越好。Sage使用高度优化的成熟软件，如GMP，
+PARI，GAP和NTL。这样，Sage的某些运算非常快。</li>
+<li><strong>免费、开源：</strong> 源代码必须可以自由的获取，并且有较好的可读性，
+这样用户才能真正了解系统是如何运行的，并且更容易进行扩展。
+就像数学家要深入理解一个定理的话，就要仔细地阅读定理的证明，
+最起码要浏览一下。搞计算的人应该可以通过阅读源码来了解计算是如何进行的。
+如果你在论文中使用Sage进行计算，你可以确保读者能够免费得到Sage及其源码。
+并且你可以打包或者重新发布你所使用的Sage版本。</li>
+<li><strong>易于编译：</strong> Linux，OS X和Windows的用户应该很容易使用源代码编译Sage。
+这为用户修改系统提供了便利。</li>
+<li><strong>协作：</strong> 为其他计算机代数系统提供健壮的接口，包括PARI，GAP，
+Singular，Maxima，KASH，Magma，Maple和Mathematica。
+Sage希望统一并扩展现有的数学软件。</li>
+<li><strong>文档完善：</strong> 教程，编程指南，参考手册和基本指南要包含大量的例子，
+以及对数学背景的讨论。</li>
+<li><strong>可扩展：</strong> 可以定义新的数据类型或者从内置的类型中继承，
+可以使用其他语言编写的代码。</li>
+<li><strong>用户友好：</strong> 给定对象所提供的功能应该是清晰易懂的，
+文档和源码应该易于查看。用户支持要达到比较高的水平。</li>
+</ul>
+<table class="docutils citation" frame="void" id="dive" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[Dive]</a></td><td>Dive into Python, Freely available online at
+<a class="reference external" href="http://diveintopython.org">http://diveintopython.org</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="pyt" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[PyT]</a></td><td>The Python Tutorial, <a class="reference external" href="http://www.python.org/">http://www.python.org/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[Sage]</a></td><td>Sage, <a class="reference external" href="http://www.sagemath.org">http://www.sagemath.org</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">简介</a><ul>
+<li><a class="reference external" href="#id4">安装</a></li>
+<li><a class="reference external" href="#sage">使用Sage的方法</a></li>
+<li><a class="reference external" href="#id6">Sage的长期目标</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">Sage入门教程</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tour.html"
+                                  title="next chapter">导览</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/introduction.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tour.html" title="导览"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Sage入门教程"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

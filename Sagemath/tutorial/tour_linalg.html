@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>线性代数 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="up" title="导览" href="tour.html" />
+    <link rel="next" title="多项式" href="tour_polynomial.html" />
+    <link rel="prev" title="基本的环" href="tour_rings.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tour_polynomial.html" title="多项式"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tour_rings.html" title="基本的环"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" accesskey="U">导览</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="section-linalg">
+<span id="id1"></span><h1>线性代数<a class="headerlink" href="#section-linalg" title="Permalink to this headline">¶</a></h1>
+<p>Sage提供线性代数的标准构造，如矩阵的特征多项式，梯形格式，迹，分解等。</p>
+<p>构造矩阵和矩阵的乘法都是很容易的，也是很自然的：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">([[</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">],[</span><span class="mf">3</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">1</span><span class="p">],[</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">]])</span>
+<span class="gp">sage: </span><span class="n">w</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="o">-</span><span class="mf">4</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">w</span><span class="o">*</span><span class="n">A</span>
+<span class="go">(0, 0, 0)</span>
+<span class="gp">sage: </span><span class="n">A</span><span class="o">*</span><span class="n">w</span>
+<span class="go">(-9, 1, -2)</span>
+<span class="gp">sage: </span><span class="n">kernel</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="go">Free module of degree 3 and rank 1 over Integer Ring</span>
+<span class="go">Echelon basis matrix:</span>
+<span class="go">[ 1  1 -4]</span>
+</pre></div>
+</div>
+<p>注意，在Sage中，矩阵 <img class="math" src="_images/math/019e9892786e493964e145e7c5cf7b700314e53b.png" alt="A"/> 的核（kernel）是“左核”（left kernel），
+即在向量空间中, <img class="math" src="_images/math/9ee4b825a2e36ae093ed7be5e4851ef453b34914.png" alt="w"/> 满足 <img class="math" src="_images/math/f68c85796e630d895f69bbf7de24a93ed7cdb15c.png" alt="wA=0"/>.</p>
+<p>解矩阵方程也很容易，使用方法 <tt class="docutils literal"><span class="pre">solve_right</span></tt>.
+执行 <tt class="docutils literal"><span class="pre">A.solve_right(Y)</span></tt> 返回一个矩阵（或向量）
+<img class="math" src="_images/math/6a47ca0fe7cb276abc022af6ac88ddae1a9d6894.png" alt="X"/> 满足 <img class="math" src="_images/math/d909781d970c2cffcd2ba8a6132bf0ef23877208.png" alt="AX=Y"/>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">Y</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mf">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4</span><span class="p">,</span> <span class="o">-</span><span class="mf">1</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">X</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">solve_right</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">X</span>
+<span class="go">(-2, 1, 0)</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">*</span> <span class="n">X</span>   <span class="c"># checking our answer...</span>
+<span class="go">(0, -4, -1)</span>
+</pre></div>
+</div>
+<p>反斜杠 <tt class="docutils literal"><span class="pre">\</span></tt> 可以代替 <tt class="docutils literal"><span class="pre">solve_right</span></tt>; 用
+<tt class="docutils literal"><span class="pre">A</span> <span class="pre">\</span> <span class="pre">Y</span></tt> 代替 <tt class="docutils literal"><span class="pre">A.solve_right(Y)</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span> \ <span class="n">Y</span>
+<span class="go">(-2, 1, 0)</span>
+</pre></div>
+</div>
+<p>如果无解，Sage返回一个错误：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span><span class="o">.</span><span class="n">solve_right</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">ValueError: matrix equation has no solutions</span>
+</pre></div>
+</div>
+<p>类似的，使用 <tt class="docutils literal"><span class="pre">A.solve_left(Y)</span></tt> 求解满足
+<img class="math" src="_images/math/637e987ded321eecfc025d82935702a036714dbe.png" alt="XA=Y"/> 的 <img class="math" src="_images/math/6a47ca0fe7cb276abc022af6ac88ddae1a9d6894.png" alt="X"/>.</p>
+<p>Sage还可以计算特征值和特征向量:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([[</span><span class="mf">0</span><span class="p">,</span> <span class="mf">4</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1</span><span class="p">,</span> <span class="mf">0</span><span class="p">]])</span>
+<span class="gp">sage: </span><span class="n">A</span><span class="o">.</span><span class="n">eigenvalues</span> <span class="p">()</span>
+<span class="go">[-2*I, 2*I]</span>
+<span class="gp">sage: </span><span class="n">B</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">3</span><span class="p">],</span> <span class="p">[</span><span class="mf">3</span><span class="p">,</span> <span class="mf">1</span><span class="p">]])</span>
+<span class="gp">sage: </span><span class="n">B</span><span class="o">.</span><span class="n">eigenvectors_left</span><span class="p">()</span>
+<span class="go">[(4, [</span>
+<span class="go">(1, 1)</span>
+<span class="go">], 1), (-2, [</span>
+<span class="go">(1, -1)</span>
+<span class="go">], 1)]</span>
+</pre></div>
+</div>
+<p>(<tt class="docutils literal"><span class="pre">eigenvectors_left</span></tt> 的输出是三元组的列表：(特征值，特征向量，
+重数)。) 在 <tt class="docutils literal"><span class="pre">QQ</span></tt> 或 <tt class="docutils literal"><span class="pre">RR</span></tt> 上的特征值和特征向量也可以用
+Maxima计算(参见: <a class="reference external" href="interfaces.html#section-maxima"><em>Maxima</em></a>)。</p>
+<p><a class="reference external" href="tour_rings.html#section-rings"><em>基本的环</em></a> 中提到，矩阵所在的环影响它的性质。
+下面 <tt class="docutils literal"><span class="pre">matrix</span></tt> 命令中的第一个参数告诉Sage这个矩阵是整数环(<tt class="docutils literal"><span class="pre">ZZ</span></tt>)上的，
+有理数环(<tt class="docutils literal"><span class="pre">QQ</span></tt>)上的，还是实数环(<tt class="docutils literal"><span class="pre">RR</span></tt>)上的:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">AZ</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="p">[[</span><span class="mf">2</span><span class="p">,</span><span class="mf">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">]])</span>
+<span class="gp">sage: </span><span class="n">AQ</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">[[</span><span class="mf">2</span><span class="p">,</span><span class="mf">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">]])</span>
+<span class="gp">sage: </span><span class="n">AR</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">RR</span><span class="p">,</span> <span class="p">[[</span><span class="mf">2</span><span class="p">,</span><span class="mf">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">]])</span>
+<span class="gp">sage: </span><span class="n">AZ</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+<span class="go">[2 0]</span>
+<span class="go">[0 1]</span>
+<span class="gp">sage: </span><span class="n">AQ</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+<span class="go">[1 0]</span>
+<span class="go">[0 1]</span>
+<span class="gp">sage: </span><span class="n">AR</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+<span class="go">[ 1.00000000000000 0.000000000000000]</span>
+<span class="go">[0.000000000000000  1.00000000000000]</span>
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h2>矩阵空间<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>我们建立由 <img class="math" src="_images/math/d278803d72fcc493afb1559174a483aa7f41d143.png" alt="3 \times 3"/> 的有理数矩阵构成的空间
+<img class="math" src="_images/math/a7074f35f7dc78ebda02541089860cb883cf5270.png" alt="\text{Mat}_{3\times 3}(\QQ)"/>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mf">3</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">M</span>
+<span class="go">Full MatrixSpace of 3 by 3 dense matrices over Rational Field</span>
+</pre></div>
+</div>
+<p>(如果要指定 <img class="math" src="_images/math/9f3f04882ae10c114ebe301c72ee68990d97c48e.png" alt="3 \times 4"/> 矩阵组成的空间，使用
+<tt class="docutils literal"><span class="pre">MatrixSpace(QQ,3,4)</span></tt>. 如果省略列数，则默认的等于行数，
+<tt class="docutils literal"><span class="pre">MatrixSpace(QQ,3)</span></tt> 等价于 <tt class="docutils literal"><span class="pre">MatrixSpace(QQ,3,3)</span></tt>.)
+Sage将矩阵空间的基保存为一个列表。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">B</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">basis</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">sage: </span><span class="n">B</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
+<span class="go">[0 1 0]</span>
+<span class="go">[0 0 0]</span>
+<span class="go">[0 0 0]</span>
+</pre></div>
+</div>
+<p>新建一个矩阵作为 <tt class="docutils literal"><span class="pre">M</span></tt> 的元素。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">M</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mf">9</span><span class="p">));</span> <span class="n">A</span>
+<span class="go">[0 1 2]</span>
+<span class="go">[3 4 5]</span>
+<span class="go">[6 7 8]</span>
+</pre></div>
+</div>
+<p>然后我们计算它约简后的阶梯矩阵形式以及核。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+<span class="go">[ 1  0 -1]</span>
+<span class="go">[ 0  1  2]</span>
+<span class="go">[ 0  0  0]</span>
+<span class="gp">sage: </span><span class="n">A</span><span class="o">.</span><span class="n">kernel</span><span class="p">()</span>
+<span class="go">Vector space of degree 3 and dimension 1 over Rational Field</span>
+<span class="go">Basis matrix:</span>
+<span class="go">[ 1 -2  1]</span>
+</pre></div>
+</div>
+<p>下面我们展示定义在有限域上的矩阵的运算：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mf">2</span><span class="p">),</span><span class="mf">4</span><span class="p">,</span><span class="mf">8</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">M</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span> <span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span> <span class="mf">1</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="mf">0</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span> <span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span><span class="mf">0</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span> <span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">0</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">A</span>
+<span class="go">[1 1 0 0 1 1 1 1]</span>
+<span class="go">[0 1 0 0 1 0 1 1]</span>
+<span class="go">[0 0 1 0 1 1 0 1]</span>
+<span class="go">[0 0 1 1 1 1 1 0]</span>
+<span class="gp">sage: </span><span class="n">rows</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">rows</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">A</span><span class="o">.</span><span class="n">columns</span><span class="p">()</span>
+<span class="go">[(1, 0, 0, 0), (1, 1, 0, 0), (0, 0, 1, 1), (0, 0, 0, 1),</span>
+<span class="go"> (1, 1, 1, 1), (1, 0, 1, 1), (1, 1, 0, 1), (1, 1, 1, 0)]</span>
+<span class="gp">sage: </span><span class="n">rows</span>
+<span class="go">[(1, 1, 0, 0, 1, 1, 1, 1), (0, 1, 0, 0, 1, 0, 1, 1),</span>
+<span class="go"> (0, 0, 1, 0, 1, 1, 0, 1), (0, 0, 1, 1, 1, 1, 1, 0)]</span>
+</pre></div>
+</div>
+<p>我们构造一个由上面的行张成的 <img class="math" src="_images/math/f6837415ad1fc9748278919f47f32f9649bd7117.png" alt="\GF{2}"/> 的子空间。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">V</span> <span class="o">=</span> <span class="n">VectorSpace</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mf">2</span><span class="p">),</span><span class="mf">8</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">S</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">subspace</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">S</span>
+<span class="go">Vector space of degree 8 and dimension 4 over Finite Field of size 2</span>
+<span class="go">Basis matrix:</span>
+<span class="go">[1 0 0 0 0 1 0 0]</span>
+<span class="go">[0 1 0 0 1 0 1 1]</span>
+<span class="go">[0 0 1 0 1 1 0 1]</span>
+<span class="go">[0 0 0 1 0 0 1 1]</span>
+<span class="gp">sage: </span><span class="n">A</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+<span class="go">[1 0 0 0 0 1 0 0]</span>
+<span class="go">[0 1 0 0 1 0 1 1]</span>
+<span class="go">[0 0 1 0 1 1 0 1]</span>
+<span class="go">[0 0 0 1 0 0 1 1]</span>
+</pre></div>
+</div>
+<p><img class="math" src="_images/math/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png" alt="S"/> 的基是由 <img class="math" src="_images/math/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png" alt="S"/> 的行梯形矩阵形式中的非零元的行得到的。</p>
+</div>
+<div class="section" id="id3">
+<h2>稀疏线性代数<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Sage支持在PID上的稀疏线性代数。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mf">100</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">random_element</span><span class="p">(</span><span class="n">density</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Sage中的多模算法对于方阵效果比较好（但是对于非方阵效果不怎么好）：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mf">50</span><span class="p">,</span> <span class="mf">100</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">random_element</span><span class="p">(</span><span class="n">density</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mf">2</span><span class="p">),</span> <span class="mf">20</span><span class="p">,</span> <span class="mf">40</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">echelon_form</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>注意，Python是区分大小写的：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mf">10</span><span class="p">,</span><span class="mf">10</span><span class="p">,</span> <span class="n">Sparse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">TypeError: MatrixSpace() got an unexpected keyword argument &#39;Sparse&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">线性代数</a><ul>
+<li><a class="reference external" href="#id2">矩阵空间</a></li>
+<li><a class="reference external" href="#id3">稀疏线性代数</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tour_rings.html"
+                                  title="previous chapter">基本的环</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tour_polynomial.html"
+                                  title="next chapter">多项式</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/tour_linalg.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tour_polynomial.html" title="多项式"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tour_rings.html" title="基本的环"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+
+          <li><a href="tour.html" >导览</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

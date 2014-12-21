@@ -1,0 +1,55 @@
+%页面设置
+\documentclass[a4paper]{article}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{titlesec} %标题位置，有center，raggedleft，raggedright三个选项
+%本地化
+\usepackage{multicol}
+\usepackage{fontspec}
+\setmainfont{SimSun}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+%数学
+\usepackage{sagetex}
+\usepackage{url}
+%文档
+\begin{document}
+\title{数学软件Sagemath中变量的基本应用}
+\author{闫鹏}
+\date{}
+\maketitle
+\noindent
+\section{摘要}
+变量是数学中的基本概念，在初等数学里，变量是一个用来表示值的符号（一般为拉丁字母），该值可以是随意的，也可能是未指定或未定的。在代数运算时，将变量当作明确的数值代入运算中。变量这个概念在微积分中也很重要。一般，一个函数 y = f(x) 会包含两个变量，参数 x 和值 y。这也是“变量”这个名称的由来，当参数“变动”时，值也会相对应地“变动”。另外在更深的数学中，变量也可以只代表某个数据，一般为数字，但也可能为向量、矩阵或函数等数学物件。%\cite{变量} \\
+
+十六、十七世纪，欧洲封建社会开始解体，代之而起的是资本主义社会。由于资本主义工场手工业的繁荣和向机器生产的过渡，以及航海、军事等的发展，促使技术科学和数学急速向前发展。原来的初等数学已经不能满足实践的需要，在数学研究中自然而然地就引入了变量与函数的概念，从此数学进入了变量数学时期。它以笛卡儿的解析几何的建立为起点(1637年)，接着是微积分的兴起。%\cite{Sage的发展博客} \\
+sage的特点
+\begin{enumerate}
+\item 软件合集，Sage（用Python和Cython实现的）将所有专用的数学软件集成到一个通用的接口,包括有C 、C++、Fortran和Python编写的大量现成的大型开源数学软件可用,比如Maxima，SymPy，GiNaC，分开学习这些软件将花费大量时间和精力，通过Sagemath提供的统一命令，用户只需要了解Python，即可使用这些软件。
+\item 云计算，sage可以运行于本地客户端，利用终端或者浏览器界面使用，也可以在线使用（ Sage的在线版本，地址是 sagenb.org 或 https://cloud.sagemath.com），避免下载过G的文件，也有利于移动使用，除了访问官方服务器，用户自己也可以架设本地服务器，供局域网内使用，加快访问和计算速度。
+\item 开源软件，其代码开放，提供可供检查的代码增强其权威性，代码也可由用户创建和改造，满足不同用户对于性能和功能的需求。 
+\end{enumerate}
+\begin{multicols}{2}
+sage中定义一个变量可以有两种方式:
+第一种是通过赋值的方法定义一个变量，该变量的值是指定的，比如，等式的左边是符号变量的名称，右边是数字或表达式，其值返回给符号变量。Python动态类型的语言，符号变量可以多次赋值，并可以傅以不同类型的值，比如，在sage中可以通过type（）得到符号变量的类型，这些类型有。。。。需注意sage的符号变量区分大小写，每个符号变量仅存在于当前的工作表单（引申），如果当前的工作表单被关闭后重开，则应该再次执行赋值。
+\begin{sagecommandline}
+sage: a1=2
+\end{sagecommandline}
+\begin{sagecommandline}
+sage: a2=3
+sage: sum=a1+a2
+sage: sum
+\end{sagecommandline}
+也可以把多个语句放在一行，语句之间使用分号隔开。
+\begin{sageexample}
+sage: a1=2;a2=3;sum1=a1+a2;sum2=a1-a2
+sage: sum1;sum2
+\end{sageexample}
+
+更复杂的语句包含不同操作运算符，如下例子
+\begin{sageexample}
+sage: a1=2
+sage: a2=2^2+3*4+(a1>5)
+sage: a2 
+\end{sageexample}
+\end{multicols}
+\end{document}

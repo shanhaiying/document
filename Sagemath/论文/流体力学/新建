@@ -1,0 +1,85 @@
+【原创】Matlab在流体力学中的应用实例(流线绘制)
+http://www.matlabsky.com/archiver/tid-2603.html
+我们知道流函数也满足拉普拉斯方程，边界条件可以由纽曼条件和狄立克莱条件组成，与边界正交的速度分量确定纽曼条件，库塔条件确定狄立克莱条件，下面将讨论将已知的势函数或流函数叠加在一起构成流线簇二维空间流线簇的方法：
+
+1、点源(汇)：
+势函数phim=m*ln(rm)/(2*pi)
+流函数Psim=m*thetam/(2*pi)
+其中rm^2=(x-xm)^2+(y-ym)^2，
+    thetam=atan2(y-ym,x-xm) 
+       (xm,ym)是点源(汇)的坐标位置，m为源的强度 
+
+2、偶极子：
+势函数phik=K*cos(thetak)/rk
+流函数psik=-K*sin(thetak)/rk
+其中rk^2=(x-xk)^2+(y-yk)^2
+       thetak=atan2(y-yk,x-xk) 
+       (xk,yk)是点源(汇)的坐标位置,K为偶极子的强度 
+
+3、点涡：
+势函数phigamma=gamma*thetagamma/(2*pi)
+流函数psigamma=-gamma*ln(rgamma)/(2*pi)]
+其中rgamma^2=(x-xgamma)^2+(y-ygamma)^2
+       thetagamma=atan2(y-ygamma,x-xgamma) 
+       (xgamma,ygamma)是点源(汇)的坐标位置，gamma为源的强度 
+
+4、均匀场：
+势函数phiu=Ux
+流函数psiu=Uyfunction =simpyfuild(ftype,strense,x0,y0)
+%by dynamic
+%see also http://www.matlabsky.com
+%all rights preserved by www.matlabsky.com
+%2007-12-05
+%
+%参数ftype为流场类型,strense为对应流场的强度,x0,y0是原坐标
+%另外没有的参数，比如uniform中的x0,y0，可以填写任意值
+%需要多个流场叠加的,可以如下进行
+%=simpyfuild('uniform',10,0,0);
+%=simpyfuild('doublet',5,0,0);
+%=simpyfuild('source',2,0,0);
+%close all
+%contour(x,y,z1+z2+z3,-100:100)等等
+%但是为了加快速度可将figure('name',ftype,'numbertitle','off')以下的所有语句删除
+
+close all
+nx=1000;xmin=-3.5;xmax=3.5;
+ny=1000;ymin=-3.5;ymax=3.5;
+=meshgrid(linspace(xmin,xmax,nx),linspace(ymin,ymax,ny));
+radius=inline('sqrt((x-x0).^2+(y-y0).^2)','x','y','x0','y0');
+r=radius(x,y,x0,y0);
+theta=atan2(y-y0,x-x0);
+switch ftype
+    case 'uniform' %均匀来流
+        streamfun=strense*y;
+    case 'source' %源汇
+        streamfun=strense*theta/(2*pi);
+    case 'doublet' %偶极子
+        streamfun=-strense*sin(theta)./r;
+    case 'vortex' %点涡
+        streamfun=-strense*log(r)/(2*pi);
+end
+figure('name',ftype,'numbertitle','off')
+levmax=max(max(streamfun));
+levmin=min(min(streamfun));
+lev=linspace(levmin,levmax,100);
+contour(x,y,streamfun,lev)
+title(['the figure of ' ftype]);
+axis equal
+xlabel('x')
+ylabel('y')下面我们绘制一个绕圆柱流动的流线。该流线可以使用均匀流、偶极子和点涡组成，我们选择偶极子和点涡的坐标为(0,-1)，每个量的强度为
+偶极子：K=5.0    (xk,yk)=(0,-1)
+点涡：Gamma=8*pi    (xgamma,ygamma)=(0,-1)
+均匀场：U=5.0
+使用下面的命令绘制图像=simpyfuild('doublet',5,0,-1);
+=simpyfuild('vortex',8*pi,0,-1);
+=simpyfuild('uniform',5,0,0);%此时的x0,y0赋任意值
+contour(x,y,z1+z2+z3,-100:100)
+
+其实就是，学会使用contour语句，绘制两个变量的的隐函数的图像，也就是，两个变量之间没法直接表达出来的
+
+比如'x.^2.*sin(y)-y'，要绘制它的图像，我们知道使用ezplot
+
+另外我们还可以使用如下fun=inline('x.^2.*sin(y)-y','x','y');
+=meshgrid(-100:100);
+zz=feval(fun,xx,yy);
+contour(xx,yy,zz,)

@@ -1,0 +1,890 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>交互命令行 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="next" title="接口" href="interfaces.html" />
+    <link rel="prev" title="Some more advanced mathematics" href="tour_advanced.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="interfaces.html" title="接口"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tour_advanced.html" title="Some more advanced mathematics"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="chapter-interactive-shell">
+<span id="id1"></span><h1>交互命令行<a class="headerlink" href="#chapter-interactive-shell" title="Permalink to this headline">¶</a></h1>
+<p>本教程中，假定你是用 <tt class="docutils literal"><span class="pre">sage</span></tt> 命令打开Sage解释器的。
+这将启动一个定制后的IPython shell，并导入很多函数和类，
+可以从命令行随时调用它们。通过修改 <tt class="docutils literal"><span class="pre">$SAGE_ROOT/ipythonrc</span></tt>
+文件可以定制更多的内容。启动Sage后，你看到的输出和下面的类似：</p>
+<div class="highlight-python"><pre>----------------------------------------------------------------------
+| SAGE Version 3.1.1, Release Date: 2008-05-24                       |
+| Type notebook() for the GUI, and license() for information.        |
+----------------------------------------------------------------------
+
+
+sage:</pre>
+</div>
+<p>要退出Sage，按Ctrl+D，或者输入
+<tt class="docutils literal"><span class="pre">quit</span></tt> 或 <tt class="docutils literal"><span class="pre">exit</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">quit</span>
+<span class="go">Exiting SAGE (CPU time 0m0.00s, Wall time 0m0.89s)</span>
+</pre></div>
+</div>
+<p>这里wall time是把表挂到墙上开始计算的时间。这是相关的，
+因为CPU时间没有跟踪子进程如GAP或Singular所用的时间。</p>
+<p>(可以从终端用 <tt class="docutils literal"><span class="pre">kill</span> <span class="pre">-9</span></tt> 结束一个Sage进程，
+但是Sage不会结束子进程，如Maple过程，
+或清理 <tt class="docutils literal"><span class="pre">$HOME/.sage/tmp</span></tt> 中的临时文件。)</p>
+<div class="section" id="sage-session">
+<h2>你的Sage会话(session)<a class="headerlink" href="#sage-session" title="Permalink to this headline">¶</a></h2>
+<p>会话(session)是你从启动Sage到退出的输入、输出序列。
+Sage通过IPython记录所有的Sage输入。
+事实上，如果你用的是交互命令行（而不是notebook界面），
+那么任何时候你都可以输出 <tt class="docutils literal"><span class="pre">%hist</span></tt> 来得到所有输入行的列表。
+你可以输入 <tt class="docutils literal"><span class="pre">？</span></tt> 查看更多关于IPython的信息。如，
+&#8220;IPython offers numbered prompts ... with input and output caching. All input is saved and can be retrieved as variables (besides the usual arrow key recall). The following GLOBAL variables always exist (so don&#8217;t overwrite them!)&#8221;:</p>
+<div class="highlight-python"><pre>_:  previous input (interactive shell and notebook)
+__: next previous input (interactive shell only)
+_oh : list of all inputs (interactive shell only)</pre>
+</div>
+<p>这是一个例子：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">factor</span><span class="p">(</span><span class="mf">100</span><span class="p">)</span>
+<span class="go"> _1 = 2^2 * 5^2</span>
+<span class="gp">sage: </span><span class="n">kronecker_symbol</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span><span class="mf">5</span><span class="p">)</span>
+<span class="go"> _2 = -1</span>
+<span class="gp">sage: </span><span class="o">%</span><span class="n">hist</span>   <span class="c">#This only works from the interactive shell, not the notebook.</span>
+<span class="go">1: factor(100)</span>
+<span class="go">2: kronecker_symbol(3,5)</span>
+<span class="go">3: %hist</span>
+<span class="gp">sage: </span><span class="n">_oh</span>
+<span class="go"> _4 = {1: 2^2 * 5^2, 2: -1}</span>
+<span class="gp">sage: </span><span class="n">_i1</span>
+<span class="go"> _5 = &#39;factor(ZZ(100))\n&#39;</span>
+<span class="gp">sage: </span><span class="nb">eval</span><span class="p">(</span><span class="n">_i1</span><span class="p">)</span>
+<span class="go"> _6 = 2^2 * 5^2</span>
+<span class="gp">sage: </span><span class="o">%</span><span class="n">hist</span>
+<span class="go">1: factor(100)</span>
+<span class="go">2: kronecker_symbol(3,5)</span>
+<span class="go">3: %hist</span>
+<span class="go">4: _oh</span>
+<span class="go">5: _i1</span>
+<span class="go">6: eval(_i1)</span>
+<span class="go">7: %hist</span>
+</pre></div>
+</div>
+<p>在本教程和其他Sage文档中，我们省略了输出结果的编号。</p>
+<p>你还可以将会话中的输入列表保存到一个宏中。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="p">,</span><span class="mf">5</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">ModularSymbols</span><span class="p">(</span><span class="mf">37</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="o">%</span><span class="n">hist</span>
+<span class="go">1: E = EllipticCurve([1,2,3,4,5])</span>
+<span class="go">2: M = ModularSymbols(37)</span>
+<span class="go">3: %hist</span>
+<span class="gp">sage: </span><span class="o">%</span><span class="n">macro</span> <span class="n">em</span> <span class="mf">1</span><span class="o">-</span><span class="mf">2</span>
+<span class="go">Macro `em` created. To execute, type its name (without quotes).</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">E</span>
+<span class="go">Elliptic Curve defined by y^2 + x*y + 3*y = x^3 + 2*x^2 + 4*x + 5 over</span>
+<span class="go">Rational Field</span>
+<span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="mf">5</span>
+<span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="gp">sage: </span><span class="n">em</span>
+<span class="go">Executing Macro...</span>
+<span class="gp">sage: </span><span class="n">E</span>
+<span class="go">Elliptic Curve defined by y^2 + x*y + 3*y = x^3 + 2*x^2 + 4*x + 5 over</span>
+<span class="go">Rational Field</span>
+</pre></div>
+</div>
+<p>当使用交互命令行时，任何UNIX的shell命令都可以从Sage中执行，
+但是命令前面要加上感叹号 <tt class="docutils literal"><span class="pre">!</span></tt>. 例如，</p>
+<div class="highlight-python"><pre>sage: !ls
+auto  example.sage glossary.tex  t  tmp  tut.log  tut.tex</pre>
+</div>
+<p>返回当前目录的文件列表。</p>
+<p><tt class="docutils literal"><span class="pre">PATH</span></tt> 变量中有Sage可执行文件的目录信息，所以执行
+<tt class="docutils literal"><span class="pre">gp</span></tt>, <tt class="docutils literal"><span class="pre">gap</span></tt>, <tt class="docutils literal"><span class="pre">singular</span></tt>, <tt class="docutils literal"><span class="pre">maxima</span></tt>, 等，
+可以开始运行这些软件包含在Sage中的那个版本。</p>
+<div class="highlight-python"><pre>sage: !gp
+Reading GPRC: /etc/gprc ...Done.
+
+                           GP/PARI CALCULATOR Version 2.2.11 (alpha)
+                  i686 running linux (ix86/GMP-4.1.4 kernel) 32-bit version
+...
+sage: !singular
+                     SINGULAR                             /  Development
+ A Computer Algebra System for Polynomial Computations   /   version 3-0-1
+                                                       0&lt;
+     by: G.-M. Greuel, G. Pfister, H. Schoenemann        \   October 2005
+FB Mathematik der Universitaet, D-67653 Kaiserslautern    \</pre>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>记录输入和输出<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>记录(logging)你的Sage会话与保存(saving)它(参见 <a class="reference internal" href="#section-save"><em>保存和读取完整的会话</em></a>)
+不是一个意思。要记录输入（记录输出是可选的），使用 <tt class="docutils literal"><span class="pre">logstart</span></tt>
+命令。输入 <tt class="docutils literal"><span class="pre">logstart?</span></tt> 查看更多信息。可以用这个命令记录所有的输入，
+输出，甚至在将来的会话中重放这些输入（简单的重新载入记录文件即可）。</p>
+<div class="highlight-python"><pre>was@form:~$ sage
+----------------------------------------------------------------------
+| SAGE Version 3.0.2, Release Date: 2008-05-24                       |
+| Type notebook() for the GUI, and license() for information.        |
+----------------------------------------------------------------------
+
+sage: logstart setup
+Activating auto-logging. Current session state plus future input saved.
+Filename       : setup
+Mode           : backup
+Output logging : False
+Timestamping   : False
+State          : active
+sage: E = EllipticCurve([1,2,3,4,5]).minimal_model()
+sage: F = QQ^3
+sage: x,y = QQ['x,y'].gens()
+sage: G = E.gens()
+sage:
+Exiting SAGE (CPU time 0m0.61s, Wall time 0m50.39s).
+was@form:~$ sage
+----------------------------------------------------------------------
+| SAGE Version 3.0.2, Release Date: 2008-05-24                       |
+| Type notebook() for the GUI, and license() for information.        |
+----------------------------------------------------------------------
+
+sage: load "setup"
+Loading log file &lt;setup&gt; one line at a time...
+Finished replaying log file &lt;setup&gt;
+sage: E
+Elliptic Curve defined by y^2 + x*y  = x^3 - x^2 + 4*x + 3 over Rational
+Field
+sage: x*y
+x*y
+sage: G
+[(2 : 3 : 1)]</pre>
+</div>
+<p>如果你是在Linux KDE中使用 <tt class="docutils literal"><span class="pre">konsole</span></tt> 终端，那么你可以这样保存会话：
+在 <tt class="docutils literal"><span class="pre">konsole</span></tt> 中启动Sage后，选择 “settings”，再选“history...”，
+再选“set unlimited”。当你准备要保存会话时，选择“edit”再选
+“save histor as...”并输入文件名把会话保存到你的电脑上。
+保存后，你可以在编辑器中重新载入并打印。</p>
+</div>
+<div class="section" id="id3">
+<h2>粘贴忽略提示符<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>假设你在读一个Sage或Python的会话，你想把它们复制到Sage中。
+但是提示符 <tt class="docutils literal"><span class="pre">&gt;&gt;&gt;`</span></tt> 或 <tt class="docutils literal"><span class="pre">sage:</span></tt> 很讨厌。
+实际上你可以复制并粘贴一个例子到Sage中，包含提示符也没关系。
+或者说，Sage的分词器默认的跳过 <tt class="docutils literal"><span class="pre">&gt;&gt;&gt;`</span></tt> 或 <tt class="docutils literal"><span class="pre">sage:</span></tt> 提示符。例如，</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="mf">2</span><span class="o">^</span><span class="mf">10</span>
+<span class="go">1024</span>
+<span class="gp">sage: </span><span class="o">sage:</span> <span class="o">sage:</span> <span class="mf">2</span><span class="o">^</span><span class="mf">10</span>
+<span class="go">1024</span>
+<span class="gp">sage: </span><span class="o">sage:</span> <span class="mf">2</span><span class="o">^</span><span class="mf">10</span>
+<span class="go">1024</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>查看命令执行的时间<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>如果将 <tt class="docutils literal"><span class="pre">%time</span></tt> 放在输入行的开始，
+那么命令执行的时间会显示在命令的输出之后。
+例如，我们可以比较几种不同求幂运算的时间。
+下面的时间在不同的电脑和不同的Sage版本中可能很不一样。
+首先看原始Python的计算时间：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="o">%</span><span class="n">time</span> <span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1938</span><span class="p">)</span><span class="o">^</span><span class="nb">int</span><span class="p">(</span><span class="mf">99484</span><span class="p">)</span>
+<span class="go">CPU times: user 0.66 s, sys: 0.00 s, total: 0.66 s</span>
+<span class="go">Wall time: 0.66</span>
+</pre></div>
+</div>
+<p>这表示总共用了0.66秒，“Wall time”即你墙上的时间也是0.66秒。
+如果你的电脑还在运行很多其他的程序，那么wall time可能比CPU时间多很多。</p>
+<p>下面我们查看用Sage的整数类型计算指数的时间，它是用Cython调用GMP库实现的。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="o">%</span><span class="n">time</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">1938</span><span class="o">^</span><span class="mf">99484</span>
+<span class="go">CPU times: user 0.04 s, sys: 0.00 s, total: 0.04 s</span>
+<span class="go">Wall time: 0.04</span>
+</pre></div>
+</div>
+<p>使用PARI的C语言接口：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="o">%</span><span class="n">time</span> <span class="n">a</span> <span class="o">=</span> <span class="n">pari</span><span class="p">(</span><span class="mf">1938</span><span class="p">)</span><span class="o">^</span><span class="n">pari</span><span class="p">(</span><span class="mf">99484</span><span class="p">)</span>
+<span class="go">CPU times: user 0.05 s, sys: 0.00 s, total: 0.05 s</span>
+<span class="go">Wall time: 0.05</span>
+</pre></div>
+</div>
+<p>GMP稍微好一点（跟预期的一样，因为Sage内置的PARI调用了GMP的整数运算）。</p>
+<p>还可以象下面这样使用 <tt class="docutils literal"><span class="pre">cputime</span></tt> 命令来查看程序块的运行时间。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">t</span> <span class="o">=</span> <span class="n">cputime</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1938</span><span class="p">)</span><span class="o">^</span><span class="nb">int</span><span class="p">(</span><span class="mf">99484</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">b</span> <span class="o">=</span> <span class="mf">1938</span><span class="o">^</span><span class="mf">99484</span>
+<span class="gp">sage: </span><span class="n">c</span> <span class="o">=</span> <span class="n">pari</span><span class="p">(</span><span class="mf">1938</span><span class="p">)</span><span class="o">^</span><span class="n">pari</span><span class="p">(</span><span class="mf">99484</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">cputime</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>                       <span class="c"># somewhat random output</span>
+<span class="go">0.64</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>sage: cputime?
+...
+    Return the time in CPU second since SAGE started, or with optional
+    argument t, return the time since time t.
+    INPUT:
+        t -- (optional) float, time in CPU seconds
+    OUTPUT:
+        float -- time in CPU seconds</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">walltime</span></tt> 命令和 <tt class="docutils literal"><span class="pre">cputime</span></tt> 命令类似，只是它计算的是wall time.</p>
+<p>我们还能计算Sage中包含的其他计算机代数系统的运算能力。
+下面的例子中，每个系统我们都先执行一个无关紧要的命令来启动相应程序。
+最相关的时间是wall time. 然而，如果wall time和CPU时间差的较多时，
+说明有可能存在性能方面的差异。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">time</span> <span class="mf">1938</span><span class="o">^</span><span class="mf">99484</span><span class="p">;</span>
+<span class="go">CPU times: user 0.01 s, sys: 0.00 s, total: 0.01 s</span>
+<span class="go">Wall time: 0.01</span>
+<span class="gp">sage: </span><span class="n">gp</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">sage: </span><span class="n">time</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gp</span><span class="p">(</span><span class="s">&#39;1938^99484&#39;</span><span class="p">)</span>
+<span class="go">CPU times: user 0.00 s, sys: 0.00 s, total: 0.00 s</span>
+<span class="go">Wall time: 0.04</span>
+<span class="gp">sage: </span><span class="n">maxima</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">sage: </span><span class="n">time</span> <span class="n">g</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">(</span><span class="s">&#39;1938^99484&#39;</span><span class="p">)</span>
+<span class="go">CPU times: user 0.00 s, sys: 0.00 s, total: 0.00 s</span>
+<span class="go">Wall time: 0.30</span>
+<span class="gp">sage: </span><span class="n">kash</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">sage: </span><span class="n">time</span> <span class="n">g</span> <span class="o">=</span> <span class="n">kash</span><span class="p">(</span><span class="s">&#39;1938^99484&#39;</span><span class="p">)</span>
+<span class="go">CPU times: user 0.00 s, sys: 0.00 s, total: 0.00 s</span>
+<span class="go">Wall time: 0.04</span>
+<span class="gp">sage: </span><span class="n">mathematica</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="go">        0</span>
+<span class="gp">sage: </span><span class="n">time</span> <span class="n">g</span> <span class="o">=</span> <span class="n">mathematica</span><span class="p">(</span><span class="s">&#39;1938^99484&#39;</span><span class="p">)</span>
+<span class="go">CPU times: user 0.00 s, sys: 0.00 s, total: 0.00 s</span>
+<span class="go">Wall time: 0.03</span>
+<span class="gp">sage: </span><span class="n">maple</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">sage: </span><span class="n">time</span> <span class="n">g</span> <span class="o">=</span> <span class="n">maple</span><span class="p">(</span><span class="s">&#39;1938^99484&#39;</span><span class="p">)</span>
+<span class="go">CPU times: user 0.00 s, sys: 0.00 s, total: 0.00 s</span>
+<span class="go">Wall time: 0.11</span>
+<span class="gp">sage: </span><span class="n">gap</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">sage: </span><span class="n">time</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gap</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s">&#39;1938^99484;;&#39;</span><span class="p">)</span>
+<span class="go">CPU times: user 0.00 s, sys: 0.00 s, total: 0.00 s</span>
+<span class="go">Wall time: 1.02</span>
+</pre></div>
+</div>
+<p>这个测试中，GAP和Maxima最慢（使用 <tt class="docutils literal"><span class="pre">sage.math.washington.edu</span></tt> 这台机子）。
+由于pexpect接口的开销，将这些与Sage进行比较可能是不公平的。</p>
+</div>
+<div class="section" id="id5">
+<h2>错误和异常<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>当出错时，你通常会看到Python的“异常”（exception）。
+Python甚至试图指出什么原因导致异常。你经常见到异常的名字，
+如 <tt class="docutils literal"><span class="pre">NameError</span></tt> 或 <tt class="docutils literal"><span class="pre">ValueError</span></tt> （参见Python参考手册
+<a class="reference internal" href="#py">[Py]</a> 中的完整异常列表）。例如，</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="mf">3</span><span class="n">_2</span>
+<span class="go">------------------------------------------------------------</span>
+<span class="go">   File &quot;&lt;console&gt;&quot;, line 1</span>
+<span class="go">     ZZ(3)_2</span>
+<span class="go">           ^</span>
+<span class="go">SyntaxError: invalid syntax</span>
+
+<span class="gp">sage: </span><span class="n">EllipticCurve</span><span class="p">([</span><span class="mf">0</span><span class="p">,</span><span class="n">infinity</span><span class="p">])</span>
+<span class="go">------------------------------------------------------------</span>
+<span class="gp">...</span>
+<span class="go">TypeError: Unable to coerce Infinity (&lt;class &#39;sage...Infinity&#39;&gt;) to Rational</span>
+</pre></div>
+</div>
+<p>有时候交互的debugger对于除错非常有用。
+你可以使用 <tt class="docutils literal"><span class="pre">%pdb</span></tt> 打开或关闭它（默认是关闭的）。
+如果引发了一个异常，并且debugger是打开的，会出现提示符 <tt class="docutils literal"><span class="pre">ipdb&gt;</span></tt>.
+在debugger中，你可以输出任何局部变量的状态，上下移动执行的栈。例如，</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="o">%</span><span class="n">pdb</span>
+<span class="go">Automatic pdb calling has been turned ON</span>
+<span class="gp">sage: </span><span class="n">EllipticCurve</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="n">infinity</span><span class="p">])</span>
+<span class="go">---------------------------------------------------------------------------</span>
+<span class="go">&lt;type &#39;exceptions.TypeError&#39;&gt;             Traceback (most recent call last)</span>
+<span class="gp">...</span>
+
+<span class="go">ipdb&gt;</span>
+</pre></div>
+</div>
+<p>在提示符 <tt class="docutils literal"><span class="pre">ipdb&gt;</span></tt> 中输入 <tt class="docutils literal"><span class="pre">?</span></tt> 可以得到debugger的命令列表：</p>
+<div class="highlight-python"><pre>ipdb&gt; ?
+
+Documented commands (type help &lt;topic&gt;):
+========================================
+EOF    break  commands   debug    h       l     pdef   quit    tbreak
+a      bt     condition  disable  help    list  pdoc   r       u
+alias  c      cont       down     ignore  n     pinfo  return  unalias
+args   cl     continue   enable   j       next  pp     s       up
+b      clear  d          exit     jump    p     q      step    w
+whatis where
+
+Miscellaneous help topics:
+==========================
+exec  pdb
+
+Undocumented commands:
+======================
+retval  rv</pre>
+</div>
+<p>按Ctrl+D或输入 <tt class="docutils literal"><span class="pre">quit</span></tt> 返回Sage.</p>
+</div>
+<div class="section" id="tab">
+<span id="section-tabcompletion"></span><h2>反向查找和Tab补全<a class="headerlink" href="#tab" title="Permalink to this headline">¶</a></h2>
+<p>首先新建一个三维向量空间 <img class="math" src="_images/math/ea0ae4a2520f18a9a18589c9f5a39e4da25913d8.png" alt="V=\QQ^3"/>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">V</span> <span class="o">=</span> <span class="n">VectorSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mf">3</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">V</span>
+<span class="go">Vector space of dimension 3 over Rational Field</span>
+</pre></div>
+</div>
+<p>也可以用下面的简洁形式：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">V</span> <span class="o">=</span> <span class="n">QQ</span><span class="o">^</span><span class="mf">3</span>
+</pre></div>
+</div>
+<p>输入一个命令的开头，再按 <tt class="docutils literal"><span class="pre">Ctrl-p</span></tt> （或者按上箭头），
+就可以回溯输入过的所有以这几个字母开头的命令行。
+就算是你退出了Sage再重新启动，也能这样用。这一功能用到了 <tt class="docutils literal"><span class="pre">readline</span></tt>
+包，基本上所有流行的Linux发行版中都能用。</p>
+<p>要列出来 <img class="math" src="_images/math/12d58aa29201da09d8e620f8698e3a37547f6b4a.png" alt="V"/> 的所有成员函数是很容易的，只要用tab键。
+输入 <tt class="docutils literal"><span class="pre">V.</span></tt> 再按键盘上的 <tt class="docutils literal"><span class="pre">[tab</span> <span class="pre">key]</span></tt> 键。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">V</span><span class="o">.</span><span class="p">[</span><span class="n">tab</span> <span class="n">key</span><span class="p">]</span>
+<span class="go">V._VectorSpace_generic__base_field</span>
+<span class="gp">...</span>
+<span class="go">V.ambient_space</span>
+<span class="go">V.base_field</span>
+<span class="go">V.base_ring</span>
+<span class="go">V.basis</span>
+<span class="go">V.coordinates</span>
+<span class="gp">...</span>
+<span class="go">V.zero_vector</span>
+</pre></div>
+</div>
+<p>如果你输入一个命令的开头几个字母，再按 <tt class="docutils literal"><span class="pre">[tab</span> <span class="pre">key]</span></tt>,
+可以得到所有以这些字母开头的命令的列表。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">V</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">tab</span> <span class="n">key</span><span class="p">]</span>
+<span class="go">V.is_ambient  V.is_dense    V.is_full     V.is_sparse</span>
+</pre></div>
+</div>
+<p>如果要查一个具体的函数，如coordinates函数，输入
+<tt class="docutils literal"><span class="pre">V.coordinates?</span></tt> 查看帮助，或者输入 <tt class="docutils literal"><span class="pre">V.coordinates??</span></tt>
+查看源码。下一节还会讲。</p>
+</div>
+<div class="section" id="id7">
+<h2>集成帮助系统<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>Sage拥有集成帮助系统。输入函数名加一个问号“?”，可以查看函数相关的文档。</p>
+<div class="highlight-python"><pre>sage: V = QQ^3
+sage: V.coordinates?
+Type:           instancemethod
+Base Class:     &lt;type 'instancemethod'&gt;
+String Form:    &lt;bound method FreeModule_ambient_field.coordinates of Vector
+space of dimension 3 over Rational Field&gt;
+Namespace:      Interactive
+File:           /home/was/s/local/lib/python2.4/site-packages/sage/modules/f
+ree_module.py
+Definition:     V.coordinates(self, v)
+Docstring:
+    Write v in terms of the basis for self.
+
+    Returns a list c such that if B is the basis for self, then
+
+            sum c_i B_i = v.
+
+    If v is not in self, raises an ArithmeticError exception.
+
+    EXAMPLES:
+        sage: M = FreeModule(IntegerRing(), 2); M0,M1=M.gens()
+        sage: W = M.submodule([M0 + M1, M0 - 2*M1])
+        sage: W.coordinates(2*M0-M1)
+        [2, -1]</pre>
+</div>
+<p>如上所示，输出结果告诉你对象的类型，在哪个文件中被定义，
+以及一些有用的描述和例子，例子都可以复制到当前的会话中执行。
+几乎所有这些例子都经过正规的自动测试，以保证其能够正常运行。</p>
+<p>Sage的另外一个非常符合开源精神的功能是，如果 <tt class="docutils literal"><span class="pre">f</span></tt>
+是一个Python函数，那么输入 <tt class="docutils literal"><span class="pre">f??</span></tt> 就会显示定义 <tt class="docutils literal"><span class="pre">f</span></tt> 的源码。
+如：</p>
+<div class="highlight-python"><pre>sage: V = QQ^3
+sage: V.coordinates??
+Type:           instancemethod
+...
+Source:
+def coordinates(self, v):
+        """
+        Write $v$ in terms of the basis for self.
+        ...
+        """
+        return self.coordinate_vector(v).list()</pre>
+</div>
+<p>这就告诉我们 <tt class="docutils literal"><span class="pre">coordinates</span></tt> 所做的工作就是调用
+<tt class="docutils literal"><span class="pre">coordinate_vector</span></tt> 函数并将结果输出到一个列表中。
+<tt class="docutils literal"><span class="pre">coordinate_vector</span></tt> 做了什么？</p>
+<div class="highlight-python"><pre>sage: V = QQ^3
+sage: V.coordinate_vector??
+...
+def coordinate_vector(self, v):
+        ...
+        return self.ambient_vector_space()(v)</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">coordinate_vector</span></tt> 函数将它的输入代到环绕空间，
+这会影响 <img class="math" src="_images/math/12d58aa29201da09d8e620f8698e3a37547f6b4a.png" alt="V"/> 中 <img class="math" src="_images/math/a9f23bf124b6b2b2a993eb313c72e678664ac74a.png" alt="v"/> 的系数向量的计算。
+空间 <img class="math" src="_images/math/12d58aa29201da09d8e620f8698e3a37547f6b4a.png" alt="V"/> 已经是环绕的，因为它是 <img class="math" src="_images/math/1219c02f3a57aca09c165eb787dbc502d8479099.png" alt="\QQ^3"/>.
+子空间也有 <tt class="docutils literal"><span class="pre">coordinate_vector</span></tt> 函数，但是是不同的。
+我们新建一个子空间看看：</p>
+<div class="highlight-python"><pre>sage: V = QQ^3; W = V.span_of_basis([V.0, V.1])
+sage: W.coordinate_vector??
+...
+def coordinate_vector(self, v):
+        """
+         ...
+        """
+        # First find the coordinates of v wrt echelon basis.
+        w = self.echelon_coordinate_vector(v)
+        # Next use transformation matrix from echelon basis to
+        # user basis.
+        T = self.echelon_to_user_matrix()
+        return T.linear_combination_of_rows(w)</pre>
+</div>
+<p>（如果你觉得这个实现不够有效，请帮助优化线性代数。）</p>
+<p>你还可以输入 <tt class="docutils literal"><span class="pre">help(command_name)</span></tt> 或 <tt class="docutils literal"><span class="pre">help(class)</span></tt>
+来得到给定类的帮助。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">help</span><span class="p">(</span><span class="n">VectorSpace</span><span class="p">)</span>
+<span class="go">Help on class VectorSpace ...</span>
+
+<span class="go">class VectorSpace(__builtin__.object)</span>
+<span class="go"> |  Create a Vector Space.</span>
+<span class="go"> |</span>
+<span class="go"> |  To create an ambient space over a field with given dimension</span>
+<span class="go"> |  using the calling syntax ...</span>
+<span class="go"> :</span>
+<span class="go"> :</span>
+</pre></div>
+</div>
+<p>当你输入 <tt class="docutils literal"><span class="pre">q</span></tt> 以退出帮助系统时，你的会话跟你进来的时候一样。
+帮助系统的输出不会象 <tt class="docutils literal"><span class="pre">function_name?</span></tt> 那样搞乱你的会话。
+输入 <tt class="docutils literal"><span class="pre">help(module_name)</span></tt> 特别有效。例如，
+向量空间定义在 <tt class="docutils literal"><span class="pre">sage.modules.free_module</span></tt> 中，
+输入 <tt class="docutils literal"><span class="pre">help(sage.modules.free_module)</span></tt> 可以查看整个模块的文档。
+当使用帮助系统查看文档时，可以输入 <tt class="docutils literal"><span class="pre">/</span></tt> 进行查找，
+或输入 <tt class="docutils literal"><span class="pre">?</span></tt> 进行反向查找。</p>
+</div>
+<div class="section" id="id8">
+<h2>保存和读取个人的对象<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>假设你正在计算一个矩阵，或是模块化的符号空间，你想保存下来以后再用。
+应该怎么做？计算机代数系统有以下几种方法保存个人的对象。</p>
+<ol class="arabic simple">
+<li><strong>保存游戏：</strong> 仅仅支持保存和读取完整的会话（如，GAP，Magma）</li>
+<li><strong>统一的输入/输出：</strong> 每一个对象都以可以读回来的方式打印（GP/PARI）。</li>
+<li><strong>Eval:</strong> 在解释器中将它变成容易执行的代码（如，Singular, PARI）。</li>
+</ol>
+<p>因为Sage使用的是Python，它用一种不同的方式实现，
+每一个对象都可以序列化，即，转换为字符串以便将来恢复。
+这跟PARI中统一的I/O的想法是类似的，只是在屏幕输出时不那么复杂。
+保存和读取（在多数情况下）是自动进行的，不需要额外编程。
+这是Python从开始就支持的一个简单特性。</p>
+<p>几乎所有的Sage对象x，都能用 <tt class="docutils literal"><span class="pre">save(x,</span> <span class="pre">filename)</span></tt> 以压缩格式保存到磁盘上
+（或 <tt class="docutils literal"><span class="pre">x.save(filename)</span></tt> ）。读取时使用 <tt class="docutils literal"><span class="pre">load(filename)</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mf">3</span><span class="p">)(</span><span class="nb">range</span><span class="p">(</span><span class="mf">9</span><span class="p">))</span><span class="o">^</span><span class="mf">2</span>
+<span class="gp">sage: </span><span class="n">A</span>
+<span class="go">[ 15  18  21]</span>
+<span class="go">[ 42  54  66]</span>
+<span class="go">[ 69  90 111]</span>
+<span class="gp">sage: </span><span class="n">save</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你现在可以退出Sage并重启。然后你可以把 <tt class="docutils literal"><span class="pre">A</span></tt> 找回来：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">A</span>
+<span class="go">[ 15  18  21]</span>
+<span class="go">[ 42  54  66]</span>
+<span class="go">[ 69  90 111]</span>
+</pre></div>
+</div>
+<p>对于其他更复杂的对象，如椭圆曲线，也可以这么做。
+所有与对象有关的数据都会保存下来。如，</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s">&#39;11a&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">v</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">anlist</span><span class="p">(</span><span class="mf">100000</span><span class="p">)</span>              <span class="c"># takes a while</span>
+<span class="gp">sage: </span><span class="n">save</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">quit</span>
+</pre></div>
+</div>
+<p>保存下来的 <tt class="docutils literal"><span class="pre">E</span></tt> 有153KB，因为它保存了前100000个 <img class="math" src="_images/math/6f1a2b6b7c193f9ba2b2134a59f1da5addcfbc98.png" alt="a_n"/>.</p>
+<div class="highlight-python"><pre>~/tmp$ ls -l E.sobj
+-rw-r--r--  1 was was 153500 2006-01-28 19:23 E.sobj
+~/tmp$ sage [...]
+sage: E = load('E')
+sage: v = E.anlist(100000)              # instant!</pre>
+</div>
+<p>(在Python中，保存和读取是使用 <tt class="docutils literal"><span class="pre">cPickle</span></tt> 模块实现的。
+特别的，一个Sage对象 <tt class="docutils literal"><span class="pre">x</span></tt> 可以通过 <tt class="docutils literal"><span class="pre">cPickle.dumps(x,</span> <span class="pre">2)</span></tt> 保存。
+注意 <tt class="docutils literal"><span class="pre">2</span></tt>!)</p>
+<p>Sage不能保存和读取其他计算机代数系统创建的个人对象，如，GAP，
+Singular，Maxima等。它们重载时标记为“无效”状态。
+在GAP中，虽然很多对象的输出是一种可重构的形式，但是很多不行，
+所以不能用它们的输出结果重构。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">a</span> <span class="o">=</span> <span class="n">gap</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">load</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">ValueError: The session in which this object was defined is no longer</span>
+<span class="go">running.</span>
+</pre></div>
+</div>
+<p>GP/PARI的对象可以保存和读取，因为他们的输出形式足以重构。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">a</span> <span class="o">=</span> <span class="n">gp</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">load</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>已保存的对象可以被不同的架构或操作系统的计算机读取，如，
+你可以在32位的OS X机上保存一个大的矩阵，并在64位的Linux机上重新读入，
+转为阶梯矩阵再移回去。多数情况下，
+你甚至可以使用不同版本的Sage读取已保存的对象，
+只要那个对象的代码差别不大。所有的属性与定义对象的类一起被保存下来
+（但不是源码）。如果那个类在新版的Sage中不存在，
+那么这个对象就不能在新版中被重新读取。但是你可以在老版本中读取，
+连同对象的字典(<tt class="docutils literal"><span class="pre">x.__dict__</span></tt>)一起保存，再在新版中打开。</p>
+<div class="section" id="id9">
+<h3>保存为纯文本<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>你可以把对象保存为ASCII文本格式，只需简单的打开一个文件并将字符串写入
+（很多对象都可以这么做）。写完之后关闭文件。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">R</span><span class="o">.&lt;</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mf">2</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="mf">7</span>
+<span class="gp">sage: </span><span class="n">o</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;file.txt&#39;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">o</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+<span class="gp">sage: </span><span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="section-save">
+<span id="id10"></span><h2>保存和读取完整的会话<a class="headerlink" href="#section-save" title="Permalink to this headline">¶</a></h2>
+<p>Sage可以非常灵活的保存和读取会话。</p>
+<p>命令 <tt class="docutils literal"><span class="pre">save_session(sessionname)</span></tt> 将所有当前会话中定义的变量保存为字典，
+并以 <tt class="docutils literal"><span class="pre">sessionname</span></tt> 命名。(很少有变量不能保存的情况，
+这时该变量就不保存到字典中去。) 会话保存到 <tt class="docutils literal"><span class="pre">.sobj</span></tt> 文件中，
+可以象之前保存的那些对象一样重新读取。当你读取一个会话中的对象时，
+你会得到一个字典，索引是变量的名字，值是对象。</p>
+<p>你可以用 <tt class="docutils literal"><span class="pre">load_session(sessionname)</span></tt> 命令把定义在
+<tt class="docutils literal"><span class="pre">sessionname</span></tt> 中的变量读取到当前会话。注意，
+这不会清除你在当前会话中已经定义的那些变量；或者说，合并了两个会话。</p>
+<p>首先我们打开Sage并定义一些变量。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">(</span><span class="s">&#39;11a&#39;</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">ModularSymbols</span><span class="p">(</span><span class="mf">37</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">a</span> <span class="o">=</span> <span class="mf">389</span>
+<span class="gp">sage: </span><span class="n">t</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mf">2003</span><span class="p">)</span><span class="o">.</span><span class="n">matrix</span><span class="p">();</span> <span class="n">t</span><span class="o">.</span><span class="n">charpoly</span><span class="p">()</span><span class="o">.</span><span class="n">factor</span><span class="p">()</span>
+<span class="go"> _4 = (x - 2004) * (x - 12)^2 * (x + 54)^2</span>
+</pre></div>
+</div>
+<p>下面保存我们的会话，这将上面每一个变量都保存到一个文件中。
+查看这个文件，大小是3K左右。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">save_session</span><span class="p">(</span><span class="s">&#39;misc&#39;</span><span class="p">)</span>
+<span class="go">Saving a</span>
+<span class="go">Saving M</span>
+<span class="go">Saving t</span>
+<span class="go">Saving E</span>
+<span class="gp">sage: </span><span class="n">quit</span>
+<span class="go">was@form:~/tmp$ ls -l misc.sobj</span>
+<span class="go">-rw-r--r--  1 was was 2979 2006-01-28 19:47 misc.sobj</span>
+</pre></div>
+</div>
+<p>最后我们重新启动Sage，定义另外一个变量，并把我们保存的会话读进来。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">b</span> <span class="o">=</span> <span class="mf">19</span>
+<span class="gp">sage: </span><span class="n">load_session</span><span class="p">(</span><span class="s">&#39;misc&#39;</span><span class="p">)</span>
+<span class="go">Loading a</span>
+<span class="go">Loading M</span>
+<span class="go">Loading E</span>
+<span class="go">Loading t</span>
+</pre></div>
+</div>
+<p>每一个保存的变量都再次可用，而且变量 <tt class="docutils literal"><span class="pre">b</span></tt> 也没有被覆盖。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">M</span>
+<span class="go">Full Modular Symbols space for Gamma_0(37) of weight 2 with sign 0</span>
+<span class="go">and dimension 5 over Rational Field</span>
+<span class="gp">sage: </span><span class="n">E</span>
+<span class="go">Elliptic Curve defined by y^2 + y = x^3 - x^2 - 10*x - 20 over Rational</span>
+<span class="go">Field</span>
+<span class="gp">sage: </span><span class="n">b</span>
+<span class="go">19</span>
+<span class="gp">sage: </span><span class="n">a</span>
+<span class="go">389</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="notebook">
+<span id="section-notebook"></span><h2>Notebook界面<a class="headerlink" href="#notebook" title="Permalink to this headline">¶</a></h2>
+<p>要启动Sage的notebook界面，在Sage命令行中输入</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">notebook</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这将启动Sage的notebook界面，并打开默认浏览器查看它。
+服务器的状态保存在 <tt class="docutils literal"><span class="pre">$HOME/.sage/sage_notebook</span></tt>.</p>
+<p>其他的选项包括：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">notebook</span><span class="p">(</span><span class="s">&quot;directory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这将使用指定目录中的文件开启一个新的notebook服务器。
+当你想对特定项目指定一组工作表，或者同时运行几个独立的notebook服务器时，
+这个操作非常有用。</p>
+<p>当你启动notebook时，它先在 <tt class="docutils literal"><span class="pre">$HOME/.sage/sage_notebook</span></tt> 中新建如下文件：</p>
+<div class="highlight-python"><pre>nb.sobj       (the notebook SAGE object file)
+objects/      (a directory containing SAGE objects)
+worksheets/   (a directory containing SAGE worksheets).</pre>
+</div>
+<p>新建以上文件后，notebook启动一个web服务器。</p>
+<p>一个“notebook”是一组用户帐号的集合，每个帐号都可以拥有任意数量的工作表。
+当你新建一个工作表时，数据保存在 <tt class="docutils literal"><span class="pre">worksheets/username/number</span></tt> 目录。
+每一个这样的目录里面都有一个纯文本文件 <tt class="docutils literal"><span class="pre">worksheet.txt</span></tt>.
+如果你的工作表，或者Sage，或者别的什么，发生了什么事情，
+都会记录在这个人工可读的文件中，以便于重构你的工作表。</p>
+<p>在Sage中，输入 <tt class="docutils literal"><span class="pre">notebook?</span></tt> 查看更多关于如何启动notebook服务器的信息。</p>
+<p>下面的示意图用来说明Sage的notebook的架构：</p>
+<div class="highlight-python"><pre>----------------------
+|                    |
+|                    |
+|   firefox/safari   |
+|                    |
+|     javascript     |
+|      program       |
+|                    |
+|                    |
+----------------------
+      |      ^
+      | AJAX |
+      V      |
+----------------------
+|                    |
+|       sage         |                SAGE process 1
+|       web          | ------------&gt;  SAGE process 2    (Python processes)
+|      server        |   pexpect      SAGE process 3
+|                    |                    .
+|                    |                    .
+----------------------                    .</pre>
+</div>
+<p>For help on a Sage command, <tt class="docutils literal"><span class="pre">cmd</span></tt>, in the notebook browser box,
+type <tt class="docutils literal"><span class="pre">cmd?</span></tt> and now hit <tt class="docutils literal"><span class="pre">&lt;esc&gt;</span></tt> (not <tt class="docutils literal"><span class="pre">&lt;shift-enter&gt;</span></tt>).
+要得到Sage的 <tt class="docutils literal"><span class="pre">cmd</span></tt> 命令的帮助，在notebook的输入框中输入 <tt class="docutils literal"><span class="pre">cmd?</span></tt>
+再按 <tt class="docutils literal"><span class="pre">&lt;esc&gt;</span></tt> (而不是 <tt class="docutils literal"><span class="pre">&lt;shift-enter&gt;</span></tt>)。</p>
+<p>关于notebook快捷键的帮助，请点击 <tt class="docutils literal"><span class="pre">Help</span></tt> 链接。</p>
+<table class="docutils citation" frame="void" id="py" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[Py]</a></td><td>The Python language <a class="reference external" href="http://www.python.org/">http://www.python.org/</a> , Reference Manual <a class="reference external" href="http://docs.python.org/ref/ref.html">http://docs.python.org/ref/ref.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">交互命令行</a><ul>
+<li><a class="reference external" href="#sage-session">你的Sage会话(session)</a></li>
+<li><a class="reference external" href="#id2">记录输入和输出</a></li>
+<li><a class="reference external" href="#id3">粘贴忽略提示符</a></li>
+<li><a class="reference external" href="#id4">查看命令执行的时间</a></li>
+<li><a class="reference external" href="#id5">错误和异常</a></li>
+<li><a class="reference external" href="#tab">反向查找和Tab补全</a></li>
+<li><a class="reference external" href="#id7">集成帮助系统</a></li>
+<li><a class="reference external" href="#id8">保存和读取个人的对象</a><ul>
+<li><a class="reference external" href="#id9">保存为纯文本</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#section-save">保存和读取完整的会话</a></li>
+<li><a class="reference external" href="#notebook">Notebook界面</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tour_advanced.html"
+                                  title="previous chapter">Some more advanced mathematics</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="interfaces.html"
+                                  title="next chapter">接口</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/interactive_shell.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="interfaces.html" title="接口"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tour_advanced.html" title="Some more advanced mathematics"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

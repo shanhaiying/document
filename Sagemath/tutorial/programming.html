@@ -1,0 +1,868 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>编程 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="next" title="分布式计算" href="distributed.html" />
+    <link rel="prev" title="接口" href="interfaces.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="distributed.html" title="分布式计算"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="interfaces.html" title="接口"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>编程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sage">
+<span id="section-loadattach"></span><h2>读取和附加Sage文件<a class="headerlink" href="#sage" title="Permalink to this headline">¶</a></h2>
+<p>下面我们演示如何将单独编写的文件读取到Sage中。
+新建文件 <tt class="docutils literal"><span class="pre">example.sage</span></tt>, 包含以下内容：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Hello World&quot;</span>
+<span class="k">print</span> <span class="mf">2</span><span class="o">^</span><span class="mf">3</span>
+</pre></div>
+</div>
+<p>你可以使用 <tt class="docutils literal"><span class="pre">load</span></tt> 命令读取和执行 <tt class="docutils literal"><span class="pre">example.sage</span></tt> 文件：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">load</span> <span class="s">&quot;example.sage&quot;</span>
+<span class="go">Hello World</span>
+<span class="go">8</span>
+</pre></div>
+</div>
+<p>你也可以用 <tt class="docutils literal"><span class="pre">attach</span></tt> 命令，在当前运行的会话后面附加一个Sage文件：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">attach</span> <span class="s">&quot;example.sage&quot;</span>
+<span class="go">Hello World</span>
+<span class="go">8</span>
+</pre></div>
+</div>
+<p>现在如果你修改 <tt class="docutils literal"><span class="pre">example.sage</span></tt> 并输入一个空白行(即，按 <tt class="docutils literal"><span class="pre">return</span></tt>)，
+那么 <tt class="docutils literal"><span class="pre">example.sage</span></tt> 的内容将会自动重新读入Sage。</p>
+<p>特别的, 当文件被修改后，``attach`` 会自动重载，这在调试代码的时候很方便。
+反之, <tt class="docutils literal"><span class="pre">load</span></tt> 只能读入一个文件一次。</p>
+<p>当Sage读入 <tt class="docutils literal"><span class="pre">example.sage</span></tt> 时，将其转为Python，之后由Python解释器执行。
+改变是极少的，主要是将字面上的整数转为 <tt class="docutils literal"><span class="pre">Integer()</span></tt>,
+字面上的实数转为 <tt class="docutils literal"><span class="pre">RealNumber()</span></tt>, 将 <tt class="docutils literal"><span class="pre">^</span></tt> 替换为 <tt class="docutils literal"><span class="pre">**</span></tt>,
+以及类似 <tt class="docutils literal"><span class="pre">R.2</span></tt> 转为 <tt class="docutils literal"><span class="pre">R.gen(2)</span></tt> 的这种替换。
+转换后的 <tt class="docutils literal"><span class="pre">example.sage</span></tt> 叫 <tt class="docutils literal"><span class="pre">example.sage.py</span></tt> 并保存在相同的目录下。
+这个文件包含以下代码：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Hello World&quot;</span>
+<span class="k">print</span> <span class="n">Integer</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span><span class="o">**</span><span class="n">Integer</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>字面整数被转换, <tt class="docutils literal"><span class="pre">^</span></tt> 替换为 <tt class="docutils literal"><span class="pre">**</span></tt>.
+(Python中, <tt class="docutils literal"><span class="pre">^</span></tt> 表示“异或”, <tt class="docutils literal"><span class="pre">**</span></tt> 表示“乘方”。)</p>
+<p>预分词工作是由 <tt class="docutils literal"><span class="pre">sage/misc/interpreter.py</span></tt> 实现的。</p>
+<p>你可以把多行已缩进的代码粘贴到Sage中，只要有一个新行标识代码块的结束
+（这在文件中是不需要的）。然而，将这样的代码输入Sage的最好方法是保存为文件，
+并使用 <tt class="docutils literal"><span class="pre">attach</span></tt> 命令。</p>
+</div>
+<div class="section" id="section-compile">
+<span id="id2"></span><h2>创建编译代码<a class="headerlink" href="#section-compile" title="Permalink to this headline">¶</a></h2>
+<p>在数学计算中，速度是非常关键的。虽然Python是一种非常方便的高级语言，
+但是某些微积分运算如果用静态的编译语言实现肯定会比Python快几个数量级。
+如果完全用Python编写的话，Sage的某些运算就会太慢了。
+为了解决这个问题，Sage支持一种编译型的Python，叫Cython (<a class="reference internal" href="#cython">[Cython]</a> 和
+<a class="reference internal" href="#pyrex">[Pyrex]</a>)。Cython既像Python又像C。多数Python的结构，包括列表，
+条件表达式，象 <tt class="docutils literal"><span class="pre">+=</span></tt> 这样的代码都是可用的。
+也可以导入你已经写好的其他Python模块中的代码。并且还可以声明任意的C变量，
+可以直接调用任意的C语言库。最终的代码被转化为C语言，并使用C编译器编译。</p>
+<p>为了编译你自己的编译型Sage代码，文件要用扩展名 <tt class="docutils literal"><span class="pre">.spyx</span></tt> (而不是 <tt class="docutils literal"><span class="pre">.sage</span></tt>).
+如果是用命令行，可以跟解释型代码一样，attach和load编译型代码
+（notebook界面下不能attach或load Cython的代码）。
+实际的编译过程是后台完成的，不需要你明确的做什么。参见
+<tt class="docutils literal"><span class="pre">$SAGE_ROOT/examples/programming/sagex/factorial.spyx</span></tt>,
+这是一个直接调用GMP的C语言库的编译型的阶乘函数。你自己试一下，
+转到 <tt class="docutils literal"><span class="pre">$SAGE_ROOT/examples/programming/sagex/</span></tt> 目录，然后这样做：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">load</span> <span class="s">&quot;factorial.spyx&quot;</span>
+<span class="go">***************************************************</span>
+<span class="go">                Recompiling factorial.spyx</span>
+<span class="go">***************************************************</span>
+<span class="gp">sage: </span><span class="n">factorial</span><span class="p">(</span><span class="mf">50</span><span class="p">)</span>
+<span class="go">30414093201713378043612608166064768844377641568960512000000000000L</span>
+<span class="gp">sage: </span><span class="n">time</span> <span class="n">n</span> <span class="o">=</span> <span class="n">factorial</span><span class="p">(</span><span class="mf">10000</span><span class="p">)</span>
+<span class="go">CPU times: user 0.03 s, sys: 0.00 s, total: 0.03 s</span>
+<span class="go">Wall time: 0.03</span>
+</pre></div>
+</div>
+<p>这里末尾的L表示这是一个Python长整数(参见 <a class="reference external" href="afterword.html#section-mathannoy"><em>预处理器：Sage与Python的差别</em></a>).</p>
+<p>注意，当你退出后重新进入Sage时，Sage会重新编译 <tt class="docutils literal"><span class="pre">factorial.spyx</span></tt>.
+编译后的共享对象库保存在
+<tt class="docutils literal"><span class="pre">$HOME/.sage/temp/hostname/pid/spyx</span></tt>. 这些文件在你退出Sage时会被删除。</p>
+<p>对于spyx文件不会进行预分词，如，在spyx文件中, <tt class="docutils literal"><span class="pre">1/3</span></tt>
+得到0而不是有理数 <img class="math" src="_images/math/217aedbdc339bacc8ba075a2ec16902b098194e3.png" alt="1/3"/>. 如果 <tt class="docutils literal"><span class="pre">foo</span></tt> 是Sage库中的一个函数，
+要在spyx文件中使用，需要导入 <tt class="docutils literal"><span class="pre">sage.all</span></tt> 并且使用 <tt class="docutils literal"><span class="pre">sage.all.foo</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sage.all</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sage</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="c">
+<h3>在单独文件中访问C语言函数<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h3>
+<p>访问定义在单独的 *.c 文件中的C语言函数也是很容易的。这有一个例子。
+在同一个目录下新建文件 <tt class="docutils literal"><span class="pre">test.c</span></tt> 和 <tt class="docutils literal"><span class="pre">test.spyx</span></tt>, 包含以下内容：</p>
+<p>纯C代码: <tt class="docutils literal"><span class="pre">test.c</span></tt></p>
+<div class="highlight-python"><pre>int add_one(int n) {
+  return n + 1;
+}</pre>
+</div>
+<p>Cython代码: <tt class="docutils literal"><span class="pre">test.spyx</span></tt>:</p>
+<div class="highlight-python"><pre>cdef extern from "test.c":
+    int add_one(int n)
+
+def test(n):
+    return add_one(n)</pre>
+</div>
+<p>下面这样做：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">attach</span> <span class="s">&quot;test.spyx&quot;</span>
+<span class="go">Compiling (...)/test.spyx...</span>
+<span class="gp">sage: </span><span class="n">test</span><span class="p">(</span><span class="mf">10</span><span class="p">)</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+<p>如果在Cython文件中编译C代码还要用到另外一个 <tt class="docutils literal"><span class="pre">foo</span></tt> 库，
+在Cython源码中加一行 <tt class="docutils literal"><span class="pre">clib</span> <span class="pre">foo</span></tt>. 类似的，
+可以用声明 <tt class="docutils literal"><span class="pre">cfile</span> <span class="pre">bar</span></tt> 来包含一个C文件 <tt class="docutils literal"><span class="pre">bar</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="python-sage">
+<span id="section-standalone"></span><h2>独立的Python/Sage脚本<a class="headerlink" href="#python-sage" title="Permalink to this headline">¶</a></h2>
+<p>下面的Sage脚本对整数或多项式进行因式分解：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env sage -python</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">sage.all</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mf">2</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Usage: </span><span class="si">%s</span><span class="s"> &lt;n&gt;&quot;</span><span class="o">%</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">&quot;Outputs the prime factorization of n.&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">factor</span><span class="p">(</span><span class="n">sage_eval</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mf">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>要使用这个脚本，你的 <tt class="docutils literal"><span class="pre">SAGE_ROOT</span></tt> 必须在在PATH中。
+如果上面的脚本叫 <tt class="docutils literal"><span class="pre">factor</span></tt>, 下面是用法示例：</p>
+<div class="highlight-python"><pre>bash $ ./factor 2006
+2 * 17 * 59
+bash $ ./factor "32*x^5-1"
+(2*x - 1) * (16*x^4 + 8*x^3 + 4*x^2 + 2*x + 1)</pre>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>数据类型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Sage中的每一个对象都有良好定义的类型。
+Python有广泛的基本内置类型，Sage库又添加了很多。
+Python内置的类型包括字符串，列表，元组，整数和实数等，如下：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;sage&quot;</span><span class="p">;</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">&lt;type &#39;str&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;sage&#39;</span><span class="p">;</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>      <span class="c"># you can use either single or double quotes</span>
+<span class="go">&lt;type &#39;str&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="p">];</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">&lt;type &#39;list&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="p">);</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">&lt;type &#39;tuple&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">2006</span><span class="p">);</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">&lt;type &#39;int&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">s</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="mf">2006</span><span class="p">);</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">&lt;type &#39;float&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Sage增加了很多其他类型，如，向量空间：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">V</span> <span class="o">=</span> <span class="n">VectorSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="mf">1000000</span><span class="p">);</span> <span class="n">V</span>
+<span class="go">Vector space of dimension 1000000 over Rational Field</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.modules.free_module.FreeModule_ambient_field&#39;&gt;</span>
+</pre></div>
+</div>
+<p>只有特定的函数才能在作用在 <tt class="docutils literal"><span class="pre">V</span></tt> 上。其他数学软件中，
+可能会用“函数”形式 <tt class="docutils literal"><span class="pre">foo(V,...)</span></tt>. 在Sage中，特定的函数附加于 <tt class="docutils literal"><span class="pre">V</span></tt>
+的类型（或类）上，并使用类似Java或C++的面向对象的语法，即, <tt class="docutils literal"><span class="pre">V.foo(...)</span></tt>.
+这可以使全局的命名空间保持整洁，而不被成千上万的函数搞乱。
+而且不同作用的函数都可以叫foo，还不用做参数的类型检查（或case语句）
+来决定要调用哪一个。如果你重用了一个函数的名字，那个函数还是可用的
+（如，你把什么东西命名为 <tt class="docutils literal"><span class="pre">zeta</span></tt>, 然后又想计算0.5的Riemann-Zeta函数值，
+你还是可以输入 <tt class="docutils literal"><span class="pre">s=.5;</span> <span class="pre">s.zeta()</span></tt>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">zeta</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1</span>
+<span class="gp">sage: </span><span class="n">s</span><span class="o">=.</span><span class="mf">5</span><span class="p">;</span> <span class="n">s</span><span class="o">.</span><span class="n">zeta</span><span class="p">()</span>
+<span class="go">-1.46035450880959</span>
+</pre></div>
+</div>
+<p>通常情况下，常用的函数调用方式也是支持的，这样方便些，
+而且数学表达式用面向对象的方式调用看着不习惯。这有几个例子。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">n</span> <span class="o">=</span> <span class="mf">2</span><span class="p">;</span> <span class="n">n</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+<span class="go">sqrt(2)</span>
+<span class="gp">sage: </span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span>
+<span class="go">sqrt(2)</span>
+<span class="gp">sage: </span><span class="n">V</span> <span class="o">=</span> <span class="n">VectorSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mf">2</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">V</span><span class="o">.</span><span class="n">basis</span><span class="p">()</span>
+<span class="go">    [</span>
+<span class="go">    (1, 0),</span>
+<span class="go">    (0, 1)</span>
+<span class="go">    ]</span>
+<span class="gp">sage: </span><span class="n">basis</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+<span class="go">    [</span>
+<span class="go">    (1, 0),</span>
+<span class="go">    (0, 1)</span>
+<span class="go">    ]</span>
+<span class="gp">sage: </span><span class="n">M</span> <span class="o">=</span> <span class="n">MatrixSpace</span><span class="p">(</span><span class="n">GF</span><span class="p">(</span><span class="mf">7</span><span class="p">),</span> <span class="mf">2</span><span class="p">);</span> <span class="n">M</span>
+<span class="go">Full MatrixSpace of 2 by 2 dense matrices over Finite Field of size 7</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">M</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="p">]);</span> <span class="n">A</span>
+<span class="go">[1 2]</span>
+<span class="go">[3 4]</span>
+<span class="gp">sage: </span><span class="n">A</span><span class="o">.</span><span class="n">charpoly</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">)</span>
+<span class="go">x^2 + 2*x + 5</span>
+<span class="gp">sage: </span><span class="n">charpoly</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">)</span>
+<span class="go">x^2 + 2*x + 5</span>
+</pre></div>
+</div>
+<p>要列出 <img class="math" src="_images/math/019e9892786e493964e145e7c5cf7b700314e53b.png" alt="A"/> 的所有成员函数，使用tab补全功能。
+先输入 <tt class="docutils literal"><span class="pre">A.</span></tt>, 再按 <tt class="docutils literal"><span class="pre">[tab]</span></tt>, 正如 <a class="reference external" href="interactive_shell.html#section-tabcompletion"><em>反向查找和Tab补全</em></a> 中所述。</p>
+</div>
+<div class="section" id="id6">
+<h2>列表，元素和序列<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>列表类型保存任意类型的元素。和C，C++等等一样
+（但是和多数标准的计算机代数系统不一样），列表中的元素下标从 <img class="math" src="_images/math/bc1f9d9bf8a1b606a4188b5ce9a2af1809e27a89.png" alt="0"/>
+开始计数。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">,</span> <span class="mf">5</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">SymmetricGroup</span><span class="p">(</span><span class="mf">3</span><span class="p">)];</span> <span class="n">v</span>
+<span class="go">[2, 3, 5, &#39;x&#39;, Symmetric group of order 3! as a permutation group]</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="go">&lt;type &#39;list&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
+<span class="go">2</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="p">[</span><span class="mf">2</span><span class="p">]</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+<p>(索引一个列表时，如果下标不是Python整数类型也是可以的！）
+Sage整数（或有理数，或其他有 <tt class="docutils literal"><span class="pre">__index__</span></tt> 方法的对象）都可以正常索引。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">]</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="p">[</span><span class="mf">2</span><span class="p">]</span>
+<span class="go">3</span>
+<span class="gp">sage: </span><span class="n">n</span> <span class="o">=</span> <span class="mf">2</span>      <span class="c"># SAGE Integer</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>       <span class="c"># Perfectly OK!</span>
+<span class="go">3</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>  <span class="c"># Also OK.</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">range</span></tt> 函数新建一个Python整数（不是Sage整数）的列表：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="nb">range</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">15</span><span class="p">)</span>
+<span class="go">[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]</span>
+</pre></div>
+</div>
+<p>使用包含列表(list comprehension)的方式构造列表是非常有用的：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="n">factor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">15</span><span class="p">)]</span>
+<span class="gp">sage: </span><span class="k">print</span> <span class="n">L</span>
+<span class="go">[1, 2, 3, 2^2, 5, 2 * 3, 7, 2^3, 3^2, 2 * 5, 11, 2^2 * 3, 13, 2 * 7]</span>
+<span class="gp">sage: </span><span class="n">L</span><span class="p">[</span><span class="mf">12</span><span class="p">]</span>
+<span class="go">13</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mf">12</span><span class="p">])</span>
+<span class="go">&lt;class &#39;sage.structure.factorization.Factorization&#39;&gt;</span>
+<span class="gp">sage: </span><span class="p">[</span><span class="n">factor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">15</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_odd</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<span class="go">[1, 3, 5, 7, 3^2, 11, 13]</span>
+</pre></div>
+</div>
+<p>更多关于如何使用包含列表创建列表的内容，请参见 <a class="reference internal" href="#pyt">[PyT]</a>.</p>
+<p>列表切片(list slicing)是一个有趣的功能。若 <tt class="docutils literal"><span class="pre">L</span></tt> 是一个列表，
+那么 <tt class="docutils literal"><span class="pre">L[m:n]</span></tt> 返回 <tt class="docutils literal"><span class="pre">L</span></tt> 的一个子列表，从第 <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/>
+个元素开始到第 <img class="math" src="_images/math/4bdca93962a2beaffc172ca394e04fe05bd74ffd.png" alt="n-1"/> 个元素，象下面这样。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="n">factor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">20</span><span class="p">)]</span>
+<span class="gp">sage: </span><span class="n">L</span><span class="p">[</span><span class="mf">4</span><span class="p">:</span><span class="mf">9</span><span class="p">]</span>
+<span class="go">[5, 2 * 3, 7, 2^3, 3^2]</span>
+<span class="gp">sage: </span><span class="k">print</span> <span class="n">L</span><span class="p">[:</span><span class="mf">4</span><span class="p">]</span>
+<span class="go">[1, 2, 3, 2^2]</span>
+<span class="gp">sage: </span><span class="n">L</span><span class="p">[</span><span class="mf">14</span><span class="p">:</span><span class="mf">4</span><span class="p">]</span>
+<span class="go">[]</span>
+<span class="gp">sage: </span><span class="n">L</span><span class="p">[</span><span class="mf">14</span><span class="p">:]</span>
+<span class="go">[3 * 5, 2^4, 17, 2 * 3^2, 19]</span>
+</pre></div>
+</div>
+<p>元组(tuple)与列表类似，除了它们是固定的，也就是说，
+一旦它们被建立，就不能再修改。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="p">);</span> <span class="n">v</span>
+<span class="go">(1, 2, 3, 4)</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="go">&lt;type &#39;tuple&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5</span>
+<span class="gp">...</span>
+<span class="go">TypeError: &#39;tuple&#39; object does not support item assignment</span>
+</pre></div>
+</div>
+<p>序列(sequence)是第三种面向列表的Sage类型。
+与列表和元组不同，序列不是Python内置的类型。
+序列默认是可修改的，但是可以使用 <tt class="docutils literal"><span class="pre">Sequence</span></tt> 类中的
+<tt class="docutils literal"><span class="pre">set_immutable</span></tt> 方法设置成不能修改的，如下例所示。
+一个序列中的所有元素都有共同的祖先(parent)，
+称为序列的领域(sequences universe).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">v</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="o">/</span><span class="mf">5</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">v</span>
+<span class="go">[1, 2, 3, 4/5]</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.structure.sequence.Sequence&#39;&gt;</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mf">1</span><span class="p">])</span>
+<span class="go">&lt;type &#39;sage.rings.rational.Rational&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="o">.</span><span class="n">universe</span><span class="p">()</span>
+<span class="go">Rational Field</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="o">.</span><span class="n">is_immutable</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="o">.</span><span class="n">set_immutable</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3</span>
+<span class="gp">...</span>
+<span class="go">ValueError: object is immutable; please change a copy instead.</span>
+</pre></div>
+</div>
+<p>序列是从列表继承下来的，可用于任何列表可用的地方：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">v</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">,</span><span class="mf">3</span><span class="p">,</span><span class="mf">4</span><span class="o">/</span><span class="mf">5</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="go">[1, 2, 3, 4/5]</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="go">&lt;type &#39;list&#39;&gt;</span>
+</pre></div>
+</div>
+<p>另外一个例子，向量空间的基是不可修改的序列，
+因为你不能修改它们。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">V</span> <span class="o">=</span> <span class="n">QQ</span><span class="o">^</span><span class="mf">3</span><span class="p">;</span> <span class="n">B</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">basis</span><span class="p">();</span> <span class="n">B</span>
+<span class="go">[</span>
+<span class="go">(1, 0, 0),</span>
+<span class="go">(0, 1, 0),</span>
+<span class="go">(0, 0, 1)</span>
+<span class="go">]</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="go">&lt;class &#39;sage.structure.sequence.Sequence&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">B</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
+<span class="gp">...</span>
+<span class="go">ValueError: object is immutable; please change a copy instead.</span>
+<span class="gp">sage: </span><span class="n">B</span><span class="o">.</span><span class="n">universe</span><span class="p">()</span>
+<span class="go">Vector space of dimension 3 over Rational Field</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>字典<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>字典(dictionary)(有时也称为联合数组)是从“可乱序”(hashable)的对象
+（如字符串，数字和元组等，详细信息参见Python文档
+<a class="reference external" href="http://docs.python.org/tut/node7.html">http://docs.python.org/tut/node7.html</a> 和
+<a class="reference external" href="http://docs.python.org/lib/typesmapping">http://docs.python.org/lib/typesmapping</a>.html）
+到任意对象的映射。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1</span><span class="p">:</span><span class="mf">5</span><span class="p">,</span> <span class="s">&#39;sage&#39;</span><span class="p">:</span><span class="mf">17</span><span class="p">,</span> <span class="n">ZZ</span><span class="p">:</span><span class="n">GF</span><span class="p">(</span><span class="mf">7</span><span class="p">)}</span>
+<span class="gp">sage: </span><span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="go">&lt;type &#39;dict&#39;&gt;</span>
+<span class="gp">sage: </span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go"> [1, &#39;sage&#39;, Integer Ring]</span>
+<span class="gp">sage: </span><span class="n">d</span><span class="p">[</span><span class="s">&#39;sage&#39;</span><span class="p">]</span>
+<span class="go">17</span>
+<span class="gp">sage: </span><span class="n">d</span><span class="p">[</span><span class="n">ZZ</span><span class="p">]</span>
+<span class="go">Finite Field of size 7</span>
+<span class="gp">sage: </span><span class="n">d</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+<p>第三个键值展示了字典的索引可以是复杂的对象，如，整数环。</p>
+<p>你可以将上面的字典转换为同样内容的列表：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="go">[(1, 5), (&#39;sage&#39;, 17), (Integer Ring, Finite Field of size 7)]</span>
+</pre></div>
+</div>
+<p>一个常用的操作是在字典的对中遍历：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="mf">2</span><span class="p">:</span><span class="mf">4</span><span class="p">,</span> <span class="mf">3</span><span class="p">:</span><span class="mf">9</span><span class="p">,</span> <span class="mf">4</span><span class="p">:</span><span class="mf">16</span><span class="p">}</span>
+<span class="gp">sage: </span><span class="p">[</span><span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()]</span>
+<span class="go">[8, 27, 64]</span>
+</pre></div>
+</div>
+<p>字典是没有顺序的，如最后一个例子所示。</p>
+</div>
+<div class="section" id="id9">
+<h2>集合<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>Python有内置的集合类型。主要的功能是迅速的判断一个元素是否属于集合，
+以及标准的集合运算。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">X</span> <span class="o">=</span> <span class="n">set</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">19</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">]);</span>   <span class="n">Y</span> <span class="o">=</span> <span class="n">set</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="o">/</span><span class="mf">3</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">X</span>
+<span class="go">set([&#39;a&#39;, 1, 19])</span>
+<span class="gp">sage: </span><span class="n">Y</span>
+<span class="go">set([1, 2/3])</span>
+<span class="gp">sage: </span><span class="s">&#39;a&#39;</span> <span class="ow">in</span> <span class="n">X</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="s">&#39;a&#39;</span> <span class="ow">in</span> <span class="n">Y</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="n">X</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="go">set([1])</span>
+</pre></div>
+</div>
+<p>Sage也有自己的集合类型，多数情况下是用Python内置的集合类型实现的，
+但是有一些额外的Sage相关的函数。新建一个Sage的集合使用 <tt class="docutils literal"><span class="pre">Set(...)</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">X</span> <span class="o">=</span> <span class="n">Set</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">19</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">]);</span>   <span class="n">Y</span> <span class="o">=</span> <span class="n">Set</span><span class="p">([</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="o">/</span><span class="mf">3</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">X</span>
+<span class="go">{&#39;a&#39;, 1, 19}</span>
+<span class="gp">sage: </span><span class="n">Y</span>
+<span class="go">{1, 2/3}</span>
+<span class="gp">sage: </span><span class="n">X</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="go">{1}</span>
+<span class="gp">sage: </span><span class="k">print</span> <span class="n">latex</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="go">\left\{1, \frac{2}{3}\right\}</span>
+<span class="gp">sage: </span><span class="n">Set</span><span class="p">(</span><span class="n">ZZ</span><span class="p">)</span>
+<span class="go">Set of elements of Integer Ring</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>迭代器<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<p>迭代器是最近才加入Python中的，在数学应用中特别有用。
+下面是几个例子，更多内容请参见 <a class="reference internal" href="#pyt">[PyT]</a>.
+我们生成一个在不超过 <img class="math" src="_images/math/c4b7944fa276d9ec5b24da0d60c54d903a67dae4.png" alt="10000000"/> 的非负整数的平方数上的迭代器。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">^</span><span class="mf">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mf">10000000</span><span class="p">))</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">sage: </span><span class="n">v</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>我们新建一个在形如 <img class="math" src="_images/math/2a1db6fdf22b67fce46356a3e76964125408175b.png" alt="4p+1"/> (<img class="math" src="_images/math/36f73fc1312ee0349b3f3a0f3bd9eb5504339011.png" alt="p"/> 为素数) 的素数上的迭代器，
+并观察前面几个。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="mf">4</span><span class="o">*</span><span class="n">p</span> <span class="o">+</span> <span class="mf">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Primes</span><span class="p">()</span> <span class="k">if</span> <span class="n">is_prime</span><span class="p">(</span><span class="mf">4</span><span class="o">*</span><span class="n">p</span><span class="o">+</span><span class="mf">1</span><span class="p">))</span>
+<span class="gp">sage: </span><span class="n">w</span>         <span class="c"># in the next line, 0xb0853d6c is a random 0x number</span>
+<span class="go">&lt;generator object at 0xb0853d6c&gt;</span>
+<span class="gp">sage: </span><span class="n">w</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">13</span>
+<span class="gp">sage: </span><span class="n">w</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">29</span>
+<span class="gp">sage: </span><span class="n">w</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">53</span>
+</pre></div>
+</div>
+<p>特定的环，如有限域和整数环，其上都有迭代器：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">GF</span><span class="p">(</span><span class="mf">7</span><span class="p">)]</span>
+<span class="go">[0, 1, 2, 3, 4, 5, 6]</span>
+<span class="gp">sage: </span><span class="n">W</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ZZ</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">ZZ</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="n">W</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">(0, 0)</span>
+<span class="gp">sage: </span><span class="n">W</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">(0, 1)</span>
+<span class="gp">sage: </span><span class="n">W</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">(0, -1)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>循环，函数，控制语句和比较<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>我们已经见到几个 <tt class="docutils literal"><span class="pre">for</span></tt> 循环常见用法的例子。Python中，
+<tt class="docutils literal"><span class="pre">for</span></tt> 循环是缩进的，如</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">5</span><span class="p">):</span>
+<span class="go">       print(i)</span>
+
+<span class="go">0</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">3</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>注意for语句结尾处的冒号（不象GAP或Maple，这里没有“do”或“od”），
+和循环体(也就是 <tt class="docutils literal"><span class="pre">print(i)</span></tt>)的缩进。缩进是非常重要的。
+输入“:”后按 <tt class="docutils literal"><span class="pre">enter</span></tt>, Sage会自动为你缩进，象下面这样。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">5</span><span class="p">):</span>
+<span class="gp">... </span>      <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  <span class="c"># now hit enter twice</span>
+<span class="go">0</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">3</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>符号 <tt class="docutils literal"><span class="pre">=</span></tt> 用于赋值。
+符号 <tt class="docutils literal"><span class="pre">==</span></tt> 用于比较是否相等：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">15</span><span class="p">):</span>
+<span class="gp">... </span>      <span class="k">if</span> <span class="n">gcd</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mf">15</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1</span><span class="p">:</span>
+<span class="gp">... </span>          <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">4</span>
+<span class="go">7</span>
+<span class="go">8</span>
+<span class="go">11</span>
+<span class="go">13</span>
+<span class="go">14</span>
+</pre></div>
+</div>
+<p>要记住，缩进决定了 <tt class="docutils literal"><span class="pre">if</span></tt>, <tt class="docutils literal"><span class="pre">for</span></tt> 和 <tt class="docutils literal"><span class="pre">while</span></tt> 语句的结构：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="k">def</span> <span class="nf">legendre</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+<span class="gp">... </span>      <span class="n">is_sqr_modp</span><span class="o">=-</span><span class="mf">1</span>
+<span class="gp">... </span>      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+<span class="gp">... </span>          <span class="k">if</span> <span class="n">a</span> <span class="o">%</span> <span class="n">p</span> <span class="o">==</span> <span class="n">i</span><span class="o">^</span><span class="mf">2</span> <span class="o">%</span> <span class="n">p</span><span class="p">:</span>
+<span class="gp">... </span>              <span class="n">is_sqr_modp</span><span class="o">=</span><span class="mf">1</span>
+<span class="gp">... </span>      <span class="k">return</span> <span class="n">is_sqr_modp</span>
+
+<span class="gp">sage: </span><span class="n">legendre</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="mf">7</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">sage: </span><span class="n">legendre</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span><span class="mf">7</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<p>当然，这不是Legendre符号的一个有效实现，
+只是为了展示Python/Sage编程的某些方面。
+Sage中函数{kronecker}通过C语言库调用PARI来有效的计算Legendre符号。</p>
+<p>最后我们看一下比较运算符，如 <tt class="docutils literal"><span class="pre">==</span></tt>,
+<tt class="docutils literal"><span class="pre">!=</span></tt>, <tt class="docutils literal"><span class="pre">&lt;=</span></tt>, <tt class="docutils literal"><span class="pre">&gt;=</span></tt>, <tt class="docutils literal"><span class="pre">&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;</span></tt>, 如果可能的话，
+会自动将两边的数据转换为同一类型：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="mf">2</span> <span class="o">&lt;</span> <span class="mf">3.1</span><span class="p">;</span> <span class="mf">3.1</span> <span class="o">&lt;=</span> <span class="mf">1</span>
+<span class="go">True</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="mf">2</span><span class="o">/</span><span class="mf">3</span> <span class="o">&lt;</span> <span class="mf">3</span><span class="o">/</span><span class="mf">2</span><span class="p">;</span>   <span class="mf">3</span><span class="o">/</span><span class="mf">2</span> <span class="o">&lt;</span> <span class="mf">3</span><span class="o">/</span><span class="mf">1</span>
+<span class="go">True</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>几乎任意两个对象都可以进行比较，没有假设对象是全序的。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="mf">2</span> <span class="o">&lt;</span> <span class="n">CC</span><span class="p">(</span><span class="mf">3.1</span><span class="p">,</span><span class="mf">1</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="mf">5</span> <span class="o">&lt;</span> <span class="n">VectorSpace</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span><span class="mf">3</span><span class="p">)</span>   <span class="c"># output can be somewhat random</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>对于符号不等式，使用bool函数：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">1</span>
+<span class="go">x &lt; x + 1</span>
+<span class="gp">sage: </span><span class="nb">bool</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">1</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Sage中比较两个不同类型的对象时，
+多数情况下Sage会尝试强制将对象转换为规范的共同父类。如果成功转换，
+比较就在转换后的对象间进行；如果转换不成功，对象被认为不相等。
+要测试两个变量是否指向同一个对象，使用 <tt class="docutils literal"><span class="pre">is</span></tt>. 如：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="mf">1</span> <span class="ow">is</span> <span class="mf">2</span><span class="o">/</span><span class="mf">2</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="mf">1</span> <span class="ow">is</span> <span class="mf">1</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="mf">1</span> <span class="o">==</span> <span class="mf">2</span><span class="o">/</span><span class="mf">2</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>下面两行中，头一行不相等是因为没有规范映射 <img class="math" src="_images/math/b748dc67ed08d23e72eaecdcdc706c48c3fe2334.png" alt="\QQ\to \GF{5}"/>,
+从而没有规范的方法比较 <img class="math" src="_images/math/a0c8a3534da46e2c30e5fb267dd7afec808bd531.png" alt="\GF{5}"/> 中的 <img class="math" src="_images/math/dce34f4dfb2406144304ad0d6106c5382ddd1446.png" alt="1"/> 和
+<img class="math" src="_images/math/156c0e43da2df99cae1c91cfcff9bfa48e8709c1.png" alt="\QQ"/> 中的 <img class="math" src="_images/math/dce34f4dfb2406144304ad0d6106c5382ddd1446.png" alt="1"/>. 相反，存在规范映射 <img class="math" src="_images/math/19372e027816d5686f2b67c14767500ee7a14381.png" alt="\ZZ\to \GF{5}"/>,
+所以第二个比较是 <tt class="xref docutils literal"><span class="pre">True</span></tt>. 注意到顺序不影响结果。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)(</span><span class="mf">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">QQ</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span> <span class="n">QQ</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)(</span><span class="mf">1</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="go">False</span>
+<span class="gp">sage: </span><span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)(</span><span class="mf">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">ZZ</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span> <span class="n">ZZ</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">GF</span><span class="p">(</span><span class="mf">5</span><span class="p">)(</span><span class="mf">1</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="go">True</span>
+<span class="gp">sage: </span><span class="n">ZZ</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">QQ</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>警告：Sage中的比较比Magma中更严格，Magma中 <img class="math" src="_images/math/a0c8a3534da46e2c30e5fb267dd7afec808bd531.png" alt="\GF{5}"/> 中的
+<img class="math" src="_images/math/dce34f4dfb2406144304ad0d6106c5382ddd1446.png" alt="1"/> 与 <img class="math" src="_images/math/156c0e43da2df99cae1c91cfcff9bfa48e8709c1.png" alt="\QQ"/> 中的 <img class="math" src="_images/math/dce34f4dfb2406144304ad0d6106c5382ddd1446.png" alt="1"/> 相等。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">magma</span><span class="p">(</span><span class="s">&#39;GF(5)!1 eq Rationals()!1&#39;</span><span class="p">)</span>            <span class="c"># optional magma required</span>
+<span class="go">true</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>性能分析<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>本节作者：Martin Albrecht (<a class="reference external" href="mailto:malb&#37;&#52;&#48;informatik&#46;uni-bremen&#46;de">malb<span>&#64;</span>informatik<span>&#46;</span>uni-bremen<span>&#46;</span>de</a>)</p>
+<blockquote>
+&#8220;Premature optimization is the root of all evil.&#8221; - Donald Knuth</blockquote>
+<p>有时检查代码的瓶颈对于了解哪一部分占用了最多的计算时间是很有用的。
+这可以帮助确定最需要优化哪一部分。Python和Sage提供几种性能分析选项。</p>
+<p>最简单的是在交互命令行中使用 <tt class="docutils literal"><span class="pre">prun</span></tt> 命令。
+它返回一个描述每个函数占用多少计算时间的摘要。
+例如，要分析有限域上的矩阵乘法，可以这样做：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">k</span><span class="p">,</span><span class="n">a</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mf">2</span><span class="o">**</span><span class="mf">8</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">objgen</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mf">10</span><span class="p">,</span><span class="mf">10</span><span class="p">,[</span><span class="n">k</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">10</span><span class="o">*</span><span class="mf">10</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="o">%</span><span class="n">prun</span> <span class="n">B</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">A</span>
+<span class="go">       32893 function calls in 1.100 CPU seconds</span>
+
+<span class="go">Ordered by: internal time</span>
+
+<span class="go">ncalls tottime percall cumtime percall filename:lineno(function)</span>
+<span class="go"> 12127  0.160   0.000   0.160  0.000 :0(isinstance)</span>
+<span class="go">  2000  0.150   0.000   0.280  0.000 matrix.py:2235(__getitem__)</span>
+<span class="go">  1000  0.120   0.000   0.370  0.000 finite_field_element.py:392(__mul__)</span>
+<span class="go">  1903  0.120   0.000   0.200  0.000 finite_field_element.py:47(__init__)</span>
+<span class="go">  1900  0.090   0.000   0.220  0.000 finite_field_element.py:376(__compat)</span>
+<span class="go">   900  0.080   0.000   0.260  0.000 finite_field_element.py:380(__add__)</span>
+<span class="go">     1  0.070   0.070   1.100  1.100 matrix.py:864(__mul__)</span>
+<span class="go">  2105  0.070   0.000   0.070  0.000 matrix.py:282(ncols)</span>
+<span class="go">  ...</span>
+</pre></div>
+</div>
+<p>这里 <tt class="docutils literal"><span class="pre">ncals</span></tt> 是调用的次数, <tt class="docutils literal"><span class="pre">tottime</span></tt> 是给定函数所用的总时间
+(不包括调用子函数的时间), <tt class="docutils literal"><span class="pre">percal</span></tt> 是 <tt class="docutils literal"><span class="pre">tottime</span></tt> 除以
+<tt class="docutils literal"><span class="pre">ncals</span></tt> 的商. <tt class="docutils literal"><span class="pre">cumtime</span></tt> 是函数用的时间和所有子函数用的时间
+(即从调用开始到退出的时间), <tt class="docutils literal"><span class="pre">percall</span></tt> 是 <tt class="docutils literal"><span class="pre">cumtime</span></tt>
+除以基本调用次数的商, <tt class="docutils literal"><span class="pre">filename:lineno(function)</span></tt>
+提供了每个函数的相关信息。经验规律是：列表中函数排的越靠前，
+所花费的时间越多，也就越需要优化。</p>
+<p>通常, <tt class="docutils literal"><span class="pre">prun?</span></tt> 会提供如何使用性能分析器的详细信息，
+并解析输出结果的含义。</p>
+<p>分析的数据可以写入一个对象，这样可以就近检查：</p>
+<div class="highlight-python"><pre>sage: %prun -r A*A
+sage: stats = _
+sage: stats?</pre>
+</div>
+<p>注意：输入 <tt class="docutils literal"><span class="pre">stats</span> <span class="pre">=</span> <span class="pre">prun</span> <span class="pre">-r</span> <span class="pre">A\*A</span></tt> 会显示语法错误，
+因为prun是IPython shell的命令，不是一个正常的函数。</p>
+<p>要想得到漂亮的图形化分析结果，可以使用hotshot分析器。
+它是调用 <tt class="docutils literal"><span class="pre">hotshot2cachetree</span></tt> 和程序 <tt class="docutils literal"><span class="pre">kachegrind</span></tt> (仅在Unix下有效)
+的一个小脚本。使用hotshot分析器分析同一个例子：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">k</span><span class="p">,</span><span class="n">a</span> <span class="o">=</span> <span class="n">GF</span><span class="p">(</span><span class="mf">2</span><span class="o">**</span><span class="mf">8</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">objgen</span><span class="p">()</span>
+<span class="gp">sage: </span><span class="n">A</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mf">10</span><span class="p">,</span><span class="mf">10</span><span class="p">,[</span><span class="n">k</span><span class="o">.</span><span class="n">random_element</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">10</span><span class="o">*</span><span class="mf">10</span><span class="p">)])</span>
+<span class="gp">sage: </span><span class="kn">import</span> <span class="nn">hotshot</span>
+<span class="gp">sage: </span><span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;pythongrind.prof&quot;</span>
+<span class="gp">sage: </span><span class="n">prof</span> <span class="o">=</span> <span class="n">hotshot</span><span class="o">.</span><span class="n">Profile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">lineevents</span><span class="o">=</span><span class="mf">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">prof</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">&quot;A*A&quot;</span><span class="p">)</span>
+<span class="go">&lt;hotshot.Profile instance at 0x414c11ec&gt;</span>
+<span class="gp">sage: </span><span class="n">prof</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>结果保存在当前工作目录的 <tt class="docutils literal"><span class="pre">pythongrind.prof</span></tt> 文件中。
+它可以被转换为可以可视化的cachegrind格式。</p>
+<p>在系统shell中输入</p>
+<div class="highlight-python"><pre>hotshot2calltree -o cachegrind.out.42 pythongrind.prof</pre>
+</div>
+<p>输出文件 <tt class="docutils literal"><span class="pre">cachegrind.out.42</span></tt> 可以由 <tt class="docutils literal"><span class="pre">kcachegrind</span></tt> 查看。
+请注意遵守命名习惯 <tt class="docutils literal"><span class="pre">cachegrind.out.XX</span></tt>.</p>
+<table class="docutils citation" frame="void" id="cython" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[Cython]</a></td><td>Cython, <a class="reference external" href="http://www.cython.org">http://www.cython.org</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="pyrex" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[Pyrex]</a></td><td>Pyrex, <a class="reference external" href="http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/">http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="pyt" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[PyT]</td><td><em>(<a class="fn-backref" href="#id7">1</a>, <a class="fn-backref" href="#id11">2</a>)</em> The Python Tutorial, <a class="reference external" href="http://www.python.org/">http://www.python.org/</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">编程</a><ul>
+<li><a class="reference external" href="#sage">读取和附加Sage文件</a></li>
+<li><a class="reference external" href="#section-compile">创建编译代码</a><ul>
+<li><a class="reference external" href="#c">在单独文件中访问C语言函数</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#python-sage">独立的Python/Sage脚本</a></li>
+<li><a class="reference external" href="#id5">数据类型</a></li>
+<li><a class="reference external" href="#id6">列表，元素和序列</a></li>
+<li><a class="reference external" href="#id8">字典</a></li>
+<li><a class="reference external" href="#id9">集合</a></li>
+<li><a class="reference external" href="#id10">迭代器</a></li>
+<li><a class="reference external" href="#id12">循环，函数，控制语句和比较</a></li>
+<li><a class="reference external" href="#id13">性能分析</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="interfaces.html"
+                                  title="previous chapter">接口</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="distributed.html"
+                                  title="next chapter">分布式计算</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/programming.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="distributed.html" title="分布式计算"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="interfaces.html" title="接口"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

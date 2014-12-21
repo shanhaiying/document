@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>分布式计算 &mdash; Sage Tutorial v4.3</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '4.3',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Sage Tutorial v4.3" href="index.html" />
+    <link rel="next" title="后记" href="afterword.html" />
+    <link rel="prev" title="编程" href="programming.html" />
+    <link rel="icon" href="_static/sageicon.png" type="image/x-icon" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="afterword.html" title="后记"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="programming.html" title="编程"
+             accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>分布式计算<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Sage内置了强大的分布式计算框架“分布式Sage”(<tt class="docutils literal"><span class="pre">dsage</span></tt>).</p>
+<div class="section" id="id2">
+<h2>概要<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>分布式Sage是一个框架，允许用户在Sage中进行分布式计算。
+它包括一个服务器，客户端和若干计算节点，以及可编写计算任务的类。
+它被设计成主要用于粗糙的分布式计算，即，任务之间联系不多的计算。
+有时候也被称为网格计算。</p>
+<p>分布式Sage由3个部分组成：</p>
+<ol class="arabic simple">
+<li><strong>服务器</strong> 的职责是任务的分配，提交和收集。
+还包括一个web接口，以便于监视计算任务和进行其他管理的工作。</li>
+<li><strong>客户端</strong> 的职责是提交新的任务给服务器并收集计算结果。</li>
+<li><strong>计算节点</strong> 执行实际的计算。</li>
+</ol>
+</div>
+<div class="section" id="id3">
+<h2>快速入门<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>这有几个例子展示如何使用 <tt class="docutils literal"><span class="pre">dsage</span></tt>.</p>
+<div class="section" id="id4">
+<h3>例 1<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>运行 <tt class="docutils literal"><span class="pre">dsage.setup()</span></tt>. 将设置SQLite数据库并为SSL通信生成公钥和私钥。
+还根据你当前的用户名添加一个默认的用户。</li>
+<li>运行 <tt class="docutils literal"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">dsage.start_all()</span></tt>. 该命令启动服务器，web服务器，
+<img class="math" src="_images/math/41c544263a265ff15498ee45f7392c5f86c6d151.png" alt="2"/> 个计算节点，并返回一个对象(<tt class="docutils literal"><span class="pre">d</span></tt>)，它是一个与服务器的连接。
+从这儿开始，你与 <tt class="docutils literal"><span class="pre">dsage</span></tt> 的交互任务主要通过 <tt class="docutils literal"><span class="pre">d</span></tt> 来完成。</li>
+<li>打开浏览器，转到 <a class="reference external" href="http://localhost:8082">http://localhost:8082</a> 查看 <tt class="docutils literal"><span class="pre">dsage</span></tt> 的web界面。
+在这里你可以看到计算任务的状态，计算节点的连接以及 <tt class="docutils literal"><span class="pre">dsage</span></tt>
+服务器的其他一些重要信息。(译注：在我的机子上，
+每次的端口号都不一样，似乎也没有规律。可以使用 nc -zv localhost 1-65535
+命令查看当前所有打开的端口，挨个尝试。)</li>
+<li>尝试一个简单的例子。输入 <tt class="docutils literal"><span class="pre">job=d('2+2')</span></tt>. 如果你看着Web界面，
+会看到表格中出现一个新的任务。现在一个计算节点接受这个任务，
+执行后将结果显示给你。要得到结果，输入 <tt class="docutils literal"><span class="pre">job.result</span></tt>.
+可能现在还没有结果，因为对于简单的计算，网络通信占用了大量的计算时间。
+如果你希望等待你的任务结束，可以调用 <tt class="docutils literal"><span class="pre">job.wait()</span></tt>,
+这将阻断通信直到任务完成，那时可以用 <tt class="docutils literal"><span class="pre">job.result</span></tt> 查看结果。
+你可以用这种方法调用 <tt class="docutils literal"><span class="pre">d</span></tt> 进行任何的计算。</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>例2<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>在这个例子中，我们演示如何使用 <tt class="docutils literal"><span class="pre">dsage</span></tt> 的内置类 <tt class="docutils literal"><span class="pre">DistributedFactor</span></tt>.
+DistributedFactor混合使用ECM和QSieve算法进行因子分解，
+对小的因子进行试验分解。</p>
+<ol class="arabic simple">
+<li>如果还没有启动 <tt class="docutils literal"><span class="pre">dsage</span></tt> 会话，就运行 <tt class="docutils literal"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">dsage.start_all()</span></tt>,
+否则可以接着使用之前的 <tt class="docutils literal"><span class="pre">d</span></tt> 实例。</li>
+<li>使用 <tt class="docutils literal"><span class="pre">factor_job</span> <span class="pre">=</span> <span class="pre">DistributedFactor(d,</span> <span class="pre">number)</span></tt> 启动分布式分解任务。
+你可以选一个相当大的值，比如 <img class="math" src="_images/math/7ab4bc4fda77aa25f4edc4d52db42ee20607c57d.png" alt="2^{360}-1"/>.
+可以检查 <tt class="docutils literal"><span class="pre">factor_job.done</span></tt> 属性来查看分解任务是否已经完成。
+如果已经完成，可以使用 <tt class="docutils literal"><span class="pre">factor_job.prime_factors</span></tt> 查看它找到的素因子。</li>
+</ol>
+</div>
+<div class="section" id="id6">
+<h3>例3<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>这个例子演示分布式的 <tt class="docutils literal"><span class="pre">map</span></tt> 方法。你可以在
+<a class="reference external" href="http://docs.python.org/lib/build-in-funcs.html">http://docs.python.org/lib/build-in-funcs.html</a> 找到关于正规
+<tt class="docutils literal"><span class="pre">map</span></tt> 方法的文档。语法是完全相同的。</p>
+<p>首先，如果还没有启动 <tt class="docutils literal"><span class="pre">dsage</span></tt> 会话，就运行 <tt class="docutils literal"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">dsage.start_all()</span></tt>,
+否则可以接着使用之前的 <tt class="docutils literal"><span class="pre">d</span></tt> 实例。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span><span class="o">*</span><span class="n">n</span>
+<span class="gp">sage: </span><span class="n">j</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="mf">25</span><span class="p">,</span><span class="mf">12</span><span class="p">,</span><span class="mf">25</span><span class="p">,</span><span class="mf">32</span><span class="p">,</span><span class="mf">12</span><span class="p">])</span>
+<span class="gp">sage: </span><span class="n">jobs</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">block_on_jobs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这将堵断通信直到 <tt class="docutils literal"><span class="pre">f</span></tt> 对每一个输入都运算完毕。</p>
+</div>
+<div class="section" id="id7">
+<h3>例4<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>这个例子演示如何对一个 <tt class="docutils literal"><span class="pre">dsage</span></tt> 实例使用 <tt class="docutils literal"><span class="pre">&#64;parallel</span></tt> 修饰。</p>
+<p>首先，如果还没有启动 <tt class="docutils literal"><span class="pre">dsage</span></tt> 会话，就运行 <tt class="docutils literal"><span class="pre">d</span> <span class="pre">=</span> <span class="pre">dsage.start_all()</span></tt>,
+否则可以接着使用之前的 <tt class="docutils literal"><span class="pre">d</span></tt> 实例。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">sage: </span><span class="n">P</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span><span class="n">p_iter</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">parallel_iter</span><span class="p">)</span>
+<span class="gp">sage: </span><span class="nd">@P</span>
+<span class="gp">... </span>  <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>  <span class="k">return</span> <span class="n">n</span><span class="o">+</span><span class="n">m</span>
+<span class="gp">sage: </span><span class="n">f</span><span class="p">([(</span><span class="mf">1</span><span class="p">,</span><span class="mf">2</span><span class="p">),</span> <span class="p">(</span><span class="mf">5</span><span class="p">,</span> <span class="mf">10</span><span class="o">/</span><span class="mf">3</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>文件<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">dsage</span></tt> 将新文件保存在 <tt class="docutils literal"><span class="pre">$SAGE_ROOT/.sage/dsage</span></tt>:</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">pubcert.pem</span></tt> 和 <tt class="docutils literal"><span class="pre">cacert.pem</span></tt>: 用于SSL通信的公钥和私钥。</li>
+<li><tt class="docutils literal"><span class="pre">dsage_key.pub</span></tt> 和 <tt class="docutils literal"><span class="pre">dsage_key</span></tt>: 用于用户授权的密钥。</li>
+<li>目录 <tt class="docutils literal"><span class="pre">db/</span></tt>: 包含 <tt class="docutils literal"><span class="pre">dsage</span></tt> 的数据库。</li>
+<li><tt class="docutils literal"><span class="pre">*.log</span></tt> 文件: 由服务器和计算节点生成的日志文件。</li>
+<li>目录 <tt class="docutils literal"><span class="pre">tmp_worker_files/</span></tt>: 计算节点在计算时，将任务保存在这里。</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">分布式计算</a><ul>
+<li><a class="reference external" href="#id2">概要</a></li>
+<li><a class="reference external" href="#id3">快速入门</a><ul>
+<li><a class="reference external" href="#id4">例 1</a></li>
+<li><a class="reference external" href="#id5">例2</a></li>
+<li><a class="reference external" href="#id6">例3</a></li>
+<li><a class="reference external" href="#id7">例4</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#id8">文件</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="programming.html"
+                                  title="previous chapter">编程</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="afterword.html"
+                                  title="next chapter">后记</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/distributed.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="afterword.html" title="后记"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="programming.html" title="编程"
+             >previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">Sage Tutorial v4.3</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    
+    <div class="footer">
+      &copy; Copyright 2005--2009, The Sage Development Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+  </body>
+</html>

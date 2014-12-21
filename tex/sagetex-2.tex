@@ -1,0 +1,30 @@
+%页面设置
+\documentclass[a4paper]{article}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{titlesec} %标题位置，有center，raggedleft，raggedright三个选项
+%本地化
+\usepackage{fontspec}
+\setmainfont{SimSun}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+%数学
+\usepackage{amsmath}
+\usepackage{sagetex}
+%文档
+\begin{document}
+\title{数学软件Sagemath中变量的基本应用}
+\author{闫鹏}
+\date{}
+\maketitle
+\noindent
+There are $26$ choices for each letter, and $10$ choices for
+each digit, for a total of $26^3 \cdot 10^3 =
+\sage{26^3*10^3}$ license plates. \\
+\sageplot[width=5cm]{plot(sin(x), 0, pi)}
+\begin{sageblock}
+sage: 1+1
+2
+sage: factor(x^2 + 2*x + 1)
+\end{sageblock}
+
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\renewcommand{\familydefault}{\sfdefault}
+\title{表格并列}
+\author{yan}
+\date{\today}
+\begin{document}
+	
+
+\begin{table}[htbp]
+\begin{minipage}{.5\linewidth}
+\centering
+\caption{摩尔热容测量值}
+\begin{tabular}{rc}
+\hline 
+{ }温度$/(\mathrm{^\circ C})${ } & {　}氢{　}气{　}  \\
+\hline
+  0\quad{　}  & 20.288  \\
+400\quad{　}  & 21.066  \\
+800\quad{　}  & 22.142  \\
+1200\quad{　} & 23.824  \\
+\hline 
+\end{tabular}
+\end{minipage}\begin{minipage}{.5\linewidth}  
+\centering
+\caption{双原子}
+\begin{tabular}{cc}
+\hline 
+{ }温度$/(\mathrm{^\circ C})${ } & {　}氢{　}气{　} \\
+\hline
+  0\quad{　}  & 20.288  \\
+400\quad{　}  & 21.066  \\
+800\quad{　}  & 22.142  \\
+1200\quad{　} & 23.824  \\
+\hline 
+\end{tabular}
+\end{minipage}
+\end{table}
+
+
+\end{document}

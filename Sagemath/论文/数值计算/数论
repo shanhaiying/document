@@ -1,0 +1,5 @@
+Numerical Sage   
+This document is designed to introduce the reader to the tools in Sage that are useful for doing numerical computation. It is currently a bit outdated, but work is being done to bring it up to date.
+
+Three Lectures about Explicit Methods in Number Theory Using Sage   
+This document is about using the mathematics software Sage to do computations with number fields and modular forms. It assumes no prior knowledge about Sage, but assumes a graduate level background in algebraic number theory.
