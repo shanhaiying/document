@@ -1,0 +1,14 @@
+sagemath结构动力学
+
+ sage: x = var('x')
+      sage: y = function('y', x)
+      sage: desolve(diff(y,x) + y - 1, y)
+      (_C + e^x)*e^(-x)
+
+微分方程组的解法
+a,t = var('a,t')
+x = function('x', t)
+y = function('y', t)
+dx2 = 0 == -diff(x,t,2)-(1-a)*((x-a)/(sqrt((x-a)^2 + y^2))^3)-a*((x+1-a)/(sqrt((x+1-a)^2 + y^2))^3)+x+2*diff(y,t,1)
+dy2 = 0 == -diff(y,t,2)-(1-a)*(y/(sqrt((x-a)^2 + y^2))^3)-a*(y/(sqrt((x+1-a)^2 + y^2))^3)+y-2*diff(x,t,1)
+desolve_system([dx2,dy2],[x,y],ivar=t)

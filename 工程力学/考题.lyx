@@ -1,0 +1,152 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{fontspec}
+\usepackage{xltxtra}
+\usepackage{ulem}
+\setmainfont[BoldFont=SimSun,ItalicFont=SimSun]{SimSun}
+\setsansfont[BoldFont=SimHei]{SimHei}
+\setmonofont{SimSun}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language chinese-simplified
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+集装箱船运输安全对策研究委员会和 NK 调查结果 
+\end_layout
+
+\begin_layout Subsection
+可以确定,“MOLComfort”轮在船体舯部的船底部位发生了变形,但这是不是导致船舶断裂的主要原因目前还不能下定论。 
+\end_layout
+
+\begin_layout Subsection
+认为“MOLComfort”轮的沉没很可能与作用在双底结构的横向荷载有关,并利用弹性塑料进行对比分析并执行测算。建议在测算船体梁的最大强度时,应将“横向荷载”带
+来的影响考虑在内,并对船底板架结构的屈曲及破裂强度做好估测。 
+\end_layout
+
+\begin_layout Subsection
+基于事故初期船舯底部进水的情况,可以认为底部船体外板上已经出现裂纹。为了研究上述裂纹是如何产生并进一步扩展的,NK评估了“MOLComfort”轮船体强度和其在
+事故发生时所承受的载荷,采用有限元模型进行仿真,并对动力载荷(如颤振)影响进行了分析。 
+\end_layout
+
+\begin_layout Subsection
+为测算作用于船体的载荷,NK对“MOL Comfort”轮事故发生 时的气象状况和货物的装载状态等进行了调查。 
+\end_layout
+
+\begin_layout Subsection
+NK对与事故船具有同样结构设计的大型集装箱船进行了调查。在对其姊妹船的检查过程中发现,在船舯区域中心线附近的底部外板高度方向上,存在将近20毫米的屈曲变形。
+\end_layout
+
+\begin_layout Subsection
+作为安全强化措施,日本三菱重工已对同型船的船体结构进行了加固。 
+\end_layout
+
+\begin_layout Subsection
+为了解一些与事故船结构设计不同的船舶是否存在同样的变形情况,NK在部分船东的支持下,进行了相关检查。 
+\end_layout
+
+\begin_layout Section
+LR 对于调查结果的意见和相关工作 
+\end_layout
+
+\begin_layout Subsection
+作为MOL技术顾问,LR接受了“MOL Comfort”轮7条(包括新造船)姊妹船的入级。 
+\end_layout
+
+\begin_layout Subsection
+认为目前所公布的调查结果并未提供整个事故的模拟过程。
+\end_layout
+
+\begin_layout Subsection
+根据模拟情况,船体所受载荷仅为船体计算所能承受最大载荷的2/3。这意味着,有可能所进行的仿真过程并不能真实模拟船舶实际受力情况,或有可能船体实际能承受的最大载荷
+要小于理论计算值,比如有些变形或结构使船体的实际强度变小。 
+\end_layout
+
+\begin_layout Subsection
+船体同时受到纵向和横向(最终的调查报告认为“横向载荷”可能是船舶断裂的原因)的扭曲应力。 
+\end_layout
+
+\begin_layout Subsection
+对船舶在波浪海况下所受到的鞭梢效应(Whipping effect)受力情况目前尚未建立完整的仿真模型。船级社正在不断推进有关这一部分的分析。LR要求在新建船舶
+的设计过程中就要进行此项仿真计算。
+\end_layout
+
+\begin_layout Subsection
+运用最新的技术手段重新评估在运营船舶的船体强度。船体总纵强度和横向强度的至关重要。 
+\end_layout
+
+\begin_layout Subsection
+国际船级社协会和各国船级社需要重新评估集装箱船舶的最小强度标准,认为船级社现行准则不能涵盖集装箱船舶的实际受力情况。据了解,IMO 已在准备对相应标准进行修改,
+以加强船舶整体强度。
+\end_layout
+
+\end_body
+\end_document

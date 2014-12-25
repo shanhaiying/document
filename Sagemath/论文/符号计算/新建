@@ -243,7 +243,7 @@ desolve(diff(y,x) + y - 1, y) #数学形式？，求y
 \begin{sagecommandline}
 desolve(diff(y,x) + y - 1, y, ics=[10,2]); f
 (e^10 + e^x)*e^(-x)
-\end{sagecommandline}
+\end{sagecommandlinf.derivativee}
 二阶微分方程
 \begin{sagecommandline}
 function('y', x)
