@@ -1,11 +1,16 @@
-\documentclass[a4paper,10.5pt]{article}
-\setlength{\parindent}{0pt} %首行不缩进
-\setlength{\baselineskip}{20pt} %行距
-%宏包
+\documentclass[a4paper]{article}
+
 \usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
 \usepackage[english]{babel}
+\usepackage{lastpage} %统计页数
 \usepackage{fontspec} %使用非latex字体要使用此包
-\setmainfont{Times New Roman} 
+%自定义页眉页脚
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\fancyfoot[C]{\fontspec{SimHei} 第{\thepage}页   共\pageref{LastPage}页} 
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
 %更改大列表环境，小列表环境可以在label中改变
 \renewcommand{\theenumi}{\Roman{enumi}.}
 \renewcommand{\labelenumi}{\theenumi}
@@ -15,25 +20,35 @@
 \renewcommand{\labelenumiii}{\theenumiii}
 \renewcommand{\theenumiv}{\alph{enumiv}.}
 \renewcommand{\labelenumiv}{\theenumiv}
+%格式
+\setmainfont{Times New Roman} 
+\renewcommand{\normalsize}{\fontsize{10.5pt}{\baselineskip}\selectfont}
+\renewcommand{\Large}{\fontsize{12pt}{\baselineskip}\selectfont}
+\setlength{\parindent}{0pt} %首行不缩进
+\setlength{\baselineskip}{20pt} %行距
 
-
-%文档
+%标题
 \begin{document}
-\title{HJD Type Crane PLC transformation in control circuit \\
-{\fontspec{SimHei} HJD型克令吊控制电路的PLC改造}}
+\title{\fontspec{Arial Black} \Large HJD Type Crane PLC transformation in control circuit \\
+\fontspec{SimHei} \Large HJD型克令吊控制电路的PLC改造}
 \author{\fontspec{SimHei} 船海 闫鹏 201430110059}
 \date{}
 \maketitle
-
-\section*{Abstract}
+\thispagestyle{fancy}
+%文档
+%摘要
+\section*{\fontspec{Arial Black} \Large Abstract}
 \textbf{Background}. HJD type crane is widely used in domestic ships. Traditional HJD type crane adopts relays and contactors for secondary circuit control. The coils and contacts are easily burned after long-term use, frequently causing accidents. \\
 \textbf{Aims and Approach}. The chief aim of the present work is provide an available way shifting to PLC control and reducing the use of coils and contacts. PLC, namely, programmable logic controller, is a digital computer used for automation and control. PLCs support multiple analogue and digital inputs and outputs arrangements, with extended temperature ranges, immunity to electrical noise, and resistance to vibration and impact. PLC used in this paper is Siemens S7-200.\\
 \textbf{Conclusion}. In this paper, The PLC transformation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, has been supplied after analyzing the principle of control circuits. There are no failures in experiment after long-term usage. 
-
-\section*{Outline}
-Thesis Sentence: The PLC transformations and the method of implementation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, list below.
+\begin{flushright}
+\textit{Keywords: HJD, PLC, crane, S7-200, simens.}
+\end{flushright}
+%大纲
+\section*{\fontspec{Arial Black} \Large Outline}
+Thesis Sentence: The PLC transformations and the method of implementation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, list below. Details can be found in the article.
 \begin{enumerate}
-\item Reconstruction of basic protection control process	
+\item Basic protection control process is transformed considering overload, overheat, etc.
 	\begin{enumerate}
 \item Overload protection of fan motor and crane motor
 		\begin{enumerate}
@@ -44,18 +59,18 @@ Thesis Sentence: The PLC transformations and the method of implementation, inclu
 \item Power supply missing phase and circuit break protection are achieved by  zero-voltage relay KA1.
 \item Emergency forced running is achieved by the contactor SB.
 	\end{enumerate}
-\item Reconstruction of rose and fall process
+\item Rose and fall process is transformed into rose process and fall process.
 	\begin{enumerate}
 \item Rose process  is achieved by steering control contactor Q0.2.
 \item Fall process is  achieved by steering control contactor Q0.3.
 \item DC delay time relay is required in reversing at high speed.
 	\end{enumerate}
-\item Reconstruction of brake process
+\item Brake process is different depending on the conditions of motor.
 	\begin{enumerate} 
 \item In normal rise or fall state, parking brake   coil pulls in,mechanical parking brake operates.
 \item In medium/high gear, DC master switch disconnect, low speed winding connects realizing automatic grade braking.
 	\end{enumerate} 
-\item Reconstruction of low/medium/high-speed process
+\item Reconstruction of low/medium/high-speed process list below.
 	\begin{enumerate}
 \item Low-speed process
 		\begin{enumerate}
@@ -78,53 +93,66 @@ Thesis Sentence: The PLC transformations and the method of implementation, inclu
 	\end{enumerate} 
 	\end{enumerate}
 	\end{enumerate}
-	
-\section*{References}
+
+%参考文献
+\section*{\fontspec{Arial Black} \Large References}
 \hangafter=1
 \setlength{\hangindent}{4em}
-Smoczek, J., and J. Szpytko. 2014. “Evolutionary algorithm-based design of a fuzzy TBF predictive model and TSK fuzzy anti-sway crane control system.” \textit{Engineering Applications of Artificial Intelligence} 28:190-200. \par
+Smoczek, J., and J. Szpytko. 2014. ``Evolutionary algorithm-based design of a fuzzy TBF predictive model and TSK fuzzy anti-sway crane control system.''
+\textit{Engineering Applications of Artificial Intelligence} 28:190-200. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Kłosiński, Jacek. 2005. “Swing-free stop control of the slewing motion of a mobile crane.”
+Kłosiński, Jacek. 2005. ``Swing-free stop control of the slewing motion of a mobile crane.''
 \textit{Control Engineering Practice} 13:451-460. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Kim, Dooroo, and William Singhose. 2010. “Performance studies of human operators driving double-pendulum bridge cranes.” 
+Kim, Dooroo, and William Singhose. 2010. ``Performance studies of human operators driving double-pendulum bridge cranes.''
 \textit{Control Engineering Practice} 18:567-576. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Armstrong, N.A., and P.R. 1994. “MooreA distributed control architecture for intelligent crane automation.” 
+Armstrong, N.A., and P.R. 1994. ``MooreA distributed control architecture for intelligent crane automation.''
 \textit{Automation in Construction} 3:45-53. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Das, S.K., S. Utku, and B.K. Wada. 1990. “Use of reduced basis technique in the inverse dynamics of large space cranes.”
+Das, S.K., S. Utku, and B.K. Wada. 1990. ``Use of reduced basis technique in the inverse dynamics of large space cranes.''
 \textit{Computing Systems in Engineering} 1:577-589. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Chang Chengyuan, and Kuo-Hung Chiang. 2008. “Fuzzy projection control law and its application to the overhead crane.”
+Chang, Chengyuan, and Kuo-Hung Chiang. 2008. ``Fuzzy projection control law and its application to the overhead crane.''
 \textit{Mechatronics} 18:607-615. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Armstrong, N.A., and P.R. Moore. “A distributed control architecture for intelligent crane automation.”
+Armstrong, N.A., and P.R. Moore. ``A distributed control architecture for intelligent crane automation.''
 \textit{Automation in Construction} 3:45-53. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Rusinski, Eugeniusz, Zaklina Stamboliska, and Przemysław Moczko. 2013. “Proactive control system of condition of low-speed cement machinery.”
+Rusinski, Eugeniusz, Zaklina Stamboliska, and Przemysław Moczko. 2013. ``Proactive control system of condition of low-speed cement machinery.''
 \textit{Automation in Construction} 31:313-324. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-HORÁČEK, P.. 1995. “MODULAR CONTROL LABORATORY ARCHITECTURE.”
-\textit{Advances in Control Education} 253-256.
+Gelen, Gökhan, Murat Uzam. 2014. ``The synthesis and PLC implementation of hybrid modular supervisors for real time control of an experimental manufacturing system.''
+\textit{Journal of Manufacturing Systems} 535-550. \par
 
-\section*{Acknowledgments}
+\hangafter=1
+\setlength{\hangindent}{4em}
+Peng, Xiaohua, Zhilei Cui, Wen Gu, Weiguo Xu, Xuejun Guo. 2014. ``Low level of LAT–PLC-γ1 interaction is associated with Th2 polarized differentiation: A contributing factor to the etiology of asthma.''
+\textit{Cellular Immunology} 131-137. \par
+
+\hangafter=1
+\setlength{\hangindent}{4em}
+Javier Matanza, Sadot Alexandres, Carlos Rodriguez-Morcillo. 2013. ``Performance evaluation of two narrowband PLC systems: PRIME and G3.''
+\textit{Computer Standards \& Interfaces} 198-208. \par
+
+%致谢
+\section*{\fontspec{Arial Black} \Large Acknowledgments}
 The author acknowledge the support of the Shanghai Maritime
 University and the college of Merchant Marine. The author appreciate the valuable
 help from instructor Mr. Ling, and express his gratitude to all those who helped him

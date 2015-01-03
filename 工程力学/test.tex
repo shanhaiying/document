@@ -1,27 +1,20 @@
 %% LyX 2.1.2.2 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass{article}
-\usepackage{fontspec}
+\documentclass{ctexart}
 \usepackage[a4paper]{geometry}
 \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in}
 
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-\usepackage{fontspec}
-\usepackage{xltxtra}
 \usepackage{ulem}
-\setmainfont[BoldFont=SimSun,ItalicFont=SimSun]{SimSun}
-\setsansfont[BoldFont=SimHei]{SimHei}
-\setmonofont{SimSun}
-\XeTeXlinebreaklocale "zh"
-\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
-\usepackage{amsfonts}
-\usepackage{pifont}
+
 \makeatother
 
-\begin{document} 
+\usepackage{xunicode}
+\begin{document}
 
-\section{名词解释}
+\section{名词解释 }
+
 
 \subsection{多自由度振动:需要两个或两个以上的独立坐标才能描述其运动的振动系统。P36 }
 
@@ -33,7 +26,6 @@
 
 
 \subsection{声压的概念:有声波作用时,声波的传播实际上是媒质内稠密和稀疏的交替过程,体积元由于声扰动产生的前后压强 逾量,称为声压。P181 }
-
 
 \subsection{吸声系数:为被吸收声能(包括透射声能)与入射声能之比。P197 }
 
@@ -52,37 +44,38 @@
 
 \subsection{叶厚效应:螺旋桨桨叶具有厚度,在流场中运动时,流场中某一点P处压力将随着桨叶的接近和远离该点发生周期性的变化,从而使该流场中个点受到脉动压力。 }
 
-\section{二.判断题 }
+
+\section{判断题 }
 
 
-\subsection{工程共振现象时振幅无穷大(\ding{55})P20 }
+\subsection{工程共振现象时振幅无穷大(✗)P20 }
 
 
-\subsection{阻尼消耗能量,使振动衰弱(\checkmark)}
+\subsection{阻尼消耗能量,使振动衰弱(✔)}
 
 
-\subsection{无阻尼振动系统振动频率比有阻尼的小(\ding{55}) 只改变振幅 }
+\subsection{无阻尼振动系统振动频率比有阻尼的小(✗) 只改变振幅 }
 
 
-\subsection{舰船的主要噪声源只有柴油机噪声,燃气轮机噪声,轴承 噪声,液力机械噪声,电机噪声五种(\ding{55})P286 }
+\subsection{舰船的主要噪声源只有柴油机噪声,燃气轮机噪声,轴承 噪声,液力机械噪声,电机噪声五种(✗)P286 }
 
 
-\subsection{船舶是一种复杂的水上建筑物,其结构及质量分布很不规 则,是等截面的空心梁。(\ding{55})P111 变截面 }
+\subsection{船舶是一种复杂的水上建筑物,其结构及质量分布很不规 则,是等截面的空心梁。(✗)P111 变截面 }
 
 
-\subsection{船体振动所受到的力有干扰力,弹性恢复力,惯性力和阻尼力(\checkmark)P111 p4 }
+\subsection{船体振动所受到的力有干扰力,弹性恢复力,惯性力和阻 尼力(✔)P111 p4 }
 
 
-\subsection{节点就是船体总振动时振幅最大的点(\ding{55})P71 图旁边 }
+\subsection{节点就是船体总振动时振幅最大的点(✗)P71 图旁边 }
 
 
-\subsection{结构内阻尼力是因为系统本身结构缺陷而引起的(\ding{55})P169 p3 }
+\subsection{结构内阻尼力是因为系统本身结构缺陷而引起的(✗)P169 p3 }
 
 
-\subsection{系统对初始激励的响应通常称为自由振动(\checkmark) P4 }
+\subsection{系统对初始激励的响应通常称为自由振动(✔) P4 }
 
 
-\subsection{只有刚度和强度是衡量减振器用途的功能特性的参数(\ding{55}) P275 }
+\subsection{只有刚度和强度是衡量减振器用途的功能特性的参数(✗) P275 }
 
 
 \section{填空}
@@ -103,7 +96,7 @@ P6 }
 \subsection{内损耗功率通常由\uline{结构阻尼，结构声辐射损耗}和\uline{边界连接阻尼损耗}等三个部分组成。P186 }
 
 
-\subsection{船舶机械设备工作时将不可避免地引起振动,这种振动包括\uline\{螺旋桨\}及\uline\{主机\}引起船体结构振动。P128 }
+\subsection{船舶机械设备工作时将不可避免地引起振动,这种振动包括\textbackslash{}uline\{螺旋桨\}及\textbackslash{}uline\{主机\}引起船体结构振动。P128 }
 
 
 \subsection{减振器按其性能是否可控又可分为\uline{可调式}和\uline{不可调式}减振器。P261 }
@@ -129,7 +122,7 @@ P131 图下面 }
 \subsection{表征舰船声隐蔽性的最基本参数是\uline{船舶辐射噪声的声源级}。P191 p3 }
 
 
-\subsection{随着相对声振动源的距离的增大,其振幅不断减小。原因是(一是部分振动能量被结构吸收,二是散波波前的扩大)。P190 }
+\subsection{随着相对声振动源的距离的增大,其振幅不断减小。原因是\uline{一是部分振动能量被结构吸收,二是散波波前 的扩大}。P190 }
 
 
 \subsection{吸声材料包括\uline{多孔吸声材料}和\uline{共振吸声材料}。P197 }
@@ -142,7 +135,7 @@ p4 }
 \subsection{对船舶上层建筑舱室的噪声进行预测的比较可行的方法是\uline{灰色预测方法}。P192 p4 }
 
 
-\subsection{根据舱室噪声的来源,可将舱室噪声分为:(机械噪声、气体流动噪声、脉冲冲击噪声、舰载飞机噪声)等。P286 }
+\subsection{根据舱室噪声的来源,可将舱室噪声分为:\uline{机械噪声、气体流动噪声、脉冲冲击噪声、舰载飞机噪声}等。P286 }
 
 
 \subsection{次声的防护可从声源、传播途径和接收三方面采取相应的措施进行防护。其中,在传播途径方面,可在次声的传播途径上采取\uline{隔声、吸声、消声}技术。P298}
