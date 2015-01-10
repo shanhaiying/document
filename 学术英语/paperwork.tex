@@ -4,6 +4,7 @@
 \usepackage[english]{babel}
 \usepackage{lastpage} %统计页数
 \usepackage{fontspec} %使用非latex字体要使用此包
+\usepackage{ulem}
 %自定义页眉页脚
 \usepackage{fancyhdr} 
 \pagestyle{fancy}
@@ -24,45 +25,46 @@
 \setmainfont{Times New Roman} 
 \renewcommand{\normalsize}{\fontsize{10.5pt}{\baselineskip}\selectfont}
 \renewcommand{\Large}{\fontsize{12pt}{\baselineskip}\selectfont}
+\renewcommand{\LARGE}{\fontsize{15.75pt}{\baselineskip}\selectfont}
 \setlength{\parindent}{0pt} %首行不缩进
 \setlength{\baselineskip}{20pt} %行距
 
-%标题
-\begin{document}
-\title{\fontspec{Arial Black} \Large HJD Type Crane PLC transformation in control circuit \\
-\fontspec{SimHei} \Large HJD型克令吊控制电路的PLC改造}
-\author{\fontspec{SimHei} 船海 闫鹏 201430110059}
-\date{}
-\maketitle
-\thispagestyle{fancy}
 %文档
+\begin{document}
+	\thispagestyle{fancy}
+\includegraphics{header.eps} \\
+{\fontspec{SimHei} \Large 一、论文标题} \\
+{\fontspec{Arial Black}\Large HJD Type Crane PLC transformation in control circuit \\
+	\fontspec{SimHei}\Large HJD型克令吊控制电路的PLC改造} \\
 %摘要
-\section*{\fontspec{Arial Black} \Large Abstract}
-\textbf{Background}. HJD type crane is widely used in domestic ships. Traditional HJD type crane adopts relays and contactors for secondary circuit control. The coils and contacts are easily burned after long-term use, frequently causing accidents. \\
-\textbf{Aims and Approach}. The chief aim of the present work is provide an available way shifting to PLC control and reducing the use of coils and contacts. PLC, namely, programmable logic controller, is a digital computer used for automation and control. PLCs support multiple analogue and digital inputs and outputs arrangements, with extended temperature ranges, immunity to electrical noise, and resistance to vibration and impact. PLC used in this paper is Siemens S7-200.\\
-\textbf{Conclusion}. In this paper, The PLC transformation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, has been supplied after analyzing the principle of control circuits. There are no failures in experiment after long-term usage. 
-\begin{flushright}
-\textit{Keywords: HJD, PLC, crane, S7-200, simens.}
-\end{flushright}
+{\fontspec{SimHei} \Large 二、摘要与关键词} \\
+{\fontspec{Arial Black} \Large Abstract:} \\
+\textbf{Background}. HJD type crane is widely used in domestic ships. Traditional HJD type crane adopts relays and contacts for secondary circuit control. The coils and contacts are easily burned after long-term use, frequently causing accidents. \\
+\textbf{Aims and approach}. The chief aim of the present work is to provide an available way shifting to PLC control and reduce the use of coils and contacts. PLC, namely, programmable logic controller, is a digital computer used for automation and control. PLC supports multiple analogue and digital inputs and outputs arrangements, with extended temperature ranges, immunity to electrical noise, and resistance to vibration and impact. PLC used in this paper is Siemens S7-200.\\
+\textbf{Conclusion}. In this paper, The PLC transformation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, has been supplied. There are no failures in experiment after long-term usage. 
+
+{\fontspec{Arial Black} \textbf{\Large Key words: }}HJD, PLC, crane, S7-200, simens.
+
 %大纲
-\section*{\fontspec{Arial Black} \Large Outline}
+{\fontspec{SimHei} \Large 三、提纲} \\
+{\fontspec{Arial Black} \Large Outline} \\
 Thesis Sentence: The PLC transformations and the method of implementation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, list below. Details can be found in the article.
 \begin{enumerate}
 \item Basic protection control process is transformed considering overload, overheat, etc.
 	\begin{enumerate}
-\item Overload protection of fan motor and crane motor
+\item Overload protection includes fan motor and crane motor
 		\begin{enumerate}
 \item Fan motor overload protection is achieved  by fan thermal relay FR2.
 \item Crane motor overload protection is achieved  by crane motor thermal relay FR1.
 		\end{enumerate}
 \item Motor windings overheating protection is achieved by  motor temperature controller ST.
-\item Power supply missing phase and circuit break protection are achieved by  zero-voltage relay KA1.
-\item Emergency forced running is achieved by the contactor SB.
+\item Missing phase of power and circuit break protection are achieved by  zero-voltage relay KA1.
+\item Emergency forced running is achieved by the contact SB.
 	\end{enumerate}
 \item Rose and fall process is transformed into rose process and fall process.
 	\begin{enumerate}
-\item Rose process  is achieved by steering control contactor Q0.2.
-\item Fall process is  achieved by steering control contactor Q0.3.
+\item Rose process  is achieved by steering control contact Q0.2.
+\item Fall process is  achieved by steering control contact Q0.3.
 \item DC delay time relay is required in reversing at high speed.
 	\end{enumerate}
 \item Brake process is different depending on the conditions of motor.
@@ -70,32 +72,34 @@ Thesis Sentence: The PLC transformations and the method of implementation, inclu
 \item In normal rise or fall state, parking brake   coil pulls in,mechanical parking brake operates.
 \item In medium/high gear, DC master switch disconnect, low speed winding connects realizing automatic grade braking.
 	\end{enumerate} 
-\item Reconstruction of low/medium/high-speed process list below.
+\item Reconstruction of low/medium/high-speed process lists below.
 	\begin{enumerate}
-\item Low-speed process
+\item Reconstruction of low-speed process lists below.
 		\begin{enumerate}
-\item The crane will run in operational status by releasing rise or fall  contactor and the braking contactor.
-\item The shift from low-speed to medium-speed is achieved by energize medium-speed winding power.
+\item The crane will run in operational status by releasing rise or fall  contact and the braking contact.
+\item The shift from low-speed to medium-speed is achieved by energizing medium-speed winding power.
 		\end{enumerate}
-\item Medium-speed process
+\item Reconstruction of medium-speed process lists below.
 	\begin{enumerate}
-\item Medium speed contactor is self-locking and  interlocking with  low/high speed contactor.
-\item Braking contactor and fan contactor make sure the Motor does not run at medium speed.
+\item Medium speed contact is self-locked and  interlocked with  low/high speed contact.
+\item Braking contact and fan contact make sure that the motor will not run at medium speed.
 	\end{enumerate}
-\item High-speed process
+\item Reconstruction of high-speed process lists below.
 	\begin{enumerate}
 \item Motor should not run in high speed when heavy loaded.
 	\begin{enumerate}
 \item The detection of load is achieved  by load relay.
-\item The protection of overload is achieved by load contactors.
+\item The protection of overload is achieved by load contacts.
 	\end{enumerate}
-\item The diagram of wiring and control logic has been uploaded to PLC 
+\item The diagrams of wiring and control logic must upload to PLC.
 	\end{enumerate} 
 	\end{enumerate}
 	\end{enumerate}
 
 %参考文献
-\section*{\fontspec{Arial Black} \Large References}
+{\fontspec{SimHei} \Large 四、参考文献} \\
+{\fontspec{Arial Black} \Large Bibliography} 
+
 \hangafter=1
 \setlength{\hangindent}{4em}
 Smoczek, J., and J. Szpytko. 2014. ``Evolutionary algorithm-based design of a fuzzy TBF predictive model and TSK fuzzy anti-sway crane control system.''
@@ -118,12 +122,12 @@ Armstrong, N.A., and P.R. 1994. ``MooreA distributed control architecture for in
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Das, S.K., S. Utku, and B.K. Wada. 1990. ``Use of reduced basis technique in the inverse dynamics of large space cranes.''
+Das, S.K., and B.K. Wada. 1990. ``Use of reduced basis technique in the inverse dynamics of large space cranes.''
 \textit{Computing Systems in Engineering} 1:577-589. \par
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Chang, Chengyuan, and Kuo-Hung Chiang. 2008. ``Fuzzy projection control law and its application to the overhead crane.''
+Chang, Chengyuan. 2008. ``Fuzzy projection control law and its application to the overhead crane.''
 \textit{Mechatronics} 18:607-615. \par
 
 \hangafter=1
@@ -152,10 +156,11 @@ Javier Matanza, Sadot Alexandres, Carlos Rodriguez-Morcillo. 2013. ``Performance
 \textit{Computer Standards \& Interfaces} 198-208. \par
 
 %致谢
-\section*{\fontspec{Arial Black} \Large Acknowledgments}
-The author acknowledge the support of the Shanghai Maritime
-University and the college of Merchant Marine. The author appreciate the valuable
-help from instructor Mr. Ling, and express his gratitude to all those who helped him
+{\fontspec{SimHei} \Large 五、致谢} \\
+{\fontspec{Arial Black} \Large Acknowledgments} \\
+The author acknowledges the support of the Shanghai Maritime
+University and Merchant Marine college. The author appreciates the valuable
+help from instructor Yechun Ling, and express his gratitude to all those who helped him
 during the writing of this thesis. The content is solely the responsibility of the author and
 does not necessarily represent the official views of the Shanghai Maritime University
 and Merchant Marine College.

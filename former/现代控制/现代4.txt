@@ -1,0 +1,46 @@
+%页面设置
+\documentclass[a4paper]{article}
+\usepackage[top=1in,bottom=1in,left=1.25in,right=1.25in]{geometry}
+\usepackage{titlesec} %标题位置，有center，raggedleft，raggedright三个选项
+%本地化
+\usepackage{fontspec}
+\setmainfont{微软雅黑}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0
+pt plus 1pt minus 0.1pt
+%文档
+\begin{document}
+\title{第四题}
+\author{闫鹏}
+\date{}
+\maketitle
+
+欲使连续系统稳定，必须使特征方程|sI-A|=0的根，亦即矩阵A的特征值，全部位于s平面的左半开平面上。
+\\系统矩阵A为非奇异线性定常系统，Xe=0即原点，是系统的唯一平衡状态，其稳定性可由劳斯判据得到。
+\\已知|sI-A|=$s^3 - s^2 - 5\, s + 2 $=0
+\\列出劳斯表可得
+s^3    1    -5
+s^2    -1    2
+s^1    -3
+s^0    2
+
+由劳斯稳定判据可知,系统有两个正实根，即在该平衡点不稳定。
+
+\begin{verbatim}[matlab] 
+det(s*eye(3)-A) %求特征方程
+ 
+ans =
+ 
+s^3 - s^2 - 5*s + 2
+
+solve(s^3 - s^2 - 5*s + 2) %求特征方程解
+ 
+ans =
+ 
+              -2
+ 5^(1/2)/2 + 3/2=2.618
+ 3/2 - 5^(1/2)/2=0.382
+
+可知系统有两个解在s平面的右半开平面上，该平衡点不稳定
+\end{verbatim}
+\end{document}
