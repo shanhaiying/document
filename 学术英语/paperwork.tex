@@ -5,6 +5,8 @@
 \usepackage{lastpage} %统计页数
 \usepackage{fontspec} %使用非latex字体要使用此包
 \usepackage{ulem}
+\usepackage{tabularx}
+\usepackage{booktabs}
 %自定义页眉页脚
 \usepackage{fancyhdr} 
 \pagestyle{fancy}
@@ -25,14 +27,20 @@
 \setmainfont{Times New Roman} 
 \renewcommand{\normalsize}{\fontsize{10.5pt}{\baselineskip}\selectfont}
 \renewcommand{\Large}{\fontsize{12pt}{\baselineskip}\selectfont}
-\renewcommand{\LARGE}{\fontsize{15.75pt}{\baselineskip}\selectfont}
+\renewcommand{\LARGE}{\fontsize{14pt}{\baselineskip}\selectfont}
+\renewcommand{\huge}{\fontsize{15.75pt}{\baselineskip}\selectfont}
 \setlength{\parindent}{0pt} %首行不缩进
 \setlength{\baselineskip}{20pt} %行距
 
 %文档
 \begin{document}
-	\thispagestyle{fancy}
-\includegraphics{header.eps} \\
+
+	\begin{tabularx}{\textwidth}{XXX}
+	\multicolumn{3}{c}{\fontspec{SimHei}\huge 上海海事大学\uline{ 2014 }------\uline{ 2015 }学年第\uline{ 一 }学期} \vspace{1.5ex} \\ 
+	\multicolumn{3}{c}{\fontspec{SimHei}\huge 研究生\uline{ 学术论文写作 }课程考试答题纸 (\uline{ A }卷)} \\ \midrule[1mm] \midrule[0.3mm]
+	\LARGE \fontspec{SimSun} \qquad  专业: \ & \LARGE \fontspec{SimSun} \qquad \qquad 学生姓名: & \LARGE \fontspec{SimSun} \qquad \qquad \quad 学号: \\
+	\end{tabularx} \\ \vspace{2ex}
+	
 {\fontspec{SimHei} \Large 一、论文标题} \\
 {\fontspec{Arial Black}\Large HJD Type Crane PLC transformation in control circuit \\
 	\fontspec{SimHei}\Large HJD型克令吊控制电路的PLC改造} \\
@@ -43,7 +51,7 @@
 \textbf{Aims and approach}. The chief aim of the present work is to provide an available way shifting to PLC control and reduce the use of coils and contacts. PLC, namely, programmable logic controller, is a digital computer used for automation and control. PLC supports multiple analogue and digital inputs and outputs arrangements, with extended temperature ranges, immunity to electrical noise, and resistance to vibration and impact. PLC used in this paper is Siemens S7-200.\\
 \textbf{Conclusion}. In this paper, The PLC transformation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, has been supplied. There are no failures in experiment after long-term usage. 
 
-{\fontspec{Arial Black} \textbf{\Large Key words: }}HJD, PLC, crane, S7-200, simens.
+{\fontspec{Arial Black} \textbf{\Large Key words: }}HJD, PLC, crane, S7-200, simens
 
 %大纲
 {\fontspec{SimHei} \Large 三、提纲} \\
