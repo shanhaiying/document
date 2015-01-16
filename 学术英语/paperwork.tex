@@ -47,20 +47,20 @@
 %摘要
 {\fontspec{SimHei} \Large 二、摘要与关键词} \\
 {\fontspec{Arial Black} \Large Abstract:} \\
-\textbf{Background}. HJD type crane is widely used in domestic ships. Traditional HJD type crane adopts relays and contacts for secondary circuit control. The coils and contacts are easily burned after long-term use, frequently causing accidents. \\
-\textbf{Aims and approach}. The chief aim of the present work is to provide an available way shifting to PLC control and reduce the use of coils and contacts. PLC, namely, programmable logic controller, is a digital computer used for automation and control. PLC supports multiple analogue and digital inputs and outputs arrangements, with extended temperature ranges, immunity to electrical noise, and resistance to vibration and impact. PLC used in this paper is Siemens S7-200.\\
-\textbf{Conclusion}. In this paper, The PLC transformation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, has been supplied. There are no failures in experiment after long-term usage. 
+\textbf{Background}. HJD type crane is widely used in domestic ships. Traditional HJD type crane adopts relays and contacts for secondary circuit control. The coils and contacts are easily burned after long-term usage, frequently causing accidents. \\
+\textbf{Aims and approach}. The chief aim of the present work is to provide an available way shifting to PLC control and reduce the use of coils and contacts. PLC, the programmable logic controller, is a digital computer used for automation and control. PLC supports multiple analogue and digital inputs and outputs arrangements, with extended temperature ranges, immunity to electrical noise, and resistance to vibration and impact. PLC used in this paper is Siemens S7-200.\\
+\textbf{Conclusion}. In this paper, PLC transformations, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, have been supplied. There are no failures in experiment during long-term usage. 
 
-{\fontspec{Arial Black} \textbf{\Large Key words: }}HJD, PLC, crane, S7-200, simens
+{\fontspec{Arial Black} \textbf{\Large Key words: }}HJD, PLC, crane, S7-200, Siemens
 
 %大纲
 {\fontspec{SimHei} \Large 三、提纲} \\
 {\fontspec{Arial Black} \Large Outline} \\
-Thesis Sentence: The PLC transformations and the method of implementation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, list below. Details can be found in the article.
+Thesis Sentence: The PLC transformations and method of implementation, including basic protection control process, rose and fall process, brake process, low/medium/high-speed process, are listed below. More details can be found in the article.
 \begin{enumerate}
 \item Basic protection control process is transformed considering overload, overheat, etc.
 	\begin{enumerate}
-\item Overload protection includes fan motor and crane motor
+\item Load protection includes fan motor overload protection and crane motor overload protection.
 		\begin{enumerate}
 \item Fan motor overload protection is achieved  by fan thermal relay FR2.
 \item Crane motor overload protection is achieved  by crane motor thermal relay FR1.
@@ -75,24 +75,24 @@ Thesis Sentence: The PLC transformations and the method of implementation, inclu
 \item Fall process is  achieved by steering control contact Q0.3.
 \item DC delay time relay is required in reversing at high speed.
 	\end{enumerate}
-\item Brake process is different depending on the conditions of motor.
+\item Brake process varies depending on the conditions of motor.
 	\begin{enumerate} 
-\item In normal rise or fall state, parking brake   coil pulls in,mechanical parking brake operates.
+\item In normal rise or fall state, parking brake   coil pulls in, mechanical parking brake operates.
 \item In medium/high gear, DC master switch disconnect, low speed winding connects realizing automatic grade braking.
 	\end{enumerate} 
-\item Reconstruction of low/medium/high-speed process lists below.
+\item Reconstruction of low/medium/high-speed process is expanded below.
 	\begin{enumerate}
-\item Reconstruction of low-speed process lists below.
+\item Reconstruction of low-speed process is expanded below.
 		\begin{enumerate}
 \item The crane will run in operational status by releasing rise or fall  contact and the braking contact.
 \item The shift from low-speed to medium-speed is achieved by energizing medium-speed winding power.
 		\end{enumerate}
-\item Reconstruction of medium-speed process lists below.
+\item Reconstruction of medium-speed process is expanded below.
 	\begin{enumerate}
 \item Medium speed contact is self-locked and  interlocked with  low/high speed contact.
 \item Braking contact and fan contact make sure that the motor will not run at medium speed.
 	\end{enumerate}
-\item Reconstruction of high-speed process lists below.
+\item Reconstruction of high-speed process is expanded below.
 	\begin{enumerate}
 \item Motor should not run in high speed when heavy loaded.
 	\begin{enumerate}
@@ -160,7 +160,7 @@ Peng, Xiaohua, Zhilei Cui, Wen Gu, Weiguo Xu, Xuejun Guo. 2014. ``Low level of L
 
 \hangafter=1
 \setlength{\hangindent}{4em}
-Javier Matanza, Sadot Alexandres, Carlos Rodriguez-Morcillo. 2013. ``Performance evaluation of two narrowband PLC systems: PRIME and G3.''
+Matanza, Javier, Sadot Alexandres, Carlos Rodriguez-Morcillo. 2013. ``Performance evaluation of two narrowband PLC systems: PRIME and G3.''
 \textit{Computer Standards \& Interfaces} 198-208. \par
 
 %致谢
