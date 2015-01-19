@@ -1,0 +1,3 @@
+sage: automatic_names(True)      # not tested
+sage: x + y + z                  # not tested
+x + y + z
